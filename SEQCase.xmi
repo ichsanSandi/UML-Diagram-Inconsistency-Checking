@@ -23,6 +23,9 @@
 				<ownedOperation xmi:id="AAAAAAFn/sFbQWVMk6U=" name="joinClass" visibility="public" isStatic="false" isLeaf="false" concurrency="sequential" isQuery="false" isAbstract="false" xmi:type="uml:Operation">
 					<ownedParameter xmi:id="AAAAAAFn/tTXU2dGeCA=" name="classId" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" direction="in" xmi:type="uml:Parameter"/>
 				</ownedOperation>
+				<ownedOperation xmi:id="AAAAAAFn/sFbQWVMk7U=" name="joinClass123456" visibility="public" isStatic="false" isLeaf="false" concurrency="sequential" isQuery="false" isAbstract="false" xmi:type="uml:Operation">
+					<ownedParameter xmi:id="AAAAAAFn/tTXU3dGeCA=" name="classId123456" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" direction="in" xmi:type="uml:Parameter"/>
+				</ownedOperation>
 			</packagedElement>
 			<packagedElement xmi:id="AAAAAAFn/sGv2mVU+G4=" name="Collaboration" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Collaboration">
 				<ownedMember xmi:id="AAAAAAFn/sGv2mVVUp8=" name="Interaction1" visibility="public" isReentrant="true" xmi:type="uml:Interaction">

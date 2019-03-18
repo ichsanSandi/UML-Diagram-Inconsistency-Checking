@@ -9,18 +9,20 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
 import java.io.IOException;
 
-public class XPathHandler {
+class XPathHandler {
 
+/*
     public static void checkChild(NodeList node){
         for (int i=0;i<node.getLength();i++){
             Node node1 = node.item(i);
             if (node1.hasChildNodes()){
-                System.out.println(node1.getNodeName());
+                System.out.println(node1.getFirstChild().getNodeName());
             }
         }
     }
+*/
 
-    public static void main(String inputFile) {
+    static void main(String inputFile) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder;
@@ -42,7 +44,7 @@ public class XPathHandler {
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node nNode = nodeList.item(i);
-                if (nNode.getNodeName() == "message"){
+                if (nNode.getNodeName().equals("message")){
                     Message message = new Message();
                     Element element = (Element) nNode;
                     message.setId(element.getAttribute("xmi:id"));
@@ -52,7 +54,7 @@ public class XPathHandler {
                     message.setSignature(element.getAttribute("signature"));
                     message.addMessageList(message);
                 }
-                else if (nNode.getNodeName() == "lifeline"){
+                else if (nNode.getNodeName().equals("lifeline")){
                     Lifeline lifeline = new Lifeline();
                     Element element = (Element) nNode;
                     lifeline.setId(element.getAttribute("xmi:id"));
@@ -60,7 +62,7 @@ public class XPathHandler {
                     lifeline.setRepresent(element.getAttribute("represents"));
                     lifeline.addLifelineList(lifeline);
                 }
-                else if (nNode.getNodeName() == "fragment"){
+                else if (nNode.getNodeName().equals("fragment")){
                     Fragment fragment = new Fragment();
                     Element element = (Element) nNode;
                     fragment.setId(element.getAttribute("xmi:id"));
@@ -68,7 +70,7 @@ public class XPathHandler {
                     fragment.addFragmentList(fragment);
                 }
 
-                else if (nNode.getNodeName() == "ownedAttribute"){
+                else if (nNode.getNodeName().equals("ownedAttribute")){
                     Element element = (Element) nNode;
                         if (Lifeline.checkIdOwnedAttribute(element.getAttribute("xmi:id"))){
                             SequenceOwnedAttribute attribute = new SequenceOwnedAttribute();
@@ -85,21 +87,30 @@ public class XPathHandler {
                             attribute.addAttributeList(attribute);
                         }
                 }
-                else if (nNode.getNodeName() == "ownedOperation"){
+                else if (nNode.getNodeName().equals("ownedOperation")){
 //                    NodeList rootNode = doc.getChildNodes();
-//                    checkChild(doc.getChildNodes());
+//                    checkChild((NodeList) nNode);
                     Element element2 = (Element) nNode;
-                    System.out.println(nNode.getChildNodes().getLength());
+                    System.out.println(element2.getChildNodes().getLength());
                     for (int o = 0 ; o < nNode.getChildNodes().getLength(); o++){
-                        Node node = nodeList.item(o);
+                        String element = element2.getChildNodes().item(o).getNodeName();
+
+                        //cari anak yang namanya ownedparameter
+                        if (element2.getChildNodes().item(o).getNodeName().equals("ownedParameter")){
+                            /*asosiasi dengan getParentNode ?*/
+                            System.out.println(element2.getChildNodes().item(o).getParentNode().getNodeName());
+                            /*mendapatkan nama parameter*/
+                            System.out.println(element2.getChildNodes().item(o).getAttributes().getNamedItem("name"));
+                        }
+/*                        Node node = nodeList.item(o);
                         System.out.println(node.getNodeName());
-                        System.out.println(element2.getAttribute("name"));
+                        System.out.println(element2.getAttribute("name"));*/
                     }
-//                    System.out.println(nodeList);
                     ClassOwnedOperation operation= new ClassOwnedOperation();
                     Element element = (Element) nNode;
                     operation.setId(element.getAttribute("xmi:id"));
                     operation.setName(element.getAttribute("name"));
+                    System.out.println(element.getAttribute("name"));
                     operation.addOperationList(operation);
                 }
 
@@ -112,13 +123,7 @@ public class XPathHandler {
                 }*/
             }
 //            xPath.reset();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
+        } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
             e.printStackTrace();
         }
     }
