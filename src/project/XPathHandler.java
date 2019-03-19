@@ -11,17 +11,6 @@ import java.io.IOException;
 
 class XPathHandler {
 
-/*
-    public static void checkChild(NodeList node){
-        for (int i=0;i<node.getLength();i++){
-            Node node1 = node.item(i);
-            if (node1.hasChildNodes()){
-                System.out.println(node1.getFirstChild().getNodeName());
-            }
-        }
-    }
-*/
-
     static void main(String inputFile) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -122,7 +111,6 @@ class XPathHandler {
                     System.out.println("Name: " + eElement.getAttribute("name"));
                 }*/
             }
-//            xPath.reset();
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
             e.printStackTrace();
         }

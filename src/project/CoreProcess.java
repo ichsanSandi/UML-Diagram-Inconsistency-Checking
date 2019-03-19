@@ -20,6 +20,7 @@ class CoreProcess {
         ArrayList<ClassOwnedOperation> setOperationList = new ArrayList<>(operationArrayList);
         Message message;
         ClassOwnedOperation operation;
+        int flag = 0;
         for (int i = 0; i < setMessageList.size(); i++){
             message = setMessageList.get(i);
             for (int j = 0; j < setOperationList.size(); j++){
@@ -31,13 +32,18 @@ class CoreProcess {
                     setOperationList.remove(j);
                     //masih dipikir perlu dihapus atau pindah list, atau counter aja. tergantung
                     //penggunaan nanti. pikir2 sek
+                    flag = 1;
                     break;
+                    //kalau sama kasih flag = 1. kalau masih flag = 0 berarti tidak konsisten
                 }
-                else {
+                else if (flag == 0){
                     System.out.println("tidak sama");
                     inconsistencyList.add(message.getName());
                 }
             }
+        }
+        for (Object s: inconsistencyList) {
+            System.out.println(inconsistencyList);
         }
         System.out.println(ClassOwnedOperation.operationList.size());
         System.out.println(setOperationList.size());
