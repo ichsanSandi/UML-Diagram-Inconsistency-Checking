@@ -2,42 +2,42 @@ package project;
 
 import java.util.ArrayList;
 
-public class SequenceOwnedAttribute {
+class SequenceOwnedAttribute {
     private String id;
     private String name;
     private String type; //package element ID atau class ID
-    static ArrayList<SequenceOwnedAttribute> attributeList = new ArrayList<SequenceOwnedAttribute>();
+    static ArrayList<SequenceOwnedAttribute> attributeList = new ArrayList<>();
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setType(String type) {
+    void setType(String type) {
         this.type = type;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public void addAttributeList(SequenceOwnedAttribute attribute){
+    void addAttributeList(SequenceOwnedAttribute attribute){
         attributeList.add(attribute);
     }
 
-    public static void printAttributeList(){
-        SequenceOwnedAttribute attribute = new SequenceOwnedAttribute();
+    static void printAttributeList(){
+        SequenceOwnedAttribute attribute;
         System.out.println("\nSEQUENCE ATTRIBUTE");
         for (int attrCounter = 0; attrCounter < attributeList.size(); attrCounter++){
             attribute = attributeList.get(attrCounter);

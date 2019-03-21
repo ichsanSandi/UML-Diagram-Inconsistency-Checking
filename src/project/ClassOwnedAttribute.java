@@ -1,44 +1,43 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-public class ClassOwnedAttribute {
+class ClassOwnedAttribute {
     private String id;
     private String name;
     private String type;
-    static ArrayList<ClassOwnedAttribute> attributeList = new ArrayList<ClassOwnedAttribute>();
-    private static ClassOwnedAttribute attribute = new ClassOwnedAttribute();
+    static ArrayList<ClassOwnedAttribute> attributeList = new ArrayList<>();
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setType(String type) {
+    void setType(String type) {
         this.type = type;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public void addAttributeList(ClassOwnedAttribute attribute){
+    void addAttributeList(ClassOwnedAttribute attribute){
         attributeList.add(attribute);
     }
 
-    public static void printAttributeList(){
+    static void printAttributeList(){
+        ClassOwnedAttribute attribute;
         System.out.println("\nCLASS ATTRIBUTE:");
         for (int attrCounter = 0; attrCounter<attributeList.size(); attrCounter++){
             attribute = attributeList.get(attrCounter);

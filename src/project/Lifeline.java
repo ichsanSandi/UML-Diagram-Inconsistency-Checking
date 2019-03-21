@@ -1,40 +1,39 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Lifeline {
     private String id;
     private String name;
     private String represent;
-    static ArrayList<Lifeline> lifelineList = new ArrayList<Lifeline>();
+    static ArrayList<Lifeline> lifelineList = new ArrayList<>();
     static Lifeline lifeline = new Lifeline();
 
-    public void setId(String id){
+    void setId(String id){
         this.id = id;
     }
 
-    public void setName(String name){
+    void setName(String name){
         this.name = name;
     }
 
-    public void setRepresent(String represent){
+    void setRepresent(String represent){
         this.represent = represent;
     }
 
-    public String getId(){
+    String getId(){
         return this.id;
     }
 
-    public String getName(){
+    String getName(){
         return this.name;
     }
 
-    public String getRepresent(){
+    String getRepresent(){
         return this.represent;
     }
 
-    public void addLifelineList(Lifeline lifeline){
+    void addLifelineList(Lifeline lifeline){
         lifelineList.add(lifeline);
     }
 
@@ -49,7 +48,7 @@ public class Lifeline {
     }
 
 
-    public static boolean checkIdOwnedAttribute(String ownedAttribute){
+    static boolean checkIdOwnedAttribute(String ownedAttribute){
         for (int lifelineCounter = 0; lifelineCounter < lifelineList.size(); lifelineCounter++){
             lifeline = lifelineList.get(lifelineCounter);
             if (ownedAttribute.equals(lifeline.getRepresent())){

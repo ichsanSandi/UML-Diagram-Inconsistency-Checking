@@ -1,35 +1,34 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Fragment {
     private String id;
     private String covered;
-    static ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
+    static ArrayList<Fragment> fragmentList = new ArrayList<>();
 
-    public void setCovered(String covered) {
+    void setCovered(String covered) {
         this.covered = covered;
     }
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
-    public String getCovered() {
+    String getCovered() {
         return this.covered;
     }
 
-    public String getId() {
+    String getId() {
         return this.id;
     }
 
-    public void addFragmentList(Fragment fragment){
+    void addFragmentList(Fragment fragment){
         fragmentList.add(fragment);
     }
 
     public static void printFragmentList(){
-        Fragment fragment = new Fragment();
+        Fragment fragment;
         System.out.println("\nFRAGMENT");
         for (int fragmentCounter = 0; fragmentCounter < fragmentList.size(); fragmentCounter++){
             fragment = fragmentList.get(fragmentCounter);

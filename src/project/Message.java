@@ -1,62 +1,70 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Message {
+class Message {
     private String id;
     private String name;
     private String signature;
     private String receiveEvent;
     private String sendEvent;
-    public static ArrayList<Message> messageList = new ArrayList<Message>();
+    private String operationName;
+    static ArrayList<Message> messageList = new ArrayList<>();
 
-    public void setId(String id){
+    void setId(String id){
         this.id = id;
     }
 
-    public void setName(String name){
+    void setName(String name){
         this.name = name;
     }
 
-    public void setSignature(String signature){
+    void setSignature(String signature){
         this.signature = signature;
     }
 
-    public void setReceiveEvent(String receiveEvent){
+    void setReceiveEvent(String receiveEvent){
         this.receiveEvent = receiveEvent;
     }
 
-    public void setSendEvent(String sendEvent){
+    void setSendEvent(String sendEvent){
         this.sendEvent = sendEvent;
     }
 
-    public String getId(){
+    void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+    String getId(){
         return this.id;
     }
 
-    public String getName(){
+    String getName(){
         return this.name;
     }
 
-    public String getSignature(){
+    String getSignature(){
         return this.signature;
     }
 
-    public String getReceiveEvent(){
+    String getReceiveEvent(){
         return this.receiveEvent;
     }
 
-    public String getSendEvent(){
+    String getSendEvent(){
         return this.sendEvent;
     }
 
-    public void addMessageList(Message message){
-        messageList.add((Message) message);
+    String getOperationName() {
+        return this.operationName;
     }
 
-    public static void printMessageList(){
-        Message message = new Message();
+    void addMessageList(Message message){
+        messageList.add(message);
+    }
+
+    static void printMessageList(){
+        Message message;
         System.out.println("\nMESSAGE");
         for (int messageCounter = 0; messageCounter < messageList.size(); messageCounter++){
             message = messageList.get(messageCounter);
@@ -65,19 +73,8 @@ public class Message {
             System.out.println("signature" + (messageCounter + 1) + ": " + message.getSignature());
             System.out.println("receiveEvent" + (messageCounter + 1) + ": " + message.getReceiveEvent());
             System.out.println("sendEvent" + (messageCounter + 1) + ": " + message.getSendEvent());
+            System.out.println("operationName" + (messageCounter + 1) + ": " + message.getOperationName());
         }
-//        Iterator<String> iterator = messageList.iterator();
-//        while(iterator.hasNext()){
-//            System.out.println(iterator.next());
-//        }
-
-//        for (int i = 0; i < messageNameList.size(); i++){
-//            System.out.println(getId());
-//        }
-//        messageNameList.forEach(System.out::println);
-//        Iterator<Object> i = messageNameList.iterator();
-//        while (i.hasNext()) {
-//            System.out.println(i.next());
-//        }
     }
+
 }

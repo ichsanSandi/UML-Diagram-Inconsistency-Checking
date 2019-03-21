@@ -2,47 +2,54 @@ package project;
 
 import java.util.ArrayList;
 
-public class ClassOwnedOperation {
+class ClassOwnedOperation {
     private String id;
     private String name;
     private String parameter;
-    public static ArrayList<ClassOwnedOperation> operationList = new ArrayList<ClassOwnedOperation>();
-    private static ClassOwnedOperation operation = new ClassOwnedOperation();
+    static ArrayList<String> parameterList = new ArrayList<>();
+    static ArrayList<ClassOwnedOperation> operationList = new ArrayList<>();
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setParameter(String parameter) {
+    void setParameter(String parameter) {
         this.parameter = parameter;
+        parameterList.clear();
     }
 
-    public String getId() {
+    void addParameter(String parameter) {
+        parameterList.add(parameter);
+    }
+
+    String getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getParameter() {
+    String getParameter() {
         return parameter;
     }
 
-    public void addOperationList(ClassOwnedOperation attribute){
+    void addOperationList(ClassOwnedOperation attribute){
         operationList.add(attribute);
     }
 
-    public static void printOperationList(){
+    static void printOperationList(){
+        ClassOwnedOperation operation;
         System.out.println("\nCLASS OPERATION:");
         for (int operCounter = 0; operCounter<operationList.size(); operCounter++){
             operation = operationList.get(operCounter);
             System.out.println("id" + (operCounter + 1) + ": " + operation.getId());
             System.out.println("name" + (operCounter + 1) + ": " + operation.getName());
+            System.out.println("parameter" + (operCounter + 1) + ": " + operation.getParameter());
         }
     }
 }

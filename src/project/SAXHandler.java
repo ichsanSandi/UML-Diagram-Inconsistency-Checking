@@ -1,3 +1,4 @@
+/*
 package project;
 
 import org.xml.sax.Attributes;
@@ -53,3 +54,4 @@ public class SAXHandler extends DefaultHandler {
         System.out.println("Character:" + start + length);
     }
 }
+*/

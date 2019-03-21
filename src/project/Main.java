@@ -1,16 +1,12 @@
 package project;
 
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.jar.JarEntry;
 
 public abstract class Main implements ActionListener {
         public static void main(String[] args){
@@ -37,6 +33,7 @@ public abstract class Main implements ActionListener {
             //Nama textarea sesuai yang ingin ditampilkan
             //sementara pake 1, 2, 3, 4 ...
             JTextArea textArea1 = new JTextArea(20,13);
+            textArea1.setEditable(false);
             textArea1.setLineWrap(true);
             textArea1.setWrapStyleWord(true);
 
@@ -49,6 +46,7 @@ public abstract class Main implements ActionListener {
             panelTextArea1.add(new JScrollPane(textArea1), "Center");
 
             JTextArea textArea2 = new JTextArea(20,13);
+            textArea2.setEditable(false);
             textArea2.setLineWrap(true);
             textArea2.setWrapStyleWord(true);
 
@@ -60,7 +58,8 @@ public abstract class Main implements ActionListener {
             panelTextArea2.add(labelTextArea2, "North");
             panelTextArea2.add(new JScrollPane(textArea2), "Center");
 
-            JTextArea textArea3 = new JTextArea(20,13);
+            JTextArea textArea3 = new JTextArea(20,10);
+            textArea3.setEditable(false);
             textArea3.setLineWrap(true);
             textArea3.setWrapStyleWord(true);
 
@@ -72,7 +71,8 @@ public abstract class Main implements ActionListener {
             panelTextArea3.add(labelTextArea3, "North");
             panelTextArea3.add(new JScrollPane(textArea3), "South");
 
-            JTextArea textArea4 = new JTextArea(20,13);
+            JTextArea textArea4 = new JTextArea(20,16);
+            textArea4.setEditable(false);
             textArea4.setLineWrap(true);
             textArea4.setWrapStyleWord(true);
 
@@ -85,6 +85,7 @@ public abstract class Main implements ActionListener {
             panelTextArea4.add(new JScrollPane(textArea4), "South");
 
             JTextArea textArea5 = new JTextArea(20,13);
+            textArea5.setEditable(false);
             textArea5.setLineWrap(true);
             textArea5.setWrapStyleWord(true);
 //            textArea5.setMargin(new Insets(5, 5, 5, 5));
@@ -98,9 +99,10 @@ public abstract class Main implements ActionListener {
             panelTextArea5.add(new JScrollPane(textArea5), "South");
 
             JTextArea textArea6 = new JTextArea(20,20);
+            textArea6.setEditable(false);
             textArea6.setLineWrap(true);
             textArea6.setWrapStyleWord(true);
-            textArea6.setMargin(new Insets(5, 5, 5, 5));
+//            textArea6.setMargin(new Insets(5, 5, 5, 5));
 
             JLabel labelTextArea6 = new JLabel("Text Area 6");
             labelTextArea6.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,6 +113,7 @@ public abstract class Main implements ActionListener {
             panelTextArea6.add(new JScrollPane(textArea6),"South");
 
             JTextArea textArea7 = new JTextArea(20,20);
+            textArea7.setEditable(false);
             textArea7.setLineWrap(true);
             textArea7.setWrapStyleWord(true);
 //            textArea7.setMargin(new Insets(5, 5, 5, 5));
@@ -124,6 +127,7 @@ public abstract class Main implements ActionListener {
             panelTextArea7.add(new JScrollPane(textArea7),"South");
 
             JTextArea textArea8 = new JTextArea(20,20);
+            textArea8.setEditable(false);
             textArea8.setLineWrap(true);
             textArea8.setWrapStyleWord(true);
 //            textArea8.setMargin(new Insets(0, 0, 0, 0));
@@ -186,7 +190,16 @@ public abstract class Main implements ActionListener {
                     labelMessage.setVisible(true);
                 }
                 for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++){
-                    textArea1.append(ClassOwnedOperation.operationList.get(i).getName() + "\n");
+                    textArea1.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
+                }
+                for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++){
+                    textArea2.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++){
+                    textArea3.append(i + 1 + ". " + SequenceOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < Message.messageList.size(); i++){
+                    textArea4.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + "\n");
                 }
             });
 
@@ -197,17 +210,42 @@ public abstract class Main implements ActionListener {
                     jFrame1.getContentPane().repaint();
                     jFrame1.getContentPane().add(container2);
                     jFrame1.revalidate();
+                    for (int i = 0; i < Message.messageList.size(); i++){
+                        textArea6.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + "\n");
+                    }
+                    if (!textArea8.equals("")){
+                        CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
+                        for (int i = 0; i < Suspect.messageSuspectList.size(); i++){
+                            textArea8.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + "\n");
+                        }
+                    }
                 } else {
 //                    System.out.println("bala bala");
                     labelMessage.setText("File not found");
                     labelMessage.setVisible(true);
+                }
+                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
+                    textArea7.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
                 }
             });
 
             JButton buttonClear = new JButton("Clear");
             buttonClear.addActionListener(e -> {
                 ClassOwnedOperation.operationList.clear();
+                ClassOwnedAttribute.attributeList.clear();
+                Fragment.fragmentList.clear();
+                Lifeline.lifelineList.clear();
+                Message.messageList.clear();
+                SequenceOwnedAttribute.attributeList.clear();
+                Suspect.messageSuspectList.clear();
                 textArea1.setText("");
+                textArea2.setText("");
+                textArea3.setText("");
+                textArea4.setText("");
+                textArea5.setText("");
+                textArea6.setText("");
+                textArea7.setText("");
+                textArea8.setText("");
                 textField.setText("");
                 labelMessage.setText(" ");
                 inputFile[0] = null;
@@ -215,6 +253,9 @@ public abstract class Main implements ActionListener {
 
             JButton buttonBack = new JButton("Back");
             buttonBack.addActionListener(actionEvent -> {
+                Suspect.messageSuspectList.clear();
+                textArea6.setText("");
+                textArea7.setText("");
                 jFrame1.getContentPane().removeAll();
                 jFrame1.getContentPane().repaint();
                 jFrame1.getContentPane().add(container1);
@@ -269,15 +310,19 @@ public abstract class Main implements ActionListener {
 //            String inputFile ="SEQCase.xmi";
 
             //XML handling using XPath
-            XPathHandler xPathHandler = new XPathHandler();
+//            XPathHandler xPathHandler = new XPathHandler();
             XPathHandler.main(inputFile);
-            Message.printMessageList();
-            Lifeline.printLifelineList();
-            Fragment.printFragmentList();
-            SequenceOwnedAttribute.printAttributeList();
-            ClassOwnedAttribute.printAttributeList();
-            ClassOwnedOperation.printOperationList();
+//            Lifeline.printLifelineList();
+//            Fragment.printFragmentList();
+//            SequenceOwnedAttribute.printAttributeList();
+//            ClassOwnedAttribute.printAttributeList();
+//            ClassOwnedOperation.printOperationList();
+            CoreProcess.checkSignature();
+//            Message.printMessageList();
 
-            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
+            System.out.println(ClassOwnedOperation.parameterList.size());
+
+//            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
+
         }
 }
