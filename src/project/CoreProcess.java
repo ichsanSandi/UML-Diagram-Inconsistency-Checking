@@ -6,29 +6,25 @@ class CoreProcess {
 //    private ArrayList<ClassOwnedOperation> operationList = new ArrayList<ClassOwnedOperation>();
 //    private ArrayList<Message> messageList = new ArrayList<Message>();
 
-    static void inconsistencyChecking(ArrayList<Message> messageArrayList, ArrayList<ClassOwnedOperation> operationArrayList){
-        ArrayList<Message> setMessageList = new ArrayList<>(messageArrayList);
+    static void inconsistencyChecking(ArrayList<Suspect> suspectArrayList, ArrayList<ClassOwnedOperation> operationArrayList){
         ArrayList<ClassOwnedOperation> setOperationList = new ArrayList<>(operationArrayList);
-        Message message;
+        Suspect suspect;
         ClassOwnedOperation operation;
-        int flag = 0;
-        for (int i = 0; i < setMessageList.size(); i++){
-            message = setMessageList.get(i);
+        for (int i = 0; i < suspectArrayList.size(); i++){
+            suspect = suspectArrayList.get(i);
             for (int j = 0; j < setOperationList.size(); j++){
                 operation = setOperationList.get(j);
-//                message.getSignature().compareTo(operation.getId());
-//                System.out.println(message.getSignature() + " + " + operation.getId());
-                if (message.getSignature().equals(operation.getId())){
+//                suspect.getSignature().compareTo(operation.getId());
+//                System.out.println(suspect.getSignature() + " + " + operation.getId());
+                if (suspect.getName().equals(operation.getName()) && suspect.getArgument().equals(operation.getParameter())){
 //                    System.out.println("sama");
-                    setOperationList.remove(j);
                     //masih dipikir perlu dihapus atau pindah list, atau counter aja. tergantung
                     //penggunaan nanti. pikir2 sek
-                    flag = 1;
+                    Suspect.warningList.add(Suspect.messageSuspectList.remove(i));
+//                    Suspect.messageSuspectList.remove(i);
+                    i = i-1;
                     break;
                     //kalau sama kasih flag = 1. kalau masih flag = 0 berarti tidak konsisten
-                }
-                else if (flag == 0){
-//                    System.out.println("tidak sama");
                 }
             }
         }
@@ -42,6 +38,7 @@ class CoreProcess {
             for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++){
                 if (Message.messageList.get(i).getSignature().equals(ClassOwnedOperation.operationList.get(j).getId())){
                     Message.messageList.get(i).setOperationName(ClassOwnedOperation.operationList.get(j).getName());
+                    Message.messageList.get(i).setArgument(ClassOwnedOperation.operationList.get(j).getParameter());
                     break;
                 }else {
                     Message.messageList.get(i).setOperationName(Message.messageList.get(i).getName());
@@ -49,5 +46,13 @@ class CoreProcess {
             }
         }
     }
+
+//    static void checkMessageArgument(){
+//        for (int i = 0; i < Message.messageList.size(); i++){
+//            for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++){
+//
+//            }
+//        }
+//    }
 
 }

@@ -9,320 +9,382 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public abstract class Main implements ActionListener {
-        public static void main(String[] args){
-            //Inisiasi
-            makeGUI();
-            System.out.println("\nProses Selesai!");
-        }
+    public static void main(String[] args){
+        //Inisiasi
+        makeGUI();
+        System.out.println("\nProses Selesai!");
+    }
 
-        static private void makeGUI(){
-            final String[] inputFile = new String[1];
+    static private void makeGUI(){
+        final String[] inputFile = new String[1];
 
-            JFrame jFrame1 = new JFrame();
-            jFrame1.setTitle("UML Diagram Consistency Checking");
-            jFrame1.setSize(800,600);
-            jFrame1.setLayout(new BorderLayout());
-            jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            jFrame1.setLocationRelativeTo(null);
+        JFrame jFrame1 = new JFrame();
+        jFrame1.setTitle("UML Diagram Consistency Checking");
+        jFrame1.setSize(800,600);
+        jFrame1.setLayout(new BorderLayout());
+        jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame1.setLocationRelativeTo(null);
 
-            JLabel labelMessage = new JLabel(" ");
+        JLabel labelProcessMessage = new JLabel(" ");
 
-            JTextField textField = new JTextField(20);
-            textField.setEditable(false);
+        JTextField textFieldFilename = new JTextField(20);
+        textFieldFilename.setEditable(false);
 
-            //Nama textarea sesuai yang ingin ditampilkan
-            //sementara pake 1, 2, 3, 4 ...
-            JTextArea textArea1 = new JTextArea(20,13);
-            textArea1.setEditable(false);
-            textArea1.setLineWrap(true);
-            textArea1.setWrapStyleWord(true);
+        //Nama textarea sesuai yang ingin ditampilkan
+        //sementara pake 1, 2, 3, 4 ...
+        JTextArea textAreaOperation = new JTextArea(20,13);
+        textAreaOperation.setEditable(false);
+        textAreaOperation.setLineWrap(true);
+        textAreaOperation.setWrapStyleWord(true);
 
-            JLabel labelTextArea1 = new JLabel("Text Area 1");
-            labelTextArea1.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelOperationTextArea = new JLabel("Class Operation");
+        labelOperationTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea1 = new JPanel();
-            panelTextArea1.setLayout(new BorderLayout());
-            panelTextArea1.add(labelTextArea1, "North");
-            panelTextArea1.add(new JScrollPane(textArea1), "Center");
+        JPanel panelOperation = new JPanel();
+        panelOperation.setLayout(new BorderLayout());
+        panelOperation.add(labelOperationTextArea, "North");
+        panelOperation.add(new JScrollPane(textAreaOperation), "Center");
 
-            JTextArea textArea2 = new JTextArea(20,13);
-            textArea2.setEditable(false);
-            textArea2.setLineWrap(true);
-            textArea2.setWrapStyleWord(true);
+        JTextArea textAreaAttribute = new JTextArea(20,13);
+        textAreaAttribute.setEditable(false);
+        textAreaAttribute.setLineWrap(true);
+        textAreaAttribute.setWrapStyleWord(true);
 
-            JLabel labelTextArea2 = new JLabel("Text Area 2");
-            labelTextArea2.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelAttributeTextArea = new JLabel("Class Attribute");
+        labelAttributeTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea2 = new JPanel();
-            panelTextArea2.setLayout(new BorderLayout());
-            panelTextArea2.add(labelTextArea2, "North");
-            panelTextArea2.add(new JScrollPane(textArea2), "Center");
+        JPanel panelAttribute = new JPanel();
+        panelAttribute.setLayout(new BorderLayout());
+        panelAttribute.add(labelAttributeTextArea, "North");
+        panelAttribute.add(new JScrollPane(textAreaAttribute), "Center");
 
-            JTextArea textArea3 = new JTextArea(20,10);
-            textArea3.setEditable(false);
-            textArea3.setLineWrap(true);
-            textArea3.setWrapStyleWord(true);
+        JTextArea textAreaClassName = new JTextArea(20,10);
+        textAreaClassName.setEditable(false);
+        textAreaClassName.setLineWrap(true);
+        textAreaClassName.setWrapStyleWord(true);
 
-            JLabel labelTextArea3 = new JLabel("Text Area 3");
-            labelTextArea3.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelTextAreaClassName = new JLabel("Class Name");
+        labelTextAreaClassName.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea3 = new JPanel();
-            panelTextArea3.setLayout(new BorderLayout());
-            panelTextArea3.add(labelTextArea3, "North");
-            panelTextArea3.add(new JScrollPane(textArea3), "South");
+        JPanel panelClassName = new JPanel();
+        panelClassName.setLayout(new BorderLayout());
+        panelClassName.add(labelTextAreaClassName, "North");
+        panelClassName.add(new JScrollPane(textAreaClassName), "South");
 
-            JTextArea textArea4 = new JTextArea(20,16);
-            textArea4.setEditable(false);
-            textArea4.setLineWrap(true);
-            textArea4.setWrapStyleWord(true);
+        JTextArea textAreaMessage = new JTextArea(20,16);
+        textAreaMessage.setEditable(false);
+        textAreaMessage.setLineWrap(true);
+        textAreaMessage.setWrapStyleWord(true);
 
-            JLabel labelTextArea4 = new JLabel("Text Area 4");
-            labelTextArea4.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelMessage = new JLabel("Message");
+        labelMessage.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea4 = new JPanel();
-            panelTextArea4.setLayout(new BorderLayout());
-            panelTextArea4.add(labelTextArea4, "North");
-            panelTextArea4.add(new JScrollPane(textArea4), "South");
+        JPanel panelMessage = new JPanel();
+        panelMessage.setLayout(new BorderLayout());
+        panelMessage.add(labelMessage, "North");
+        panelMessage.add(new JScrollPane(textAreaMessage), "South");
 
-            JTextArea textArea5 = new JTextArea(20,13);
-            textArea5.setEditable(false);
-            textArea5.setLineWrap(true);
-            textArea5.setWrapStyleWord(true);
+        JTextArea textArea5 = new JTextArea(20,13);
+        textArea5.setEditable(false);
+        textArea5.setLineWrap(true);
+        textArea5.setWrapStyleWord(true);
 //            textArea5.setMargin(new Insets(5, 5, 5, 5));
-            // kalo mau pake margin
-            JLabel labelTextArea5 = new JLabel("Text Area 5");
-            labelTextArea5.setHorizontalAlignment(SwingConstants.CENTER);
+        // kalo mau pake margin
+        JLabel labelTextArea5 = new JLabel("Text Area 5");
+        labelTextArea5.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea5 = new JPanel();
-            panelTextArea5.setLayout(new BorderLayout());
-            panelTextArea5.add(labelTextArea5, "North");
-            panelTextArea5.add(new JScrollPane(textArea5), "South");
+        JPanel panelTextArea5 = new JPanel();
+        panelTextArea5.setLayout(new BorderLayout());
+        panelTextArea5.add(labelTextArea5, "North");
+        panelTextArea5.add(new JScrollPane(textArea5), "South");
 
-            JTextArea textArea6 = new JTextArea(20,20);
-            textArea6.setEditable(false);
-            textArea6.setLineWrap(true);
-            textArea6.setWrapStyleWord(true);
-//            textArea6.setMargin(new Insets(5, 5, 5, 5));
+        JTextArea textAreaExecutionMessage = new JTextArea(10,20);
+        textAreaExecutionMessage.setEditable(false);
+        textAreaExecutionMessage.setLineWrap(true);
+        textAreaExecutionMessage.setWrapStyleWord(true);
+//            textAreaExecutionMessage.setMargin(new Insets(5, 5, 5, 5));
 
-            JLabel labelTextArea6 = new JLabel("Text Area 6");
-            labelTextArea6.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelExecutionMessage = new JLabel("MessageList");
+        labelExecutionMessage.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea6 = new JPanel();
-            panelTextArea6.setLayout(new BorderLayout());
-            panelTextArea6.add(labelTextArea6,"North");
-            panelTextArea6.add(new JScrollPane(textArea6),"South");
+        JPanel panelExecutionMessage = new JPanel();
+        panelExecutionMessage.setLayout(new BorderLayout());
+        panelExecutionMessage.add(labelExecutionMessage,"North");
+        panelExecutionMessage.add(new JScrollPane(textAreaExecutionMessage),"South");
 
-            JTextArea textArea7 = new JTextArea(20,20);
-            textArea7.setEditable(false);
-            textArea7.setLineWrap(true);
-            textArea7.setWrapStyleWord(true);
-//            textArea7.setMargin(new Insets(5, 5, 5, 5));
+        JTextArea textAreaExecutionOperation = new JTextArea(10,20);
+        textAreaExecutionOperation.setEditable(false);
+        textAreaExecutionOperation.setLineWrap(true);
+        textAreaExecutionOperation.setWrapStyleWord(true);
+//            textAreaExecutionOperation.setMargin(new Insets(5, 5, 5, 5));
 
-            JLabel labelTextArea7 = new JLabel("Text Area 7");
-            labelTextArea7.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelExecutionOperation = new JLabel("ClassOperation");
+        labelExecutionOperation.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea7 = new JPanel();
-            panelTextArea7.setLayout(new BorderLayout());
-            panelTextArea7.add(labelTextArea7,"North");
-            panelTextArea7.add(new JScrollPane(textArea7),"South");
+        JPanel panelExecutionOperation = new JPanel();
+        panelExecutionOperation.setLayout(new BorderLayout());
+        panelExecutionOperation.add(labelExecutionOperation,"North");
+        panelExecutionOperation.add(new JScrollPane(textAreaExecutionOperation),"South");
 
-            JTextArea textArea8 = new JTextArea(20,20);
-            textArea8.setEditable(false);
-            textArea8.setLineWrap(true);
-            textArea8.setWrapStyleWord(true);
-//            textArea8.setMargin(new Insets(0, 0, 0, 0));
+        JTextArea textAreaExecutionSuspect = new JTextArea(10,20);
+        textAreaExecutionSuspect.setEditable(false);
+        textAreaExecutionSuspect.setLineWrap(true);
+        textAreaExecutionSuspect.setWrapStyleWord(true);
+//            textAreaExecutionSuspect.setMargin(new Insets(0, 0, 0, 0));
 
-            JLabel labelTextArea8 = new JLabel("Text Area 8");
-            labelTextArea8.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel labelExecutionSuspect = new JLabel("SuspectList");
+        labelExecutionSuspect.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel panelTextArea8 = new JPanel();
-            panelTextArea8.setLayout(new BorderLayout());
-            panelTextArea8.add(labelTextArea8,"North");
-            panelTextArea8.add(new JScrollPane(textArea8),"South");
+        JPanel panelExecutionSuspect = new JPanel();
+        panelExecutionSuspect.setLayout(new BorderLayout());
+        panelExecutionSuspect.add(labelExecutionSuspect,"North");
+        panelExecutionSuspect.add(new JScrollPane(textAreaExecutionSuspect),"South");
 
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            FileNameExtensionFilter xmiFilter = new FileNameExtensionFilter("XMI File","xmi");
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.addChoosableFileFilter(xmiFilter);
+        JTextArea textAreaExecutionLog = new JTextArea(10, 20);
+        textAreaExecutionLog.setEditable(false);
+        textAreaExecutionLog.setLineWrap(true);
+        textAreaExecutionLog.setWrapStyleWord(true);
 
-            JPanel container1 = new JPanel();
-            container1.setLayout(new BoxLayout(container1,BoxLayout.Y_AXIS));
+        JLabel labelExecutionLog = new JLabel("Log");
+        labelExecutionLog.setHorizontalAlignment(SwingConstants.CENTER);
 
-            JPanel container2 = new JPanel();
-            container2.setLayout(new BoxLayout(container2,BoxLayout.Y_AXIS));
+        JPanel panelLogExecution = new JPanel();
+        panelLogExecution.setLayout(new BorderLayout());
+        panelLogExecution.add(labelExecutionLog, "North");
+        panelLogExecution.add(new JScrollPane(textAreaExecutionLog),"South");
 
-            JPanel panel1 = new JPanel();
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        FileNameExtensionFilter xmiFilter = new FileNameExtensionFilter("XMI File","xmi");
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(xmiFilter);
 
-            JPanel panel2 = new JPanel();
-            panel2.setLayout(new FlowLayout());
+        JPanel containerPage1 = new JPanel();
+        containerPage1.setLayout(new BoxLayout(containerPage1,BoxLayout.Y_AXIS));
 
-            JPanel panel3 = new JPanel();
-            panel3.setLayout(new FlowLayout());
+        JPanel containerPage2 = new JPanel();
+        containerPage2.setLayout(new BoxLayout(containerPage2,BoxLayout.Y_AXIS));
 
-            JPanel panel4 = new JPanel();
-            panel4.setLayout(new FlowLayout());
+        JPanel panelFileChooser = new JPanel();
 
-            JPanel panel5 = new JPanel();
-            panel5.setLayout(new GridBagLayout());
+        JPanel panelFunctionButton = new JPanel();
+        panelFunctionButton.setLayout(new FlowLayout());
 
-            JPanel panel6 = new JPanel();
-            panel6.setLayout(new FlowLayout(FlowLayout.CENTER));
-            panel6.setBorder(BorderFactory.createEmptyBorder(0,0,20,0));
+        JPanel panelTableList = new JPanel();
+        panelTableList.setLayout(new FlowLayout());
 
-            JButton buttonOpen = new JButton("Open");
-            buttonOpen.addActionListener(e -> {
+        JPanel panelProcessMessage = new JPanel();
+        panelProcessMessage.setLayout(new FlowLayout());
+
+        JPanel panelExecutionTableList = new JPanel();
+        panelExecutionTableList.setLayout(new GridBagLayout());
+
+        JPanel panelExecution = new JPanel();
+        panelExecution.setLayout(new GridBagLayout());
+
+        JPanel panelExecutionButtonBack = new JPanel();
+        panelExecutionButtonBack.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelExecutionButtonBack.setBorder(BorderFactory.createEmptyBorder(0,0,55,0));
+
+        JButton buttonOpen = new JButton("Open");
+        buttonOpen.addActionListener(e -> {
 //                int returnValue = fileChooser.showOpenDialog(null);
-                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+            if (!Message.messageList.isEmpty()){
+                labelProcessMessage.setText("Please click Clear first");
+                labelProcessMessage.setVisible(true);
+            } else {
+                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     System.out.println(selectedFile.getAbsolutePath());
-                    textField.setText(selectedFile.getAbsolutePath());
+                    textFieldFilename.setText(selectedFile.getAbsolutePath());
                     inputFile[0] = selectedFile.toString();
                 }
-            });
-
-            JButton buttonRun = new JButton("Read");
-            buttonRun.addActionListener(e -> {
-                if (inputFile[0] != null){
-                    labelMessage.setText(" ");
+                if (inputFile[0] != null) {
+                    labelProcessMessage.setText(" ");
                     executeProcess(inputFile[0]);
-                } else {
-                    labelMessage.setText("File not found");
-                    labelMessage.setVisible(true);
-                }
-                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++){
-                    textArea1.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
-                }
-                for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++){
-                    textArea2.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
-                }
-                for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++){
-                    textArea3.append(i + 1 + ". " + SequenceOwnedAttribute.attributeList.get(i).getName() + "\n");
-                }
-                for (int i = 0; i < Message.messageList.size(); i++){
-                    textArea4.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + "\n");
-                }
-            });
-
-            JButton buttonExecute = new JButton("Execute");
-            buttonExecute.addActionListener(e -> {
-                if (inputFile[0] != null){
-                    jFrame1.getContentPane().removeAll();
-                    jFrame1.getContentPane().repaint();
-                    jFrame1.getContentPane().add(container2);
-                    jFrame1.revalidate();
-                    for (int i = 0; i < Message.messageList.size(); i++){
-                        textArea6.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + "\n");
-                    }
-                    if (!textArea8.equals("")){
-                        CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
-                        for (int i = 0; i < Suspect.messageSuspectList.size(); i++){
-                            textArea8.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + "\n");
-                        }
-                    }
-                } else {
-//                    System.out.println("bala bala");
-                    labelMessage.setText("File not found");
-                    labelMessage.setVisible(true);
                 }
                 for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
-                    textArea7.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
+                    textAreaOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
                 }
-            });
+                for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
+                    textAreaAttribute.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++) {
+                    textAreaClassName.append(i + 1 + ". " + SequenceOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < Message.messageList.size(); i++) {
+                    textAreaMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + " " + Message.messageList.get(i).getArgument() + "\n");
+                }
+            }
+        });
 
-            JButton buttonClear = new JButton("Clear");
-            buttonClear.addActionListener(e -> {
-                ClassOwnedOperation.operationList.clear();
-                ClassOwnedAttribute.attributeList.clear();
-                Fragment.fragmentList.clear();
-                Lifeline.lifelineList.clear();
-                Message.messageList.clear();
-                SequenceOwnedAttribute.attributeList.clear();
-                Suspect.messageSuspectList.clear();
-                textArea1.setText("");
-                textArea2.setText("");
-                textArea3.setText("");
-                textArea4.setText("");
-                textArea5.setText("");
-                textArea6.setText("");
-                textArea7.setText("");
-                textArea8.setText("");
-                textField.setText("");
-                labelMessage.setText(" ");
-                inputFile[0] = null;
-            });
+/*        JButton buttonRun = new JButton("Read");
+        buttonRun.addActionListener(e -> {
+                if (inputFile[0] != null){
+                    labelProcessMessage.setText(" ");
+                    executeProcess(inputFile[0]);
+                } else {
+                    labelProcessMessage.setText("File not found");
+                    labelProcessMessage.setVisible(true);
+                }
+                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++){
+                    textAreaOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
+                }
+                for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++){
+                    textAreaAttribute.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++){
+                    textAreaClassName.append(i + 1 + ". " + SequenceOwnedAttribute.attributeList.get(i).getName() + "\n");
+                }
+                for (int i = 0; i < Message.messageList.size(); i++){
+                    textAreaMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + " " + Message.messageList.get(i).getArgument() + "\n");
+                }
+        });*/
 
-            JButton buttonBack = new JButton("Back");
-            buttonBack.addActionListener(actionEvent -> {
-                Suspect.messageSuspectList.clear();
-                textArea6.setText("");
-                textArea7.setText("");
+        JButton buttonExecute = new JButton("Execute");
+        buttonExecute.addActionListener(e -> {
+            if (inputFile[0] != null){
                 jFrame1.getContentPane().removeAll();
                 jFrame1.getContentPane().repaint();
-                jFrame1.getContentPane().add(container1);
+                jFrame1.getContentPane().add(containerPage2);
                 jFrame1.revalidate();
-            });
+                for (int i = 0; i < Message.messageList.size(); i++) {
+                    textAreaExecutionMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + "\n");
+                }
+                textAreaExecutionMessage.setCaretPosition(1);
+                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
+                    textAreaExecutionOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
+                }
+                textAreaExecutionOperation.setCaretPosition(1);
+                if (!Suspect.messageSuspectList.isEmpty()) {
+                    CoreProcess.inconsistencyChecking(Suspect.messageSuspectList, ClassOwnedOperation.operationList);
+                    for (int i = 0; i < Suspect.messageSuspectList.size(); i++) {
+                        textAreaExecutionSuspect.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + " " + Suspect.messageSuspectList.get(i).getArgument() + "\n");
+                    }
+                    textAreaExecutionSuspect.setCaretPosition(1);
+                }
+                textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "------------------------------------------------------------------------------------------------------------------------------------\n");
+                if (Suspect.messageSuspectList.isEmpty()){
+                    textAreaExecutionLog.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
+                } else {
+                    textAreaExecutionLog.append("Terdapat " + Suspect.messageSuspectList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
+                    for (int i = 0; i < Suspect.messageSuspectList.size(); i++) {
+                        textAreaExecutionLog.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + " " + Suspect.messageSuspectList.get(i).getArgument() + "\n");
+                    }
+                    textAreaExecutionLog.append("------------------------------------------------------------------------------------------------------------------------------------\n");
+                    if (!Suspect.warningList.isEmpty()) {
+                        textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
+                        for (int i = 0; i < Suspect.warningList.size(); i++) {
+                            textAreaExecutionLog.append(i + 1 + ". " + Suspect.warningList.get(i).getName() + " " + Suspect.warningList.get(i).getArgument() + "\n");
+                        }
+                        textAreaExecutionLog.setCaretPosition(1);
+                    }
+                }
+            } else {
+//                    System.out.println("bala bala");
+                labelProcessMessage.setText("File not found");
+                labelProcessMessage.setVisible(true);
+            }
+        });
 
-            panel1.setLayout(new FlowLayout(FlowLayout.CENTER));
-            panel1.setBorder(new EmptyBorder(30,0,0,0));
-            panel1.add(textField);
-            panel1.add(buttonOpen);
+        JButton buttonClear = new JButton("Clear");
+        buttonClear.addActionListener(e -> {
+            ClassOwnedOperation.operationList.clear();
+            ClassOwnedAttribute.attributeList.clear();
+            Fragment.fragmentList.clear();
+            Lifeline.lifelineList.clear();
+            Message.messageList.clear();
+            SequenceOwnedAttribute.attributeList.clear();
+            Suspect.messageSuspectList.clear();
+            Suspect.warningList.clear();
+            textAreaOperation.setText("");
+            textAreaAttribute.setText("");
+            textAreaClassName.setText("");
+            textAreaMessage.setText("");
+            textArea5.setText("");
+            textAreaExecutionMessage.setText("");
+            textAreaExecutionOperation.setText("");
+            textAreaExecutionSuspect.setText("");
+            textFieldFilename.setText("");
+            labelProcessMessage.setText(" ");
+            textAreaExecutionLog.setText("");
+            inputFile[0] = null;
+        });
 
-            panel4.add(labelMessage);
+        JButton buttonBack = new JButton("Back");
+        buttonBack.addActionListener(actionEvent -> {
+            Suspect.messageSuspectList.clear();
+            textAreaExecutionMessage.setText("");
+            textAreaExecutionOperation.setText("");
+            jFrame1.getContentPane().removeAll();
+            jFrame1.getContentPane().repaint();
+            jFrame1.getContentPane().add(containerPage1);
+            jFrame1.revalidate();
+        });
 
-            panel2.add(buttonRun);
-            panel2.add(buttonExecute);
-            panel2.add(buttonClear);
+        panelFileChooser.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelFileChooser.setBorder(new EmptyBorder(30,0,0,0));
+        panelFileChooser.add(textFieldFilename);
+        panelFileChooser.add(buttonOpen);
 
-            /*panel3.add(new JScrollPane(panelTextArea1), "Center");
-            panel3.add(new JScrollPane(panelTextArea2), "Center");
-            panel3.add(new JScrollPane(panelTextArea3), "Center");
-            panel3.add(new JScrollPane(panelTextArea4), "Center");
-            panel3.add(new JScrollPane(panelTextArea5), "Center");*/
-            JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelTextArea1,panelTextArea2);
-            JSplitPane sp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelTextArea4,panelTextArea5);
-            JSplitPane sp3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp, panelTextArea3);
-            JSplitPane sp4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sp3,sp2);
-            panel3.add(sp4);
+        panelProcessMessage.add(labelProcessMessage);
 
-            container1.add(panel1);
-            container1.add(panel4);
-            container1.add(panel2);
-            container1.add(panel3);
+//            panelFunctionButton.add(buttonRun);
+        panelFunctionButton.add(buttonExecute);
+        panelFunctionButton.add(buttonClear);
 
-            JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelTextArea6, panelTextArea7);
-            splitPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            /*panelTableList.add(new JScrollPane(panelOperation), "Center");
+            panelTableList.add(new JScrollPane(panelAttribute), "Center");
+            panelTableList.add(new JScrollPane(panelClassName), "Center");
+            panelTableList.add(new JScrollPane(panelMessage), "Center");
+            panelTableList.add(new JScrollPane(panelTextArea5), "Center");*/
+        JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelOperation,panelAttribute);
+        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelMessage,panelTextArea5);
+        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
+        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane3,splitPane2);
+        panelTableList.add(splitPane4);
 
-            panel5.add(splitPane);
-            panel5.add(panelTextArea8);
-            panel6.add(buttonBack);
-            container2.add(panel5);
-            container2.add(panel6);
+        containerPage1.add(panelFileChooser);
+        containerPage1.add(panelProcessMessage);
+        containerPage1.add(panelFunctionButton);
+        containerPage1.add(panelTableList);
 
-            jFrame1.add(container1);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelExecutionMessage, panelExecutionOperation);
+        splitPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-            jFrame1.setVisible(true);
-        }
+        panelExecutionTableList.add(splitPane);
+        panelExecutionTableList.add(panelExecutionSuspect);
 
-        static private void executeProcess(String inputFile){
-            //Inisiasi
+        JSplitPane splitPaneLog = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelExecutionTableList, panelLogExecution);
+        panelExecutionButtonBack.add(buttonBack);
 
-            //Load file SEQCase.xmi
+        panelExecution.add(splitPaneLog);
+        containerPage2.add(panelExecution);
+        containerPage2.add(panelExecutionButtonBack);
+
+        jFrame1.add(containerPage1);
+
+        jFrame1.setVisible(true);
+    }
+
+    static private void executeProcess(String inputFile){
+        //Inisiasi
+
+        //Load file SEQCase.xmi
 //            String inputFile ="SEQCase.xmi";
 
-            //XML handling using XPath
+        //XML handling using XPath
 //            XPathHandler xPathHandler = new XPathHandler();
-            XPathHandler.main(inputFile);
+        XPathHandler.main(inputFile);
 //            Lifeline.printLifelineList();
 //            Fragment.printFragmentList();
 //            SequenceOwnedAttribute.printAttributeList();
 //            ClassOwnedAttribute.printAttributeList();
-//            ClassOwnedOperation.printOperationList();
-            CoreProcess.checkSignature();
+        ClassOwnedOperation.printOperationList();
+        CoreProcess.checkSignature();
 //            Message.printMessageList();
 
-            System.out.println(ClassOwnedOperation.parameterList.size());
+        System.out.println(ClassOwnedOperation.parameterList.size());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
-
-        }
+    }
 }

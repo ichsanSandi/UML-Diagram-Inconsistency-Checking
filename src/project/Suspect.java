@@ -2,17 +2,32 @@ package project;
 
 import java.util.ArrayList;
 
-public class Suspect {
+class Suspect {
     private String name;
+    private String argument;
+    static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Suspect> messageSuspectList = new ArrayList<>();
-    public static ArrayList<Suspect> inconsistencyList = new ArrayList<>();
+    static ArrayList<Suspect> warningList = new ArrayList<>();
 
 
     void setName(String name) {
         this.name = name;
     }
 
+    void setArgument(String argument) {
+        this.argument = argument;
+        argumentList.clear();
+    }
+
     String getName(){
         return this.name;
+    }
+
+    String getArgument() {
+        return argument;
+    }
+
+    void addArgument(String argument){
+        argumentList.add(argument);
     }
 }

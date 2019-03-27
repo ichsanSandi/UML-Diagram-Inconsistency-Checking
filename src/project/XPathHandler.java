@@ -37,18 +37,31 @@ class XPathHandler {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
+                        if (element.getAttribute("messageSort").equals("reply")){
+                            continue;
+                        }
                         message.setId(element.getAttribute("xmi:id"));
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
                         message.setSendEvent(element.getAttribute("sendEvent"));
                         if (element.getAttribute("signature").isEmpty()){
                             Suspect suspect = new Suspect();
+                            Element element2 = (Element) nNode;
                             message.setSignature("no signature");
                             suspect.setName(message.getName());
+                            for (int o = 0; o < nNode.getChildNodes().getLength(); o++) {
+                                if (element2.getChildNodes().item(o).getNodeName().equals("argument")) {
+                                    Element element3 = (Element) element.getChildNodes().item(o);
+                                    message.addArgumentList(element3.getAttribute("value"));
+                                    suspect.addArgument(element3.getAttribute("value"));
+                                }
+                            }
+                            suspect.setArgument(Suspect.argumentList.toString().replace("[","(").replace("]", ")"));
                             Suspect.messageSuspectList.add(suspect);
                         } else {
                             message.setSignature(element.getAttribute("signature"));
                         }
+                        message.setArgument(Message.argumentList.toString().replace("[","(").replace("]", ")"));
                         message.addMessageList(message);
                         break;
                     }

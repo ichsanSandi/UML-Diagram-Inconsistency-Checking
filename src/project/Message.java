@@ -9,6 +9,8 @@ class Message {
     private String receiveEvent;
     private String sendEvent;
     private String operationName;
+    private String argument;
+    static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Message> messageList = new ArrayList<>();
 
     void setId(String id){
@@ -35,6 +37,11 @@ class Message {
         this.operationName = operationName;
     }
 
+    void setArgument(String argument) {
+        this.argument = argument;
+        argumentList.clear();
+    }
+
     String getId(){
         return this.id;
     }
@@ -59,8 +66,16 @@ class Message {
         return this.operationName;
     }
 
+    String getArgument(){
+        return this.argument;
+    }
+
     void addMessageList(Message message){
         messageList.add(message);
+    }
+
+    void addArgumentList(String argument){
+        argumentList.add(argument);
     }
 
     static void printMessageList(){
