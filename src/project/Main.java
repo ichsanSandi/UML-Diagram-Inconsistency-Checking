@@ -1,9 +1,11 @@
 package project;
 
+import javax.sound.sampled.BooleanControl;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -312,9 +314,12 @@ public abstract class Main implements ActionListener {
 
         JButton buttonBack = new JButton("Back");
         buttonBack.addActionListener(actionEvent -> {
-            Suspect.messageSuspectList.clear();
+//            Suspect.messageSuspectList.clear();
+            textAreaExecutionSuspect.setText("");
+            textAreaExecutionLog.setText("");
             textAreaExecutionMessage.setText("");
             textAreaExecutionOperation.setText("");
+            labelProcessMessage.setText("");
             jFrame1.getContentPane().removeAll();
             jFrame1.getContentPane().repaint();
             jFrame1.getContentPane().add(containerPage1);
@@ -338,9 +343,9 @@ public abstract class Main implements ActionListener {
             panelTableList.add(new JScrollPane(panelMessage), "Center");
             panelTableList.add(new JScrollPane(panelTextArea5), "Center");*/
         JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelOperation,panelAttribute);
-        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelMessage,panelTextArea5);
-        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
-        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane3,splitPane2);
+        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelClassName,panelMessage);
+//        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
+        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1,splitPane2);
         panelTableList.add(splitPane4);
 
         containerPage1.add(panelFileChooser);

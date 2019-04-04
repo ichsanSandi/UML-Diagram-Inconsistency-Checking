@@ -8,8 +8,7 @@ class Suspect {
     static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Suspect> messageSuspectList = new ArrayList<>();
     static ArrayList<Suspect> warningList = new ArrayList<>();
-
-
+    
     void setName(String name) {
         this.name = name;
     }
