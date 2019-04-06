@@ -1,11 +1,9 @@
 package project;
 
-import javax.sound.sampled.BooleanControl;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,7 +37,7 @@ public abstract class Main implements ActionListener {
         textAreaOperation.setLineWrap(true);
         textAreaOperation.setWrapStyleWord(true);
 
-        JLabel labelOperationTextArea = new JLabel("Class Operation");
+        JLabel labelOperationTextArea = new JLabel("ClassName Operation");
         labelOperationTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelOperation = new JPanel();
@@ -52,7 +50,7 @@ public abstract class Main implements ActionListener {
         textAreaAttribute.setLineWrap(true);
         textAreaAttribute.setWrapStyleWord(true);
 
-        JLabel labelAttributeTextArea = new JLabel("Class Attribute");
+        JLabel labelAttributeTextArea = new JLabel("ClassName Attribute");
         labelAttributeTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelAttribute = new JPanel();
@@ -65,7 +63,7 @@ public abstract class Main implements ActionListener {
         textAreaClassName.setLineWrap(true);
         textAreaClassName.setWrapStyleWord(true);
 
-        JLabel labelTextAreaClassName = new JLabel("Class Name");
+        JLabel labelTextAreaClassName = new JLabel("ClassName Name");
         labelTextAreaClassName.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelClassName = new JPanel();
@@ -210,8 +208,8 @@ public abstract class Main implements ActionListener {
                 for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
                     textAreaAttribute.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
                 }
-                for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++) {
-                    textAreaClassName.append(i + 1 + ". " + SequenceOwnedAttribute.attributeList.get(i).getName() + "\n");
+                for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
+                    textAreaClassName.append(i + 1 + ". " + ClassName.classNameArrayList.get(i).getName() + "\n");
                 }
                 for (int i = 0; i < Message.messageList.size(); i++) {
                     textAreaMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + " " + Message.messageList.get(i).getArgument() + "\n");
@@ -388,7 +386,7 @@ public abstract class Main implements ActionListener {
         CoreProcess.checkSignature();
 //            Message.printMessageList();
 
-        System.out.println(ClassOwnedOperation.parameterList.size());
+        System.out.println(ClassName.classNameArrayList.size());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
     }

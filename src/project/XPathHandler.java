@@ -27,7 +27,7 @@ class XPathHandler {
                     "/XMI/Model/packagedElement/packagedElement/ownedMember/message | " +
                     "/XMI/Model/packagedElement/packagedElement/ownedMember/fragment | " +
                     "/XMI/Model/packagedElement/packagedElement/ownedAttribute | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter";
+                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
                     doc, XPathConstants.NODESET);
 
@@ -120,6 +120,17 @@ class XPathHandler {
                         operation.setName(element.getAttribute("name"));
                         System.out.println(element.getAttribute("name"));
                         operation.addOperationList(operation);
+                        break;
+                    }
+                    case "packagedElement" :{
+                        Element element = (Element) nNode;
+                        ClassName classNameMember = new ClassName();
+                        if (element.getAttribute("xmi:type").equals("uml:ClassName")) {
+                            classNameMember.setId(element.getAttribute("xmi:id"));
+                            classNameMember.setName(element.getAttribute("name"));
+                            classNameMember.setType(element.getAttribute("xmi:type"));
+                            classNameMember.addClassList(classNameMember);
+                        }
                         break;
                     }
                 }
