@@ -7,7 +7,7 @@ public class Lifeline {
     private String name;
     private String represent;
     static ArrayList<Lifeline> lifelineList = new ArrayList<>();
-    static Lifeline lifeline = new Lifeline();
+    private static Lifeline lifeline = new Lifeline();
 
     void setId(String id){
         this.id = id;

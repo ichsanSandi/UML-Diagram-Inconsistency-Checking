@@ -36,6 +36,4 @@ public class Fragment {
             System.out.println("covered" + (fragmentCounter + 1) + ": " + fragment.getCovered());
         }
     }
-
-
 }

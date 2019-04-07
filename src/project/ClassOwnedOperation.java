@@ -6,6 +6,7 @@ class ClassOwnedOperation {
     private String id;
     private String name;
     private String parameter;
+    private String associatedClass;
     static ArrayList<String> parameterList = new ArrayList<>();
     static ArrayList<ClassOwnedOperation> operationList = new ArrayList<>();
 
@@ -22,6 +23,10 @@ class ClassOwnedOperation {
         parameterList.clear();
     }
 
+    void setAssociatedClass(String associatedClass) {
+        this.associatedClass = associatedClass;
+    }
+
     void addParameter(String parameter) {
         parameterList.add(parameter);
     }
@@ -36,6 +41,10 @@ class ClassOwnedOperation {
 
     String getParameter() {
         return parameter;
+    }
+
+    public String getAssociatedClass() {
+        return associatedClass;
     }
 
     void addOperationList(ClassOwnedOperation attribute){

@@ -46,6 +46,4 @@ class ClassOwnedAttribute {
             System.out.println("type" + (attrCounter + 1) + ": " + attribute.getType());
         }
     }
-
-
 }

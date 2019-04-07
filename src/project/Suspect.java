@@ -5,10 +5,20 @@ import java.util.ArrayList;
 class Suspect {
     private String name;
     private String argument;
+    /*List untuk nambahin argumen message saja*/
     static ArrayList<String> argumentList = new ArrayList<>();
-    static ArrayList<Suspect> messageSuspectList = new ArrayList<>();
-    static ArrayList<Suspect> warningList = new ArrayList<>();
-    static ArrayList<Suspect> lifelineLists = new ArrayList<>();
+
+    /*List message yang tidak ada di operasi kelas*/
+    static ArrayList<Suspect> unknownMessageList = new ArrayList<>();
+
+    /*List untuk message yang tidak ada asosisasi dengan di operasi kelas*/
+    static ArrayList<Suspect> assocWarningList = new ArrayList<>();
+
+    /*List untuk message yang tidak ada di operasi kelas penerima*/
+    static ArrayList<Suspect> classAssocWarningList = new ArrayList<>();
+
+    /*List untuk lifeline yang tidak ada di kelas*/
+    static ArrayList<String> lifelineLists = new ArrayList<>();
     
     void setName(String name) {
         this.name = name;

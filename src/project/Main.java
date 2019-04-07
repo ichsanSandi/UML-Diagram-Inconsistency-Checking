@@ -37,7 +37,7 @@ public abstract class Main implements ActionListener {
         textAreaOperation.setLineWrap(true);
         textAreaOperation.setWrapStyleWord(true);
 
-        JLabel labelOperationTextArea = new JLabel("ClassName Operation");
+        JLabel labelOperationTextArea = new JLabel("Class Operation");
         labelOperationTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelOperation = new JPanel();
@@ -50,7 +50,7 @@ public abstract class Main implements ActionListener {
         textAreaAttribute.setLineWrap(true);
         textAreaAttribute.setWrapStyleWord(true);
 
-        JLabel labelAttributeTextArea = new JLabel("ClassName Attribute");
+        JLabel labelAttributeTextArea = new JLabel("Class Attribute");
         labelAttributeTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelAttribute = new JPanel();
@@ -63,7 +63,7 @@ public abstract class Main implements ActionListener {
         textAreaClassName.setLineWrap(true);
         textAreaClassName.setWrapStyleWord(true);
 
-        JLabel labelTextAreaClassName = new JLabel("ClassName Name");
+        JLabel labelTextAreaClassName = new JLabel("Class Name");
         labelTextAreaClassName.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelClassName = new JPanel();
@@ -187,9 +187,8 @@ public abstract class Main implements ActionListener {
 
         JButton buttonOpen = new JButton("Open");
         buttonOpen.addActionListener(e -> {
-//                int returnValue = fileChooser.showOpenDialog(null);
             if (!Message.messageList.isEmpty()){
-                labelProcessMessage.setText("Please click Clear first");
+                labelProcessMessage.setText("Please click Clear button");
                 labelProcessMessage.setVisible(true);
             } else {
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -250,33 +249,33 @@ public abstract class Main implements ActionListener {
                 for (int i = 0; i < Message.messageList.size(); i++) {
                     textAreaExecutionMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + "\n");
                 }
-                textAreaExecutionMessage.setCaretPosition(1);
+//                textAreaExecutionMessage.setCaretPosition(1);
                 for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
                     textAreaExecutionOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
                 }
-                textAreaExecutionOperation.setCaretPosition(1);
-                if (!Suspect.messageSuspectList.isEmpty()) {
-                    CoreProcess.inconsistencyChecking(Suspect.messageSuspectList, ClassOwnedOperation.operationList);
-                    for (int i = 0; i < Suspect.messageSuspectList.size(); i++) {
-                        textAreaExecutionSuspect.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + " " + Suspect.messageSuspectList.get(i).getArgument() + "\n");
+//                textAreaExecutionOperation.setCaretPosition(1);
+                if (!Suspect.unknownMessageList.isEmpty()) {
+                    CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
+                    for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
+                        textAreaExecutionSuspect.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getName() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
                     }
-                    textAreaExecutionSuspect.setCaretPosition(1);
+//                    textAreaExecutionSuspect.setCaretPosition(1);
                 }
                 textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "------------------------------------------------------------------------------------------------------------------------------------\n");
-                if (Suspect.messageSuspectList.isEmpty()){
+                if (Suspect.unknownMessageList.isEmpty()){
                     textAreaExecutionLog.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
                 } else {
-                    textAreaExecutionLog.append("Terdapat " + Suspect.messageSuspectList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
-                    for (int i = 0; i < Suspect.messageSuspectList.size(); i++) {
-                        textAreaExecutionLog.append(i + 1 + ". " + Suspect.messageSuspectList.get(i).getName() + " " + Suspect.messageSuspectList.get(i).getArgument() + "\n");
+                    textAreaExecutionLog.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
+                    for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
+                        textAreaExecutionLog.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getName() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
                     }
                     textAreaExecutionLog.append("------------------------------------------------------------------------------------------------------------------------------------\n");
-                    if (!Suspect.warningList.isEmpty()) {
+                    if (!Suspect.assocWarningList.isEmpty()) {
                         textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
-                        for (int i = 0; i < Suspect.warningList.size(); i++) {
-                            textAreaExecutionLog.append(i + 1 + ". " + Suspect.warningList.get(i).getName() + " " + Suspect.warningList.get(i).getArgument() + "\n");
+                        for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
+                            textAreaExecutionLog.append(i + 1 + ". " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + "\n");
                         }
-                        textAreaExecutionLog.setCaretPosition(1);
+//                        textAreaExecutionLog.setCaretPosition(1);
                     }
                 }
             } else {
@@ -290,12 +289,13 @@ public abstract class Main implements ActionListener {
         buttonClear.addActionListener(e -> {
             ClassOwnedOperation.operationList.clear();
             ClassOwnedAttribute.attributeList.clear();
+            ClassName.classNameArrayList.clear();
             Fragment.fragmentList.clear();
             Lifeline.lifelineList.clear();
             Message.messageList.clear();
             SequenceOwnedAttribute.attributeList.clear();
-            Suspect.messageSuspectList.clear();
-            Suspect.warningList.clear();
+            Suspect.unknownMessageList.clear();
+            Suspect.assocWarningList.clear();
             textAreaOperation.setText("");
             textAreaAttribute.setText("");
             textAreaClassName.setText("");
@@ -312,7 +312,7 @@ public abstract class Main implements ActionListener {
 
         JButton buttonBack = new JButton("Back");
         buttonBack.addActionListener(actionEvent -> {
-//            Suspect.messageSuspectList.clear();
+//            Suspect.unknownMessageList.clear();
             textAreaExecutionSuspect.setText("");
             textAreaExecutionLog.setText("");
             textAreaExecutionMessage.setText("");
@@ -372,21 +372,22 @@ public abstract class Main implements ActionListener {
     static private void executeProcess(String inputFile){
         //Inisiasi
 
-        //Load file SEQCase.xmi
-//            String inputFile ="SEQCase.xmi";
-
-        //XML handling using XPath
-//            XPathHandler xPathHandler = new XPathHandler();
+        /*XML Read and Extraction*/
         XPathHandler.main(inputFile);
-//            Lifeline.printLifelineList();
+
+
 //            Fragment.printFragmentList();
 //            SequenceOwnedAttribute.printAttributeList();
 //            ClassOwnedAttribute.printAttributeList();
-        ClassOwnedOperation.printOperationList();
+//        ClassOwnedOperation.printOperationList();
         CoreProcess.checkSignature();
+        CoreProcess.checkingRepresent();
+//        Lifeline.printLifelineList();
 //            Message.printMessageList();
 
-        System.out.println(ClassName.classNameArrayList.size());
+//        System.out.println(ClassName.classNameArrayList.size());
+//        System.out.println(Suspect.lifelineLists.size());
+//        System.out.println(Suspect.lifelineLists.toString());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
     }

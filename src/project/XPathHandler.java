@@ -37,9 +37,9 @@ class XPathHandler {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
-                        if (element.getAttribute("messageSort").equals("reply")){
-                            continue;
-                        }
+//                        if (element.getAttribute("messageSort").equals("reply")){
+//                            continue;
+//                        }
                         message.setId(element.getAttribute("xmi:id"));
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
@@ -57,7 +57,7 @@ class XPathHandler {
                                 }
                             }
                             suspect.setArgument(Suspect.argumentList.toString().replace("[","(").replace("]", ")"));
-                            Suspect.messageSuspectList.add(suspect);
+                            Suspect.unknownMessageList.add(suspect);
                         } else {
                             message.setSignature(element.getAttribute("signature"));
                         }
@@ -101,8 +101,9 @@ class XPathHandler {
                     }
                     case "ownedOperation": {
                         Element element2 = (Element) nNode;
-//                        System.out.println(element2.getChildNodes().getLength());
                         ClassOwnedOperation operation = new ClassOwnedOperation();
+                        Element element3 = (Element) element2.getParentNode();
+                        operation.setAssociatedClass(element3.getAttribute("name"));
                         for (int o = 0; o < nNode.getChildNodes().getLength(); o++) {
                             //cari anak yang namanya ownedparameter
                             if (element2.getChildNodes().item(o).getNodeName().equals("ownedParameter")) {
@@ -118,14 +119,14 @@ class XPathHandler {
                         operation.setParameter(ClassOwnedOperation.parameterList.toString().replace("[","(").replace("]", ")"));
                         operation.setId(element.getAttribute("xmi:id"));
                         operation.setName(element.getAttribute("name"));
-                        System.out.println(element.getAttribute("name"));
+//                        System.out.println(element.getAttribute("name"));
                         operation.addOperationList(operation);
                         break;
                     }
                     case "packagedElement" :{
                         Element element = (Element) nNode;
                         ClassName classNameMember = new ClassName();
-                        if (element.getAttribute("xmi:type").equals("uml:ClassName")) {
+                        if (element.getAttribute("xmi:type").equals("uml:Class")) {
                             classNameMember.setId(element.getAttribute("xmi:id"));
                             classNameMember.setName(element.getAttribute("name"));
                             classNameMember.setType(element.getAttribute("xmi:type"));
