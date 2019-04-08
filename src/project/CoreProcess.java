@@ -27,17 +27,6 @@ class CoreProcess {
                 }
             }
         }
-        /*for (int i = 0; i < Message.messageList.size(); i++){
-            for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++){
-                if (Message.messageList.get(i).getSignature().equals(ClassOwnedOperation.operationList.get(j).getId())){
-                    Message.messageList.get(i).setOperationName(ClassOwnedOperation.operationList.get(j).getName());
-                    Message.messageList.get(i).setArgument(ClassOwnedOperation.operationList.get(j).getParameter());
-                    break;
-                }else {
-                    Message.messageList.get(i).setOperationName(Message.messageList.get(i).getName());
-                }
-            }
-        }*/
 //        System.out.println(Suspect.unknownMessageList.size());
 //        System.out.println(ClassOwnedOperation.operationList.size());
 //        System.out.println(setOperationList.size());
@@ -84,14 +73,38 @@ class CoreProcess {
     }
 
     static void checkingNoise(){
-        for (int i = 0; i < SequenceOwnedAttribute.attributeList.size(); i++){
+        /*
+         * Isi kode buat ngehapus role 3 di testcase2.xmi
+         * Cek listnya, kalo seq lifeline sama, break
+         * kalo seq lifeline tidak sama, flag (?), lanjut
+         * kalo seq lifeline tidak sama && j=lifelinelist.size-1. remove seq[i]
+         * */
+        for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++){
             for (int j = 0; j < Lifeline.lifelineList.size(); j++){
-                /*
-                * Isi kode buat ngehapus role 3 di testcase2.xmi
-                * Cek listnya, kalo seq lifeline sama, break
-                * kalo seq lifeline tidak sama, flag (?), lanjut
-                * kalo seq lifeline tidak sama && j=lifelinelist.size-1. remove seq[i]
-                * */
+                if (ClassOwnedAttribute.attributeList.get(i).getId().equals(Lifeline.lifelineList.get(j).getRepresent())){
+                    break;
+                }
+                else if (j == Lifeline.lifelineList.size()-1){
+                    ClassOwnedAttribute.attributeList.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    static void checkMessageAssociationDirection(){
+        for (int i = 0; i < Message.messageList.size(); i++){
+            for (int j = 0; j < Fragment.fragmentList.size(); j++){
+                if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
+                    for (int k = 0; k < Lifeline.lifelineList.size(); k++){
+                        if (Fragment.fragmentList.get(j).getCovered().equals(Lifeline.lifelineList.get(k).getId())){
+                            /*
+                            * take fragment name?
+                            * take fragment represent?
+                            * */
+                        }
+                    }
+                }
             }
         }
     }

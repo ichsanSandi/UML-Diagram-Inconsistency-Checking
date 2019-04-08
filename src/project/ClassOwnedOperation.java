@@ -43,7 +43,7 @@ class ClassOwnedOperation {
         return parameter;
     }
 
-    public String getAssociatedClass() {
+    String getAssociatedClass() {
         return associatedClass;
     }
 
@@ -59,6 +59,7 @@ class ClassOwnedOperation {
             System.out.println("id" + (operCounter + 1) + ": " + operation.getId());
             System.out.println("name" + (operCounter + 1) + ": " + operation.getName());
             System.out.println("parameter" + (operCounter + 1) + ": " + operation.getParameter());
+            System.out.println("Associated Class" + (operCounter + 1) + ": " + operation.getAssociatedClass());
         }
     }
 }

@@ -296,6 +296,8 @@ public abstract class Main implements ActionListener {
             SequenceOwnedAttribute.attributeList.clear();
             Suspect.unknownMessageList.clear();
             Suspect.assocWarningList.clear();
+            Suspect.lifelineLists.clear();
+//            Suspect.classAssocWarningList.clear();
             textAreaOperation.setText("");
             textAreaAttribute.setText("");
             textAreaClassName.setText("");
@@ -379,14 +381,15 @@ public abstract class Main implements ActionListener {
 //            Fragment.printFragmentList();
 //            SequenceOwnedAttribute.printAttributeList();
 //            ClassOwnedAttribute.printAttributeList();
-//        ClassOwnedOperation.printOperationList();
+        ClassOwnedOperation.printOperationList();
+        CoreProcess.checkingNoise();
         CoreProcess.checkSignature();
         CoreProcess.checkingRepresent();
 //        Lifeline.printLifelineList();
 //            Message.printMessageList();
 
 //        System.out.println(ClassName.classNameArrayList.size());
-//        System.out.println(Suspect.lifelineLists.size());
+        System.out.println(Suspect.unknownMessageList.size());
 //        System.out.println(Suspect.lifelineLists.toString());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
