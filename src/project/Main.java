@@ -261,22 +261,40 @@ public abstract class Main implements ActionListener {
                     }
 //                    textAreaExecutionSuspect.setCaretPosition(1);
                 }
-                textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "------------------------------------------------------------------------------------------------------------------------------------\n");
-                if (Suspect.unknownMessageList.isEmpty()){
-                    textAreaExecutionLog.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
-                } else {
+                textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "-----------------------------------------------------------------------------------------------------------------------------------------\n");
+                if (!Suspect.unknownMessageList.isEmpty()){
                     textAreaExecutionLog.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
                     for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
                         textAreaExecutionLog.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getName() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
                     }
-                    textAreaExecutionLog.append("------------------------------------------------------------------------------------------------------------------------------------\n");
-                    if (!Suspect.assocWarningList.isEmpty()) {
-                        textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
-                        for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
-                            textAreaExecutionLog.append(i + 1 + ". " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + "\n");
-                        }
-//                        textAreaExecutionLog.setCaretPosition(1);
+                    textAreaExecutionLog.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+                }
+                if (!Suspect.assocWarningList.isEmpty()) {
+                    textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
+                    for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
+                        textAreaExecutionLog.append(i + 1 + ". " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + "\n");
                     }
+                    textAreaExecutionLog.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+//                        textAreaExecutionLog.setCaretPosition(1);
+                }
+                if (!Suspect.lifelineLists.isEmpty()) {
+                    textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat Lifeline yang ngaco, yaitu\n");
+                    for (int i = 0; i < Suspect.lifelineLists.size(); i++) {
+                        textAreaExecutionLog.append(i + 1 + ". " + Suspect.lifelineLists.get(i) + "\n");
+                    }
+                    textAreaExecutionLog.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+//                        textAreaExecutionLog.setCaretPosition(1);
+                }
+                if (!Suspect.classAssocWarningList.isEmpty()) {
+                    textAreaExecutionLog.append("WARNING!!!\n" + "Terdapat message yang ngaco, yaitu\n");
+                    for (int i = 0; i < Suspect.classAssocWarningList.size(); i++) {
+                        textAreaExecutionLog.append(i + 1 + ". " + "Message " + Suspect.classAssocWarningList.get(i).getName() + " " + Suspect.classAssocWarningList.get(i).getArgument() + " tidak terdaftar sebagai operasi pada kelas " + Suspect.classAssocWarningList.get(i).getClassAssoc() + "\n");
+                    }
+                    textAreaExecutionLog.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+//                        textAreaExecutionLog.setCaretPosition(1);
+                }
+                else if (Suspect.unknownMessageList.isEmpty()){
+                    textAreaExecutionLog.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
                 }
             } else {
 //                    System.out.println("bala bala");
@@ -297,7 +315,7 @@ public abstract class Main implements ActionListener {
             Suspect.unknownMessageList.clear();
             Suspect.assocWarningList.clear();
             Suspect.lifelineLists.clear();
-//            Suspect.classAssocWarningList.clear();
+            Suspect.classAssocWarningList.clear();
             textAreaOperation.setText("");
             textAreaAttribute.setText("");
             textAreaClassName.setText("");
@@ -381,8 +399,9 @@ public abstract class Main implements ActionListener {
 //            Fragment.printFragmentList();
 //            SequenceOwnedAttribute.printAttributeList();
 //            ClassOwnedAttribute.printAttributeList();
-        ClassOwnedOperation.printOperationList();
+//        ClassOwnedOperation.printOperationList();
         CoreProcess.checkingNoise();
+        CoreProcess.checkMessageAssociationDirection();
         CoreProcess.checkSignature();
         CoreProcess.checkingRepresent();
 //        Lifeline.printLifelineList();
@@ -390,6 +409,7 @@ public abstract class Main implements ActionListener {
 
 //        System.out.println(ClassName.classNameArrayList.size());
         System.out.println(Suspect.unknownMessageList.size());
+        System.out.println(Suspect.classAssocWarningList.size());
 //        System.out.println(Suspect.lifelineLists.toString());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);

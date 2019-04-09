@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class Suspect {
     private String name;
     private String argument;
+    private String classAssoc;
     /*List untuk nambahin argumen message saja*/
     static ArrayList<String> argumentList = new ArrayList<>();
 
@@ -29,12 +30,20 @@ class Suspect {
         argumentList.clear();
     }
 
+    public void setClassAssoc(String classAssoc) {
+        this.classAssoc = classAssoc;
+    }
+
     String getName(){
         return this.name;
     }
 
     String getArgument() {
         return argument;
+    }
+
+    public String getClassAssoc() {
+        return classAssoc;
     }
 
     void addArgument(String argument){
