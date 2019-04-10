@@ -1,24 +1,26 @@
 package project;
 
 import java.util.ArrayList;
-
+/*
+ *
+ **/
 class Suspect {
     private String name;
     private String argument;
     private String classAssoc;
-    /*List untuk nambahin argumen message saja*/
+    /**List untuk nambahin argumen message saja*/
     static ArrayList<String> argumentList = new ArrayList<>();
 
-    /*List message yang tidak ada di operasi kelas*/
+    /**List message yang tidak ada di operasi kelas*/
     static ArrayList<Suspect> unknownMessageList = new ArrayList<>();
 
-    /*List untuk message yang tidak ada asosisasi dengan di operasi kelas*/
+    /**List untuk message yang tidak ada asosisasi dengan di operasi kelas*/
     static ArrayList<Suspect> assocWarningList = new ArrayList<>();
 
-    /*List untuk message yang tidak ada di operasi kelas penerima*/
+    /**List untuk message yang tidak ada di operasi kelas penerima*/
     static ArrayList<Suspect> classAssocWarningList = new ArrayList<>();
 
-    /*List untuk lifeline yang tidak ada di kelas*/
+    /**List untuk lifeline yang tidak ada di kelas*/
     static ArrayList<String> lifelineLists = new ArrayList<>();
     
     void setName(String name) {

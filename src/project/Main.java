@@ -9,30 +9,36 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public abstract class Main implements ActionListener {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //Inisiasi
         makeGUI();
         System.out.println("\nProses Selesai!");
     }
 
-    static private void makeGUI(){
+    static private void makeGUI() {
         final String[] inputFile = new String[1];
 
+        /*Inisiasi window frame utama*/
         JFrame jFrame1 = new JFrame();
         jFrame1.setTitle("UML Diagram Consistency Checking");
-        jFrame1.setSize(800,600);
+        jFrame1.setSize(800, 600);
         jFrame1.setLayout(new BorderLayout());
         jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame1.setLocationRelativeTo(null);
 
+        /*Label untuk menampilkan respon pada program*/
         JLabel labelProcessMessage = new JLabel(" ");
 
+        /*Textfield untuk meletakkan alamat file XML*/
         JTextField textFieldFilename = new JTextField(20);
         textFieldFilename.setEditable(false);
 
-        //Nama textarea sesuai yang ingin ditampilkan
-        //sementara pake 1, 2, 3, 4 ...
-        JTextArea textAreaOperation = new JTextArea(20,13);
+        /*
+        * Text area untuk menampilkan list operasi yang ada pada kelas
+        * Label untuk memberikan judul pada kolom
+        * Panel untuk meletakkan textarea dan label
+        * */
+        JTextArea textAreaOperation = new JTextArea(20, 13);
         textAreaOperation.setEditable(false);
         textAreaOperation.setLineWrap(true);
         textAreaOperation.setWrapStyleWord(true);
@@ -45,7 +51,12 @@ public abstract class Main implements ActionListener {
         panelOperation.add(labelOperationTextArea, "North");
         panelOperation.add(new JScrollPane(textAreaOperation), "Center");
 
-        JTextArea textAreaAttribute = new JTextArea(20,13);
+        /*
+         * Text area untuk menampilkan list atribut yang ada pada kelas
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label
+         * */
+        JTextArea textAreaAttribute = new JTextArea(20, 13);
         textAreaAttribute.setEditable(false);
         textAreaAttribute.setLineWrap(true);
         textAreaAttribute.setWrapStyleWord(true);
@@ -58,7 +69,11 @@ public abstract class Main implements ActionListener {
         panelAttribute.add(labelAttributeTextArea, "North");
         panelAttribute.add(new JScrollPane(textAreaAttribute), "Center");
 
-        JTextArea textAreaClassName = new JTextArea(20,10);
+        /*
+         * Text area untuk menampilkan list nama kelas yang ada pada kelas diagram
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
+        JTextArea textAreaClassName = new JTextArea(20, 10);
         textAreaClassName.setEditable(false);
         textAreaClassName.setLineWrap(true);
         textAreaClassName.setWrapStyleWord(true);
@@ -71,7 +86,11 @@ public abstract class Main implements ActionListener {
         panelClassName.add(labelTextAreaClassName, "North");
         panelClassName.add(new JScrollPane(textAreaClassName), "South");
 
-        JTextArea textAreaMessage = new JTextArea(20,16);
+        /*
+         * Text area untuk menampilkan list message yang ada di diagram sekuens
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
+        JTextArea textAreaMessage = new JTextArea(20, 16);
         textAreaMessage.setEditable(false);
         textAreaMessage.setLineWrap(true);
         textAreaMessage.setWrapStyleWord(true);
@@ -84,7 +103,7 @@ public abstract class Main implements ActionListener {
         panelMessage.add(labelMessage, "North");
         panelMessage.add(new JScrollPane(textAreaMessage), "South");
 
-        JTextArea textArea5 = new JTextArea(20,13);
+        JTextArea textArea5 = new JTextArea(20, 13);
         textArea5.setEditable(false);
         textArea5.setLineWrap(true);
         textArea5.setWrapStyleWord(true);
@@ -98,7 +117,11 @@ public abstract class Main implements ActionListener {
         panelTextArea5.add(labelTextArea5, "North");
         panelTextArea5.add(new JScrollPane(textArea5), "South");
 
-        JTextArea textAreaExecutionMessage = new JTextArea(10,20);
+        /*
+         * Text area untuk menampilkan list seluruh message pada halaman eksekusi
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
+        JTextArea textAreaExecutionMessage = new JTextArea(10, 20);
         textAreaExecutionMessage.setEditable(false);
         textAreaExecutionMessage.setLineWrap(true);
         textAreaExecutionMessage.setWrapStyleWord(true);
@@ -109,10 +132,14 @@ public abstract class Main implements ActionListener {
 
         JPanel panelExecutionMessage = new JPanel();
         panelExecutionMessage.setLayout(new BorderLayout());
-        panelExecutionMessage.add(labelExecutionMessage,"North");
-        panelExecutionMessage.add(new JScrollPane(textAreaExecutionMessage),"South");
+        panelExecutionMessage.add(labelExecutionMessage, "North");
+        panelExecutionMessage.add(new JScrollPane(textAreaExecutionMessage), "South");
 
-        JTextArea textAreaExecutionOperation = new JTextArea(10,20);
+        /*
+         * Text area untuk menampilkan list seluruh operasi yang ada pada kelas
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
+        JTextArea textAreaExecutionOperation = new JTextArea(10, 20);
         textAreaExecutionOperation.setEditable(false);
         textAreaExecutionOperation.setLineWrap(true);
         textAreaExecutionOperation.setWrapStyleWord(true);
@@ -123,10 +150,14 @@ public abstract class Main implements ActionListener {
 
         JPanel panelExecutionOperation = new JPanel();
         panelExecutionOperation.setLayout(new BorderLayout());
-        panelExecutionOperation.add(labelExecutionOperation,"North");
-        panelExecutionOperation.add(new JScrollPane(textAreaExecutionOperation),"South");
+        panelExecutionOperation.add(labelExecutionOperation, "North");
+        panelExecutionOperation.add(new JScrollPane(textAreaExecutionOperation), "South");
 
-        JTextArea textAreaExecutionSuspect = new JTextArea(10,20);
+        /*
+         * Text area untuk menampilkan list message yang tidak ada pada daftar operasi kelas
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
+        JTextArea textAreaExecutionSuspect = new JTextArea(10, 20);
         textAreaExecutionSuspect.setEditable(false);
         textAreaExecutionSuspect.setLineWrap(true);
         textAreaExecutionSuspect.setWrapStyleWord(true);
@@ -137,9 +168,13 @@ public abstract class Main implements ActionListener {
 
         JPanel panelExecutionSuspect = new JPanel();
         panelExecutionSuspect.setLayout(new BorderLayout());
-        panelExecutionSuspect.add(labelExecutionSuspect,"North");
-        panelExecutionSuspect.add(new JScrollPane(textAreaExecutionSuspect),"South");
+        panelExecutionSuspect.add(labelExecutionSuspect, "North");
+        panelExecutionSuspect.add(new JScrollPane(textAreaExecutionSuspect), "South");
 
+        /*
+         * Text area untuk menampilkan log laporan pengecekan inkonsistensi
+         * Label untuk memberikan judul pada kolom
+         * Panel untuk meletakkan textarea dan label*/
         JTextArea textAreaExecutionLog = new JTextArea(10, 20);
         textAreaExecutionLog.setEditable(false);
         textAreaExecutionLog.setLineWrap(true);
@@ -151,18 +186,26 @@ public abstract class Main implements ActionListener {
         JPanel panelLogExecution = new JPanel();
         panelLogExecution.setLayout(new BorderLayout());
         panelLogExecution.add(labelExecutionLog, "North");
-        panelLogExecution.add(new JScrollPane(textAreaExecutionLog),"South");
+        panelLogExecution.add(new JScrollPane(textAreaExecutionLog), "South");
 
+        /*
+        * fileChooser digunakan untuk mengambil alamat dari file xml yang ingin dicek*/
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        FileNameExtensionFilter xmiFilter = new FileNameExtensionFilter("XMI File","xmi");
+        FileNameExtensionFilter xmiFilter = new FileNameExtensionFilter("XMI File", "xmi");
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(xmiFilter);
 
+        /*
+        containerPage1 digunakan untuk menampilkan halaman awal
+         */
         JPanel containerPage1 = new JPanel();
-        containerPage1.setLayout(new BoxLayout(containerPage1,BoxLayout.Y_AXIS));
+        containerPage1.setLayout(new BoxLayout(containerPage1, BoxLayout.Y_AXIS));
 
+        /*
+        containerPage2 digunakan untuk menampilkan halaman eksekusi
+         */
         JPanel containerPage2 = new JPanel();
-        containerPage2.setLayout(new BoxLayout(containerPage2,BoxLayout.Y_AXIS));
+        containerPage2.setLayout(new BoxLayout(containerPage2, BoxLayout.Y_AXIS));
 
         JPanel panelFileChooser = new JPanel();
 
@@ -183,11 +226,11 @@ public abstract class Main implements ActionListener {
 
         JPanel panelExecutionButtonBack = new JPanel();
         panelExecutionButtonBack.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panelExecutionButtonBack.setBorder(BorderFactory.createEmptyBorder(0,0,55,0));
+        panelExecutionButtonBack.setBorder(BorderFactory.createEmptyBorder(0, 0, 55, 0));
 
         JButton buttonOpen = new JButton("Open");
         buttonOpen.addActionListener(e -> {
-            if (!Message.messageList.isEmpty()){
+            if (!Message.messageList.isEmpty()) {
                 labelProcessMessage.setText("Please click Clear button");
                 labelProcessMessage.setVisible(true);
             } else {
@@ -241,7 +284,7 @@ public abstract class Main implements ActionListener {
 
         JButton buttonExecute = new JButton("Execute");
         buttonExecute.addActionListener(e -> {
-            if (inputFile[0] != null){
+            if (inputFile[0] != null) {
                 jFrame1.getContentPane().removeAll();
                 jFrame1.getContentPane().repaint();
                 jFrame1.getContentPane().add(containerPage2);
@@ -262,7 +305,7 @@ public abstract class Main implements ActionListener {
 //                    textAreaExecutionSuspect.setCaretPosition(1);
                 }
                 textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "-----------------------------------------------------------------------------------------------------------------------------------------\n");
-                if (!Suspect.unknownMessageList.isEmpty()){
+                if (!Suspect.unknownMessageList.isEmpty()) {
                     textAreaExecutionLog.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
                     for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
                         textAreaExecutionLog.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getName() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
@@ -292,8 +335,7 @@ public abstract class Main implements ActionListener {
                     }
                     textAreaExecutionLog.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
 //                        textAreaExecutionLog.setCaretPosition(1);
-                }
-                else if (Suspect.unknownMessageList.isEmpty()){
+                } else if (Suspect.unknownMessageList.isEmpty()) {
                     textAreaExecutionLog.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
                 }
             } else {
@@ -345,7 +387,7 @@ public abstract class Main implements ActionListener {
         });
 
         panelFileChooser.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panelFileChooser.setBorder(new EmptyBorder(30,0,0,0));
+        panelFileChooser.setBorder(new EmptyBorder(30, 0, 0, 0));
         panelFileChooser.add(textFieldFilename);
         panelFileChooser.add(buttonOpen);
 
@@ -360,10 +402,10 @@ public abstract class Main implements ActionListener {
             panelTableList.add(new JScrollPane(panelClassName), "Center");
             panelTableList.add(new JScrollPane(panelMessage), "Center");
             panelTableList.add(new JScrollPane(panelTextArea5), "Center");*/
-        JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelOperation,panelAttribute);
-        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panelClassName,panelMessage);
+        JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelOperation, panelAttribute);
+        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelClassName, panelMessage);
 //        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
-        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1,splitPane2);
+        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);
         panelTableList.add(splitPane4);
 
         containerPage1.add(panelFileChooser);
@@ -389,7 +431,7 @@ public abstract class Main implements ActionListener {
         jFrame1.setVisible(true);
     }
 
-    static private void executeProcess(String inputFile){
+    static private void executeProcess(String inputFile) {
         //Inisiasi
 
         /*XML Read and Extraction*/
@@ -401,8 +443,8 @@ public abstract class Main implements ActionListener {
 //            ClassOwnedAttribute.printAttributeList();
 //        ClassOwnedOperation.printOperationList();
         CoreProcess.checkingNoise();
-        CoreProcess.checkMessageAssociationDirection();
         CoreProcess.checkSignature();
+        CoreProcess.checkMessageAssociationDirection();
         CoreProcess.checkingRepresent();
 //        Lifeline.printLifelineList();
 //            Message.printMessageList();
