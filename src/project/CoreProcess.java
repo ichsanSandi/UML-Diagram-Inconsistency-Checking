@@ -6,6 +6,19 @@ class CoreProcess {
 //    private ArrayList<ClassOwnedOperation> operationList = new ArrayList<ClassOwnedOperation>();
 //    private ArrayList<Message> messageList = new ArrayList<Message>();
 
+    /**
+     * method inconsistencyChecking
+     *
+     * Digunakan untuk mendeteksi message yang tidak memiliki signature sebagai tanda
+     * asosiasi dengan operasi yang ada di kelas
+     *
+     * Jika nama dan argument message sama dengan nama dan parameter yang ada pada daftar
+     * operasi, maka message tersebut tidak dikatakan inkonsisten, dan dihapus dari daftar
+     * message yang inkonsisten
+     *
+     * @param suspectArrayList
+     * @param operationArrayList
+     */
     static void inconsistencyChecking(ArrayList<Suspect> suspectArrayList, ArrayList<ClassOwnedOperation> operationArrayList) {
         ArrayList<ClassOwnedOperation> setOperationList = new ArrayList<>(operationArrayList);
         Suspect suspect;
@@ -14,24 +27,19 @@ class CoreProcess {
             suspect = suspectArrayList.get(i);
             for (int j = 0; j < setOperationList.size(); j++) {
                 operation = setOperationList.get(j);
-//                suspect.getSignature().compareTo(operation.getId());
-//                System.out.println(suspect.getSignature() + " + " + operation.getId());
                 if (suspect.getName().equals(operation.getName()) && suspect.getArgument().equals(operation.getParameter())) {
-//                    System.out.println("sama");
-                    //masih dipikir perlu dihapus atau pindah list, atau counter aja. tergantung
-                    //penggunaan nanti. pikir2 sek
                     Suspect.assocWarningList.add(Suspect.unknownMessageList.remove(i));
-//                    Suspect.unknownMessageList.remove(i);
                     i = i - 1;
                     break;
                 }
             }
         }
-//        System.out.println(Suspect.unknownMessageList.size());
-//        System.out.println(ClassOwnedOperation.operationList.size());
-//        System.out.println(setOperationList.size());
     }
 
+    /**
+     * mengecek signature pada message dengan id yang ada pada operasi kelas
+     * untuk menyesuaikan nama dan argument message
+     */
     static void checkSignature() {
         for (int i = 0; i < Message.messageList.size(); i++) {
             for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++) {
@@ -46,6 +54,13 @@ class CoreProcess {
         }
     }
 
+    /**
+     * method GetLifelineCheck
+     * berfungsi untuk menyesuaikan nama lifeline yang mempunyai asosiasi dengan kelas
+     * menjadi nama kelas yang tersasosiasi
+     *
+     * @param seqAttrType
+     */
     private static void getLifelineCheck(String seqAttrType) {
         for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
             if (seqAttrType.equals(ClassName.classNameArrayList.get(i).getId())) {
@@ -55,6 +70,14 @@ class CoreProcess {
         }
     }
 
+    /**
+     * Digunakan untuk mengecek apakah Lifeline mempunyai asosiasi dengan kelas melalui element represent
+     * yang dicocokkan dengna id pada atribute Sequence.
+     *
+     * Lifeline yang mempunyai asosiasi dengan kelas, element represent cocok dengan id atribute
+     * sequence dan pada atribute dengan id tersebut mempunyai element Type. Jika tidak ada tipe
+     * maka tidak memiliki asosiasi dengan kelas
+     */
     static void checkingRepresent() {
         for (int i = 0; i < Lifeline.lifelineList.size(); i++) {
             for (int j = 0; j < SequenceOwnedAttribute.attributeList.size(); j++) {
@@ -71,13 +94,17 @@ class CoreProcess {
         }
     }
 
+    /**
+     * Isi kode buat ngehapus role 3 di testcase2.xmi
+     * Cek listnya, kalo seq lifeline sama, break
+     * kalo seq lifeline tidak sama, flag (?), lanjut
+     * kalo seq lifeline tidak sama && j=lifelinelist.size-1. remove seq[i]
+     *
+     * Menghapus "role" yang dibaca sebagai atribut kelas. Padahal itu adalah
+     * role dari lifeline, biasanya jika menghapus lifeline tanpa menghapus role
+     * "role" ini akan muncul
+     */
     static void checkingNoise() {
-        /*
-         * Isi kode buat ngehapus role 3 di testcase2.xmi
-         * Cek listnya, kalo seq lifeline sama, break
-         * kalo seq lifeline tidak sama, flag (?), lanjut
-         * kalo seq lifeline tidak sama && j=lifelinelist.size-1. remove seq[i]
-         * */
         for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
             for (int j = 0; j < Lifeline.lifelineList.size(); j++) {
                 if (ClassOwnedAttribute.attributeList.get(i).getId().equals(Lifeline.lifelineList.get(j).getRepresent())) {
@@ -90,6 +117,41 @@ class CoreProcess {
         }
     }
 
+    /**
+     * method checkMessageAssociationDirection
+     *
+     * Digunakan untuk mengecek arah message. Apakah lifeline penerima mempunyai operasi yang dikirimkam.
+     *
+     * Untuk message yang mempunyai asosiasi dengan operasi di kelas
+     * maka alurnya adalah sebagai berikut:
+     * Message.receiveEvent = Fragment.id -> Get Fragment.covered
+     * Fragment.covered = Lifeline.id -> get Lifeline.represent
+     * Lifeline.represent = SequenceOwnedAttribute.id -> get SequenceOwnedAttribute.type
+     *
+     * Jika type tidak ada, maka lifeline tidak mempunyai asosiasi dengan kelas:
+     * Message.signature = OwnedOperation.id-> get OwnedOperation.associatedClass
+     * Jika OwnedOperation.associatedClass = Lifeline.name maka konsisten, jika sebaliknya maka inkonsisten
+     *
+     * Jika type ada, maka lifeline mempunyai asosiasi dengan kelas:
+     * Message.signature = OwnedOperation.id -> get OwnedOperation.associatedClass
+     * SequenceAttribute.type = ClassName.id -> get ClassName.name
+     * Jika ClassName.name = OwnedOperation.associatedClass maka konsisten, jika sebaliknya maka inkonsisten
+     *
+     * Untuk message yang tidak mempunyai asosiasi dengan operasi di kelas
+     * maka alurnya adalah sebagai berikut:
+     * Message.receiveEvent = Fragment.id -> Get Fragment.covered
+     * Fragment.covered = Lifeline.id -> get Lifeline.represent
+     * Lifeline.represent = SequenceOwnedAttribute.id -> get SequenceOwnedAttribute.type
+     *
+     * Jika type tidak ada, maka lifeline tidak mempunyai asosiasi dengan kelas:
+     * Message.name = OwnedOperation.name-> get OwnedOperation.associatedClass
+     * Jika OwnedOperation.associatedClass = Lifeline.name maka konsisten, jika sebaliknya maka inkonsisten
+     *
+     * Jika type ada, maka lifeline mempunyai asosiasi dengan kelas:
+     * Message.name = OwnedOperation.name -> get OwnedOperation.associatedClass
+     * SequenceAttribute.type = ClassName.id -> get ClassName.name
+     * Jika ClassName.name = OwnedOperation.associatedClass maka konsisten, jika sebaliknya maka inkonsisten
+     */
     static void checkMessageAssociationDirection() {
         for (int i = 0; i < Message.messageList.size(); i++) {
             for (int j = 0; j < Fragment.fragmentList.size(); j++) {
