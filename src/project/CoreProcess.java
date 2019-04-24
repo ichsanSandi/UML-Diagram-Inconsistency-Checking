@@ -3,8 +3,6 @@ package project;
 import java.util.*;
 
 class CoreProcess {
-//    private ArrayList<ClassOwnedOperation> operationList = new ArrayList<ClassOwnedOperation>();
-//    private ArrayList<Message> messageList = new ArrayList<Message>();
 
     /**
      * method inconsistencyChecking
@@ -16,8 +14,8 @@ class CoreProcess {
      * operasi, maka message tersebut tidak dikatakan inkonsisten, dan dihapus dari daftar
      * message yang inkonsisten
      *
-     * @param suspectArrayList
-     * @param operationArrayList
+     * @param suspectArrayList arraylist yang berisi message yang dicurigai
+     * @param operationArrayList arraylist yang berisi daftar operasi
      */
     static void inconsistencyChecking(ArrayList<Suspect> suspectArrayList, ArrayList<ClassOwnedOperation> operationArrayList) {
         ArrayList<ClassOwnedOperation> setOperationList = new ArrayList<>(operationArrayList);
@@ -56,18 +54,18 @@ class CoreProcess {
 
     /**
      * method GetLifelineCheck
-     * berfungsi untuk menyesuaikan nama lifeline yang mempunyai asosiasi dengan kelas
-     * menjadi nama kelas yang tersasosiasi
+     * berfungsi untuk mengganti nama lifeline yang mempunyai
+     * asosiasi dengan kelas dengan nama kelas yang tersasosiasi
      *
-     * @param seqAttrType
+     * @param seqAttrType atribut type dari salah satu objek dari kelas SequenceOwnedAttribute
      */
-    private static void getLifelineCheck(String seqAttrType) {
+    private static String getLifelineCheck(String seqAttrType) {
         for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
             if (seqAttrType.equals(ClassName.classNameArrayList.get(i).getId())) {
-                Lifeline.lifelineList.get(i).setName(ClassName.classNameArrayList.get(i).getName());
-                break;
+                return ClassName.classNameArrayList.get(i).getName();
             }
         }
+        return null;
     }
 
     /**
@@ -86,9 +84,53 @@ class CoreProcess {
                         Suspect.lifelineLists.add(Lifeline.lifelineList.get(i).getName());
                         break;
                     } else {
-                        getLifelineCheck(SequenceOwnedAttribute.attributeList.get(j).getType());
+                        Lifeline.lifelineList.get(i).setName(getLifelineCheck(SequenceOwnedAttribute.attributeList.get(j).getType()));
                         break;
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Fungsi untuk mendapatkan nama lifeline yang akan
+     * menjadi nama untuk receiveEvent dan sendEvent
+     *
+     * @param fragment
+     * objek fragment yang digunakan sebagai pembanding
+     *
+     * @return
+     * string nama lifeline
+     */
+    private static String updateEvent(Fragment fragment){
+        for (int k = 0; k < Lifeline.lifelineList.size();k++){
+            if (fragment.getCovered().equals(Lifeline.lifelineList.get(k).getId())){
+                for (int l = 0; l < SequenceOwnedAttribute.attributeList.size(); l++){
+                    if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(l).getId()) && !SequenceOwnedAttribute.attributeList.get(l).getType().isEmpty()){
+                        for (int m = 0; m < ClassName.classNameArrayList.size(); m++){
+                            if (SequenceOwnedAttribute.attributeList.get(l).getType().equals(ClassName.classNameArrayList.get(m).getId())){
+                                return ClassName.classNameArrayList.get(m).getName();
+                            }
+                        }
+                    } else if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(l).getId()) && SequenceOwnedAttribute.attributeList.get(l).getType().isEmpty()){
+                        return Lifeline.lifelineList.get(k).getName();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Memperbarui receiveEvent Message dan sendEvent Message
+     */
+    static void makeMessageTriplet(){
+        for (int i = 0; i < Message.messageList.size(); i++){
+            for (int j = 0; j < Fragment.fragmentList.size();j++){
+                if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
+                    Message.messageList.get(i).setReceiveEvent(updateEvent(Fragment.fragmentList.get(j)));
+                } else if (Message.messageList.get(i).getSendEvent().equals(Fragment.fragmentList.get(j).getId())){
+                    Message.messageList.get(i).setSendEvent(updateEvent(Fragment.fragmentList.get(j)));
                 }
             }
         }

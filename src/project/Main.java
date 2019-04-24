@@ -27,7 +27,7 @@ public abstract class Main implements ActionListener {
         jFrame1.setLocationRelativeTo(null);
 
         /*Label untuk menampilkan respon pada program*/
-        JLabel labelProcessMessage = new JLabel(" ");
+        JLabel labelProcessMessage = new JLabel("Silakan pilih file XMI dengan mengklik tombol Open");
 
         /*Textfield untuk meletakkan alamat file XML*/
         JTextField textFieldFilename = new JTextField(20);
@@ -274,6 +274,7 @@ public abstract class Main implements ActionListener {
                 }
                 if (inputFile[0] != null) {
                     labelProcessMessage.setText(" ");
+                    textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n(LifelineSender -> Message -> LifelineReceiver)\n");
                     executeProcess(inputFile[0]);
                 }
                 /*
@@ -290,8 +291,9 @@ public abstract class Main implements ActionListener {
                     textAreaClassName.append(i + 1 + ". " + ClassName.classNameArrayList.get(i).getName() + "\n");
                 }
                 for (int i = 0; i < Message.messageList.size(); i++) {
-                    textAreaMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + " " + Message.messageList.get(i).getArgument() + "\n");
+                    textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
                 }
+                labelProcessMessage.setText("Proses pembacaan file XMI selesai");
             }
         });
 
@@ -386,12 +388,12 @@ public abstract class Main implements ActionListener {
             }
         });
 
-        JButton buttonClear = new JButton("Clear");
+        JButton buttonReset = new JButton("Reset");
         /*
         fungsi untuk mengosongkan seluruh list dan textarea
         agar bisa digunkana kembali
          */
-        buttonClear.addActionListener(e -> {
+        buttonReset.addActionListener(e -> {
             ClassOwnedOperation.operationList.clear();
             ClassOwnedAttribute.attributeList.clear();
             ClassName.classNameArrayList.clear();
@@ -412,7 +414,7 @@ public abstract class Main implements ActionListener {
             textAreaExecutionOperation.setText("");
             textAreaExecutionSuspect.setText("");
             textFieldFilename.setText("");
-            labelProcessMessage.setText(" ");
+            labelProcessMessage.setText("Silakan pilih file XMI dengan mengklik tombol Open");
             textAreaExecutionLog.setText("");
             inputFile[0] = null;
         });
@@ -453,7 +455,7 @@ public abstract class Main implements ActionListener {
          */
 //            panelFunctionButton.add(buttonRun);
         panelFunctionButton.add(buttonExecute);
-        panelFunctionButton.add(buttonClear);
+        panelFunctionButton.add(buttonReset);
 
             /*panelTableList.add(new JScrollPane(panelOperation), "Center");
             panelTableList.add(new JScrollPane(panelAttribute), "Center");
@@ -526,8 +528,9 @@ public abstract class Main implements ActionListener {
         CoreProcess.checkSignature();
         CoreProcess.checkMessageAssociationDirection();
         CoreProcess.checkingRepresent();
+        CoreProcess.makeMessageTriplet();
 //        Lifeline.printLifelineList();
-//            Message.printMessageList();
+            Message.printMessageList();
 
 //        System.out.println(ClassName.classNameArrayList.size());
         System.out.println(Suspect.unknownMessageList.size());
