@@ -35,6 +35,7 @@ class XPathHandler {
                 Node nNode = nodeList.item(i);
                 switch (nNode.getNodeName()) {
                     case "message": {
+                        int counter = 1;
                         Message message = new Message();
                         Element element = (Element) nNode;
 //                        if (element.getAttribute("messageSort").equals("reply")){
@@ -44,11 +45,15 @@ class XPathHandler {
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
                         message.setSendEvent(element.getAttribute("sendEvent"));
+                        message.setCounter(++counter);
                         if (element.getAttribute("signature").isEmpty()){
                             Suspect suspect = new Suspect();
                             Element element2 = (Element) nNode;
                             message.setSignature("no signature");
                             suspect.setName(message.getName());
+                            suspect.setReceiveEvent(element.getAttribute("receiveEvent"));
+                            suspect.setSendEvent(element.getAttribute("sendEvent"));
+                            suspect.setCounter(counter);
                             for (int o = 0; o < nNode.getChildNodes().getLength(); o++) {
                                 if (element2.getChildNodes().item(o).getNodeName().equals("argument")) {
                                     Element element3 = (Element) element.getChildNodes().item(o);

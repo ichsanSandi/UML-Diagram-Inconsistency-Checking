@@ -10,6 +10,7 @@ class Message {
     private String sendEvent;
     private String operationName;
     private String argument;
+    private int Counter;
     static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Message> messageList = new ArrayList<>();
 
@@ -42,6 +43,10 @@ class Message {
         argumentList.clear();
     }
 
+    public void setCounter(int counter) {
+        Counter = counter;
+    }
+
     String getId(){
         return this.id;
     }
@@ -68,6 +73,10 @@ class Message {
 
     String getArgument(){
         return this.argument;
+    }
+
+    int getCounter() {
+        return Counter;
     }
 
     void addMessageList(Message message){

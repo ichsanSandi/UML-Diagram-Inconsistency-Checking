@@ -160,6 +160,20 @@ class CoreProcess {
     }
 
     /**
+     * method untuk menambah message yang tidak ada di daftar operasi di kelas lifeline penerima ke dalam daftar suspect
+     * @param name adalah nama message
+     * @param argument adalah argument message
+     * @param classAssoc adalah class yang operasinya diwakili oleh message
+     */
+    private static void addSuspectLifeline(String name, String argument, String classAssoc){
+        Suspect suspect = new Suspect();
+        suspect.setName(name);
+        suspect.setArgument(argument);
+        suspect.setClassAssoc(classAssoc);
+        Suspect.classAssocWarningList.add(suspect);
+    }
+
+    /**
      * method checkMessageAssociationDirection
      *
      * Digunakan untuk mengecek arah message. Apakah lifeline penerima mempunyai operasi yang dikirimkam.
@@ -207,12 +221,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && !SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 for (int o = 0; o < ClassName.classNameArrayList.size(); o++) {
                                                     if (SequenceOwnedAttribute.attributeList.get(m).getType().equals(ClassName.classNameArrayList.get(o).getId()) && !ClassName.classNameArrayList.get(o).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
-                                                        System.out.println(ClassName.classNameArrayList.get(o).getName() + " + " + ClassOwnedOperation.operationList.get(l).getAssociatedClass() + " + " + Message.messageList.get(i).getOperationName());
-                                                        Suspect suspect = new Suspect();
-                                                        suspect.setName(Message.messageList.get(i).getOperationName());
-                                                        suspect.setArgument(Message.messageList.get(i).getArgument());
-                                                        suspect.setClassAssoc(ClassName.classNameArrayList.get(o).getName());
-                                                        Suspect.classAssocWarningList.add(suspect);
+                                                        addSuspectLifeline(Message.messageList.get(i).getOperationName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
                                                         break;
                                                     }
                                                 }
@@ -220,12 +229,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 /*Gak bisa pake type,
                                                 nanti yang lifeline bener gak kedetect*/
-                                                System.out.println(Lifeline.lifelineList.get(k).getName() + " + " + ClassOwnedOperation.operationList.get(l).getAssociatedClass() + " + " + Message.messageList.get(i).getName());
-                                                Suspect suspect = new Suspect();
-                                                suspect.setName(ClassOwnedOperation.operationList.get(l).getName());
-                                                suspect.setArgument(ClassOwnedOperation.operationList.get(l).getParameter());
-                                                suspect.setClassAssoc(Lifeline.lifelineList.get(k).getName());
-                                                Suspect.classAssocWarningList.add(suspect);
+                                                addSuspectLifeline(ClassOwnedOperation.operationList.get(l).getName(), ClassOwnedOperation.operationList.get(l).getParameter(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
                                         }
@@ -238,12 +242,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && !SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 for (int o = 0; o < ClassName.classNameArrayList.size(); o++) {
                                                     if (SequenceOwnedAttribute.attributeList.get(m).getType().equals(ClassName.classNameArrayList.get(o).getId()) && !ClassName.classNameArrayList.get(o).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
-                                                        System.out.println(ClassName.classNameArrayList.get(o).getName() + " + " + ClassOwnedOperation.operationList.get(l).getAssociatedClass() + " + " + Message.messageList.get(i).getName());
-                                                        Suspect suspect = new Suspect();
-                                                        suspect.setName(Message.messageList.get(i).getName());
-                                                        suspect.setArgument(Message.messageList.get(i).getArgument());
-                                                        suspect.setClassAssoc(ClassName.classNameArrayList.get(o).getName());
-                                                        Suspect.classAssocWarningList.add(suspect);
+                                                        addSuspectLifeline(Message.messageList.get(i).getName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
                                                         break;
                                                     }
                                                 }
@@ -251,12 +250,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 /*Gak bisa pake type,
                                                 nanti yang lifeline bener gak kedetect*/
-                                                System.out.println(Lifeline.lifelineList.get(k).getName() + " + " + ClassOwnedOperation.operationList.get(l).getAssociatedClass() + " + " + Message.messageList.get(i).getName());
-                                                Suspect suspect = new Suspect();
-                                                suspect.setName(Message.messageList.get(i).getName());
-                                                suspect.setArgument(Message.messageList.get(i).getArgument());
-                                                suspect.setClassAssoc(Lifeline.lifelineList.get(k).getName());
-                                                Suspect.classAssocWarningList.add(suspect);
+                                                addSuspectLifeline(Message.messageList.get(i).getName(),Message.messageList.get(i).getArgument(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
                                         }

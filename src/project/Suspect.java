@@ -8,6 +8,9 @@ class Suspect {
     private String name;
     private String argument;
     private String classAssoc;
+    private String receiveEvent;
+    private String sendEvent;
+    private int Counter;
     /**List untuk nambahin argumen message saja*/
     static ArrayList<String> argumentList = new ArrayList<>();
 
@@ -32,8 +35,20 @@ class Suspect {
         argumentList.clear();
     }
 
-    public void setClassAssoc(String classAssoc) {
+    void setClassAssoc(String classAssoc) {
         this.classAssoc = classAssoc;
+    }
+
+    void setReceiveEvent(String receiveEvent) {
+        this.receiveEvent = receiveEvent;
+    }
+
+    void setSendEvent(String sendEvent) {
+        this.sendEvent = sendEvent;
+    }
+
+    void setCounter(int counter) {
+        Counter = counter;
     }
 
     String getName(){
@@ -44,8 +59,20 @@ class Suspect {
         return argument;
     }
 
-    public String getClassAssoc() {
+    String getClassAssoc() {
         return classAssoc;
+    }
+
+    String getReceiveEvent() {
+        return receiveEvent;
+    }
+
+    String getSendEvent() {
+        return sendEvent;
+    }
+
+    int getCounter() {
+        return Counter;
     }
 
     void addArgument(String argument){

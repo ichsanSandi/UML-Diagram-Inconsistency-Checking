@@ -38,12 +38,12 @@ public abstract class Main implements ActionListener {
         * Label untuk memberikan judul pada kolom
         * Panel untuk meletakkan textarea dan label
         * */
-        JTextArea textAreaOperation = new JTextArea(20, 13);
+        JTextArea textAreaOperation = new JTextArea(20, 33);
         textAreaOperation.setEditable(false);
         textAreaOperation.setLineWrap(true);
         textAreaOperation.setWrapStyleWord(true);
 
-        JLabel labelOperationTextArea = new JLabel("Class Operation");
+        JLabel labelOperationTextArea = new JLabel("Class Diagram");
         labelOperationTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelOperation = new JPanel();
@@ -90,12 +90,12 @@ public abstract class Main implements ActionListener {
          * Text area untuk menampilkan list message yang ada di diagram sekuens
          * Label untuk memberikan judul pada kolom
          * Panel untuk meletakkan textarea dan label*/
-        JTextArea textAreaMessage = new JTextArea(20, 16);
+        JTextArea textAreaMessage = new JTextArea(20, 33);
         textAreaMessage.setEditable(false);
         textAreaMessage.setLineWrap(true);
         textAreaMessage.setWrapStyleWord(true);
 
-        JLabel labelMessage = new JLabel("Message");
+        JLabel labelMessage = new JLabel("Sequence Diagram");
         labelMessage.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelMessage = new JPanel();
@@ -259,7 +259,7 @@ public abstract class Main implements ActionListener {
         JButton buttonOpen = new JButton("Open");
         buttonOpen.addActionListener(e -> {
             if (!Message.messageList.isEmpty()) {
-                labelProcessMessage.setText("Please click Clear button");
+                labelProcessMessage.setText("Tekan tombol reset dahulu untuk memulai kembali");
                 labelProcessMessage.setVisible(true);
             } else {
                 /*
@@ -274,22 +274,33 @@ public abstract class Main implements ActionListener {
                 }
                 if (inputFile[0] != null) {
                     labelProcessMessage.setText(" ");
-                    textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n(LifelineSender -> Message -> LifelineReceiver)\n");
+                    textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n\n(LifelineSender -> Message -> LifelineReceiver)\n\n");
+                    textAreaOperation.append("Berikut ini daftar OPERATION yang ada pada DIAGRAM KELAS:\n\n");
                     executeProcess(inputFile[0]);
                 }
                 /*
                 menampilkan hasil dari daftar operasi, atribut, dan nama kelas,
                 dan daftar message pada masing-masing textarea
                  */
-                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
-                    textAreaOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
+                for (int i = 0; i < ClassName.classNameArrayList.size(); i++){
+                    textAreaOperation.append(ClassName.classNameArrayList.get(i).getName() + ":\n");
+                    int counter = 1;
+                    for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++) {
+                        if (ClassOwnedOperation.operationList.get(j).getAssociatedClass().equalsIgnoreCase(ClassName.classNameArrayList.get(i).getName())){
+                            textAreaOperation.append(counter + ". " + ClassOwnedOperation.operationList.get(j).getName() + ClassOwnedOperation.operationList.get(j).getParameter() + "\n");
+                            counter++;
+                        }
                 }
-                for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
+
+                /*for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
+                    textAreaOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getAssociatedClass() + " -> " + ClassOwnedOperation.operationList.get(i).getName() + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");*/
+                }
+                /*for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
                     textAreaAttribute.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
-                }
-                for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
+                }*/
+                /*for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
                     textAreaClassName.append(i + 1 + ". " + ClassName.classNameArrayList.get(i).getName() + "\n");
-                }
+                }*/
                 for (int i = 0; i < Message.messageList.size(); i++) {
                     textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
                 }
@@ -343,11 +354,10 @@ public abstract class Main implements ActionListener {
                 if (!Suspect.unknownMessageList.isEmpty()) {
                     CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
                     for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
-                        textAreaExecutionSuspect.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getName() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
+                        textAreaExecutionSuspect.append(i + 1 + ". " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getReceiveEvent() + " " + Suspect.unknownMessageList.get(i).getArgument() + "\n");
                     }
 //                    textAreaExecutionSuspect.setCaretPosition(1);
                 }
-                textAreaExecutionLog.append("Proses selesai!! Elemen diagram kelas dan diagram sekuens sudah didapatkan\n" + "-----------------------------------------------------------------------------------------------------------------------------------------\n");
                 if (!Suspect.unknownMessageList.isEmpty()) {
                     textAreaExecutionLog.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
                     for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
@@ -466,11 +476,11 @@ public abstract class Main implements ActionListener {
             /*
             menyusun susunan textarea pada halaman awal dan meletakkannya pada panelTableList
              */
-        JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelOperation, panelAttribute);
-        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelClassName, panelMessage);
+        JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelOperation, panelMessage);
+//        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelClassName, panelMessage);
 //        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
-        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, splitPane2);
-        panelTableList.add(splitPane4);
+//        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
+        panelTableList.add(splitPane1);
 
         /*
         container untuk menampung dan meletakkan seluruh element yang ada pada halaman awal
