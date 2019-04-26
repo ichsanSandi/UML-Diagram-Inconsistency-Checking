@@ -134,7 +134,18 @@ class CoreProcess {
                 }
             }
         }
+
+        for (int i = 0; i < Suspect.unknownMessageList.size(); i++){
+            for (int j = 0; j < Fragment.fragmentList.size();j++){
+                if (Suspect.unknownMessageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
+                    Suspect.unknownMessageList.get(i).setReceiveEvent(updateEvent(Fragment.fragmentList.get(j)));
+                } else if (Suspect.unknownMessageList.get(i).getSendEvent().equals(Fragment.fragmentList.get(j).getId())){
+                    Suspect.unknownMessageList.get(i).setSendEvent(updateEvent(Fragment.fragmentList.get(j)));
+                }
+            }
+        }
     }
+
 
     /**
      * Isi kode buat ngehapus role 3 di testcase2.xmi
