@@ -23,11 +23,11 @@ class XPathHandler {
 
             XPath xPath = XPathFactory.newInstance().newXPath();
 
-            String expression = "/XMI/Model/packagedElement/packagedElement/ownedMember/lifeline | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedMember/message | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedMember/fragment | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedAttribute | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement";
+            String expression = "//lifeline | " +
+                                "//message | " +
+                                "//fragment | " +
+                                "//ownedAttribute | " +
+                                "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +                                                        "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" +                                         "/XMI/Model/packagedElement/packagedElement";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
                     doc, XPathConstants.NODESET);
 
@@ -39,9 +39,6 @@ class XPathHandler {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
-//                        if (element.getAttribute("messageSort").equals("reply")){
-//                            continue;
-//                        }
                         message.setId(element.getAttribute("xmi:id"));
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
