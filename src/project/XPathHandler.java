@@ -24,10 +24,10 @@ class XPathHandler {
             XPath xPath = XPathFactory.newInstance().newXPath();
 
             String expression = "//lifeline | " +
-                                "//message | " +
-                                "//fragment | " +
-                                "//ownedAttribute | " +
-                                "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +                                                        "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" +                                         "/XMI/Model/packagedElement/packagedElement";
+                    "//message | " +
+                    "//fragment | " +
+                    "//ownedAttribute | " +
+                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
                     doc, XPathConstants.NODESET);
 
