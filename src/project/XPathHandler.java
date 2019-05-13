@@ -39,6 +39,9 @@ class XPathHandler {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
+//                        if (element.getAttribute("messageSort").equals("reply")){
+//                            continue;
+//                        }
                         message.setId(element.getAttribute("xmi:id"));
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));

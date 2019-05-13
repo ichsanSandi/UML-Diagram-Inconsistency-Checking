@@ -7,6 +7,7 @@ public class ClassName {
     private String name;
     private String type;
     static ArrayList<ClassName> classNameArrayList = new ArrayList<>();
+    private static ClassName classes = new ClassName();
 
     public void setId(String id) {
         this.id = id;
@@ -34,5 +35,15 @@ public class ClassName {
 
     void addClassList(ClassName classNameMember){
         classNameArrayList.add(classNameMember);
+    }
+
+    public static void printClassName(){
+        System.out.println("\nLIFELINE");
+        for (int classCounter = 0; classCounter < classNameArrayList.size(); classCounter++){
+            classes = classNameArrayList.get(classCounter);
+            System.out.println("id" + (classCounter + 1) + ": " + classes.getId());
+            System.out.println("name" + (classCounter + 1) + ": " + classes.getName());
+            System.out.println("represent" + (classCounter+ 1) + ": " + classes.getType());
+        }
     }
 }

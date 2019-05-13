@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="StarUML" exporterVersion="2.0"/>
+	<uml:Model xmi:id="AAAAAAFqsDKoS4WVsxs=" xmi:type="uml:Model" name="RootModel">
+		<packagedElement xmi:id="AAAAAAFF+qBWK6M3Z8Y=" name="Model" visibility="public" xmi:type="uml:Model">
+			<packagedElement xmi:id="AAAAAAFqsC+wioO1eI8=" name="Person" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Class" isActive="false">
+				<ownedAttribute xmi:id="AAAAAAFqsC/hTYPo7nI=" name="name" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false"/>
+				<ownedAttribute xmi:id="AAAAAAFqsC/1F4PvKw0=" name="age" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false"/>
+				<ownedAttribute xmi:id="AAAAAAFqsDAB3YP2h6Y=" name="Attribute1" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false"/>
+				<ownedOperation xmi:id="AAAAAAFqsDAKZoP8B0k=" name="eat" visibility="public" isStatic="false" isLeaf="false" concurrency="sequential" isQuery="false" isAbstract="false" xmi:type="uml:Operation"/>
+				<ownedOperation xmi:id="AAAAAAFqsDCdtIQDEo0=" name="sleep" visibility="public" isStatic="false" isLeaf="false" concurrency="sequential" isQuery="false" isAbstract="false" xmi:type="uml:Operation"/>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFqsDC8boQKv6c=" name="Collaboration1" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Collaboration">
+				<ownedMember xmi:id="AAAAAAFqsDC8b4QLIkQ=" name="Interaction1" visibility="public" isReentrant="true" xmi:type="uml:Interaction">
+					<lifeline xmi:id="AAAAAAFqsDFm5oUeqVo=" name="Lifeline1" visibility="public" xmi:type="uml:Lifeline" represents="AAAAAAFqsDFm5oUdRxM="/>
+					<lifeline xmi:id="AAAAAAFqsDFy1IU9s9Q=" name="Lifeline2" visibility="public" xmi:type="uml:Lifeline" represents="AAAAAAFqsDFy04U8Noc="/>
+					<message xmi:id="AAAAAAFqsDIUl4V/7kE=" name="Message1" visibility="public" xmi:type="uml:Message" messageSort="synchCall" messageKind="complete" signature="AAAAAAFqsDAKZoP8B0k=" receiveEvent="AAAAAAFqsDKoUYWXFMI=" sendEvent="AAAAAAFqsDKoUYWW6U4="/>
+					<fragment xmi:id="AAAAAAFqsDKoUYWW6U4=" xmi:type="uml:OccurrenceSpecification" covered="AAAAAAFqsDFm5oUeqVo="/>
+					<fragment xmi:id="AAAAAAFqsDKoUYWXFMI=" xmi:type="uml:OccurrenceSpecification" covered="AAAAAAFqsDFy1IU9s9Q="/>
+				</ownedMember>
+				<ownedAttribute xmi:id="AAAAAAFqsDFm5oUdRxM=" name="Role1" visibility="public" isStatic="false" isLeaf="false" type="AAAAAAFqsDDnxIQcydo=" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false"/>
+				<ownedAttribute xmi:id="AAAAAAFqsDFy04U8Noc=" name="Role2" visibility="public" isStatic="false" isLeaf="false" type="AAAAAAFqsC+wioO1eI8=" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false"/>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFqsDDnxIQcydo=" name="person" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Actor">
+				<ownedMember xmi:id="AAAAAAFqsDFKfYTUY7o=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFqsDFKfYTV0fI=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFqsDDnxIQcydo=">
+						<xmi:Extension extender="StarUML">
+							<stereotype value=""/>
+						</xmi:Extension>
+					</ownedEnd>
+					<ownedEnd xmi:id="AAAAAAFqsDFKfYTWYeA=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFqsDELn4RHN7s=">
+						<xmi:Extension extender="StarUML">
+							<stereotype value=""/>
+						</xmi:Extension>
+					</ownedEnd>
+					<memberEnd xmi:idref="AAAAAAFqsDFKfYTV0fI="/>
+					<memberEnd xmi:idref="AAAAAAFqsDFKfYTWYeA="/>
+				</ownedMember>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFqsDELn4RHN7s=" name="memakan%20tanaman" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase"/>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>
