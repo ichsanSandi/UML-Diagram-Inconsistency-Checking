@@ -132,7 +132,7 @@ class XPathHandler {
                     case "packagedElement" :{
                         Element element = (Element) nNode;
                         ClassName classNameMember = new ClassName();
-                        if (element.getAttribute("xmi:type").equals("uml:Class")) {
+                        if (element.getAttribute("xmi:type").equals("uml:Class") || element.getAttribute("xmi:type").equals("uml:Actor")) {
                             classNameMember.setId(element.getAttribute("xmi:id"));
                             classNameMember.setName(element.getAttribute("name"));
                             classNameMember.setType(element.getAttribute("xmi:type"));

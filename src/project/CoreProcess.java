@@ -76,12 +76,19 @@ class CoreProcess {
      * sequence dan pada atribute dengan id tersebut mempunyai element Type. Jika tidak ada tipe
      * maka tidak memiliki asosiasi dengan kelas
      */
-    static void checkingRepresent() {
+    static void checkingLifelineRepresent() {
         for (int i = 0; i < Lifeline.lifelineList.size(); i++) {
             for (int j = 0; j < SequenceOwnedAttribute.attributeList.size(); j++) {
                 if (Lifeline.lifelineList.get(i).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(j).getId())) {
                     if (SequenceOwnedAttribute.attributeList.get(j).getType().isEmpty()) {
                         Suspect.lifelineLists.add(Lifeline.lifelineList.get(i).getName());
+                        for (int k = 0; k < ClassName.classNameArrayList.size(); k++){
+                            if (Lifeline.lifelineList.get(i).getName().equalsIgnoreCase(ClassName.classNameArrayList.get(k).getName())){
+                                Suspect.lifelineAssocLists.add(Suspect.lifelineLists.remove(Suspect.lifelineLists.size()-1));
+//                                Suspect.lifelineAssocLists.add(Lifeline.lifelineList.get(i).getName());
+                                break;
+                            }
+                        }
                         break;
                     } else {
                         Lifeline.lifelineList.get(i).setName(getLifelineCheck(SequenceOwnedAttribute.attributeList.get(j).getType()));
@@ -146,7 +153,6 @@ class CoreProcess {
         }
     }
 
-
     /**
      * Isi kode buat ngehapus role 3 di testcase2.xmi
      * Cek listnya, kalo seq lifeline sama, break
@@ -176,7 +182,7 @@ class CoreProcess {
      * @param argument adalah argument message
      * @param classAssoc adalah class yang operasinya diwakili oleh message
      */
-    private static void addSuspectLifeline(String name, String argument, String classAssoc){
+    private static void addSuspectLifelineReceiver(String name, String argument, String classAssoc){
         Suspect suspect = new Suspect();
         suspect.setName(name);
         suspect.setArgument(argument);
@@ -232,7 +238,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && !SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 for (int o = 0; o < ClassName.classNameArrayList.size(); o++) {
                                                     if (SequenceOwnedAttribute.attributeList.get(m).getType().equals(ClassName.classNameArrayList.get(o).getId()) && !ClassName.classNameArrayList.get(o).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
-                                                        addSuspectLifeline(Message.messageList.get(i).getOperationName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
+                                                        addSuspectLifelineReceiver(Message.messageList.get(i).getOperationName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
                                                         break;
                                                     }
                                                 }
@@ -240,7 +246,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 /*Gak bisa pake type,
                                                 nanti yang lifeline bener gak kedetect*/
-                                                addSuspectLifeline(ClassOwnedOperation.operationList.get(l).getName(), ClassOwnedOperation.operationList.get(l).getParameter(), Lifeline.lifelineList.get(k).getName());
+                                                addSuspectLifelineReceiver(ClassOwnedOperation.operationList.get(l).getName(), ClassOwnedOperation.operationList.get(l).getParameter(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
                                         }
@@ -253,7 +259,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && !SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 for (int o = 0; o < ClassName.classNameArrayList.size(); o++) {
                                                     if (SequenceOwnedAttribute.attributeList.get(m).getType().equals(ClassName.classNameArrayList.get(o).getId()) && !ClassName.classNameArrayList.get(o).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
-                                                        addSuspectLifeline(Message.messageList.get(i).getName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
+                                                        addSuspectLifelineReceiver(Message.messageList.get(i).getName(), Message.messageList.get(i).getArgument(), ClassName.classNameArrayList.get(o).getName());
                                                         break;
                                                     }
                                                 }
@@ -261,7 +267,7 @@ class CoreProcess {
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 /*Gak bisa pake type,
                                                 nanti yang lifeline bener gak kedetect*/
-                                                addSuspectLifeline(Message.messageList.get(i).getName(),Message.messageList.get(i).getArgument(), Lifeline.lifelineList.get(k).getName());
+                                                addSuspectLifelineReceiver(Message.messageList.get(i).getName(),Message.messageList.get(i).getArgument(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
                                         }

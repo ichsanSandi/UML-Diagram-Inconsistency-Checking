@@ -38,12 +38,12 @@ public class ClassName {
     }
 
     public static void printClassName(){
-        System.out.println("\nLIFELINE");
+        System.out.println("\nClassName");
         for (int classCounter = 0; classCounter < classNameArrayList.size(); classCounter++){
             classes = classNameArrayList.get(classCounter);
             System.out.println("id" + (classCounter + 1) + ": " + classes.getId());
             System.out.println("name" + (classCounter + 1) + ": " + classes.getName());
-            System.out.println("represent" + (classCounter+ 1) + ": " + classes.getType());
+            System.out.println("type" + (classCounter+ 1) + ": " + classes.getType());
         }
     }
 }

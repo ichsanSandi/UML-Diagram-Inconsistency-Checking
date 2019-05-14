@@ -246,6 +246,7 @@ public abstract class Main implements ActionListener {
         //fungsi tombol button
         JButton buttonOpen = new JButton("Open");
         buttonOpen.addActionListener(e -> {
+            boolean isConsistent = true;
             if (!Message.messageList.isEmpty()) {
                 labelProcessMessage.setText("Tekan tombol reset dahulu untuk memulai kembali");
                 labelProcessMessage.setVisible(true);
@@ -283,44 +284,81 @@ public abstract class Main implements ActionListener {
                     }
                     textAreaOperation.setCaretPosition(1);
                     for (int i = 0; i < Message.messageList.size(); i++) {
-                        textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getCounter() + ": " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
+//                        textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getCounter() + ": " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
+                        textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
                     }
                     textAreaMessage.setCaretPosition(1);
 
-
+                    textAreaExecutionReport.append("Rule 1: Message yang ada pada Diagram Sekuens harus merupakan operasi yang ada di salah satu kelas pada Diagram Kelas\n");
                     if (!Suspect.unknownMessageList.isEmpty()) {
+                        isConsistent = false;
                         CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
-                        textAreaExecutionReport.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
+                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 1 TIDAK TERPENUHI\nTerdapat " + Suspect.unknownMessageList.size() + " message yang bukan merupakan operasi di kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getArgument() + " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
 
                         }
-                        textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
+                    else {
+                        textAreaExecutionReport.append("RULE 1 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    textAreaExecutionReport.append("\nRule 2: Message yang ada pada Diagram Sekuens harus memiliki relasi / berasosiasi dengan operasi yang ada pada kelas di Diagram Kelas\n");
                     if (!Suspect.assocWarningList.isEmpty()) {
-                        textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
+                        isConsistent = false;
+                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 2 TIDAK TERPENUHI\nTerdapat " + Suspect.assocWarningList.size() + " message pada Diagram Sekuens yang tidak mempunyai relasi / tidak berasosiasi dengan operasi yang ada di kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
-                            textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.assocWarningList.get(i).getCounter() + ": " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + " tidak mempunyai asosiasi dengan operasi yang ada di kelas\n");
+                            textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.assocWarningList.get(i).getCounter() + ": " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + " tidak mempunyai relasi dengan operasi yang ada di kelas\n");
                         }
-                        textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-//                        textAreaExecutionReport.setCaretPosition(1);
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
+                    else {
+                        textAreaExecutionReport.append("RULE 2 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    textAreaExecutionReport.append("\nRule 3: Lifeline yang ada pada Diagram Sekuens harus merupakan salah satu kelas yang ada pada Diagram Kelas\n");
                     if (!Suspect.lifelineLists.isEmpty()) {
-                        textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat Lifeline yang tidak konsisten, yaitu\n");
+                        isConsistent = false;
+                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 3 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineLists.size() + " Lifeline yang bukan merupakan kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.lifelineLists.size(); i++) {
-                            textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineLists.get(i) + " tidak ada di daftar kelas\n");
+                            textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineLists.get(i) + " bukan merupakan kelas\n");
                         }
-                        textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-//                        textAreaExecutionReport.setCaretPosition(1);
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
+                    else {
+                        textAreaExecutionReport.append("RULE 3 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    textAreaExecutionReport.append("\nRule 4: Lifeline yang ada pada Diagram Sekuens harus memiliki relasi / berasosisasi dengan salah satu kelas yang ada pada Diagram Kelas\n");
+                    if (!Suspect.lifelineAssocLists.isEmpty()) {
+                        isConsistent = false;
+                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 4 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineAssocLists.size() + " Lifeline yang tidak berelasi / berasosiasi dengan salah satu kelas pada Diagram Kelas, yaitu:\n");
+                        for (int i = 0; i < Suspect.lifelineAssocLists.size(); i++) {
+                            textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineAssocLists.get(i) + " tidak memiliki relasi\n");
+                        }
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    else {
+                        textAreaExecutionReport.append("RULE 4 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    textAreaExecutionReport.append("\nRule 5: Message yang dikirimkan antara dua lifeline, harus merupakan operasi yang ada pada kelas Lifeline penerima\n");
                     if (!Suspect.classAssocWarningList.isEmpty()) {
-                        textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat message yang tidak konsisten, yaitu\n");
+                        isConsistent = false;
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 5 TIDAK TERPENUHI\nTerdapat " + Suspect.classAssocWarningList.size() + " message yang bukan merupakan operasi dari kelas Lifeline penerima, yaitu:\n");
                         for (int i = 0; i < Suspect.classAssocWarningList.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". " + "Message " + Suspect.classAssocWarningList.get(i).getName() + " " + Suspect.classAssocWarningList.get(i).getArgument() + " tidak terdaftar sebagai operasi pada kelas " + Suspect.classAssocWarningList.get(i).getClassAssoc() + "\n");
                         }
-                        textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-                    } else if (Suspect.unknownMessageList.isEmpty()) {
-                        textAreaExecutionReport.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    else {
+                        textAreaExecutionReport.append("RULE 4 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    if (isConsistent) {
+                        textAreaExecutionReport.setCaretPosition(1);
+                        textAreaExecutionReport.append("MANTAP!! Diagram Sekuens dan Diagram Kelas konsisten\nSELAMAT!!\n");
                     }
                     textAreaExecutionReport.setCaretPosition(1);
                 }
@@ -568,23 +606,24 @@ public abstract class Main implements ActionListener {
         XPathHandler.main(inputFile);
 
 
-        Fragment.printFragmentList();
-        SequenceOwnedAttribute.printAttributeList();
-        ClassOwnedAttribute.printAttributeList();
-        ClassOwnedOperation.printOperationList();
+//        Fragment.printFragmentList();
+//        SequenceOwnedAttribute.printAttributeList();
+//        ClassOwnedAttribute.printAttributeList();
+//        ClassOwnedOperation.printOperationList();
         CoreProcess.checkingNoise();
         CoreProcess.checkSignature();
         CoreProcess.checkMessageAssociationDirection();
-        CoreProcess.checkingRepresent();
+        CoreProcess.checkingLifelineRepresent();
         CoreProcess.makeMessageTriplet();
-        Lifeline.printLifelineList();
-        Message.printMessageList();
-        ClassName.printClassName();
+//        Lifeline.printLifelineList();
+//        Message.printMessageList();
+//        ClassName.printClassName();
 
 //        System.out.println(ClassName.classNameArrayList.size());
-        System.out.println(Suspect.unknownMessageList.size());
-        System.out.println(Suspect.classAssocWarningList.size());
+//        System.out.println(Suspect.unknownMessageList.size());
+//        System.out.println(Suspect.classAssocWarningList.size());
 //        System.out.println(Suspect.lifelineLists.toString());
+//        System.out.println(Suspect.lifelineAssocLists.toString());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
     }

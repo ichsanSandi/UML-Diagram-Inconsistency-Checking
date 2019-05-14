@@ -17,7 +17,7 @@ class Suspect {
     /**List message yang tidak ada di operasi kelas*/
     static ArrayList<Suspect> unknownMessageList = new ArrayList<>();
 
-    /**List untuk message yang tidak ada asosisasi dengan di operasi kelas*/
+    /**List untuk message yang tidak ada relasi dengan operasi di kelas*/
     static ArrayList<Suspect> assocWarningList = new ArrayList<>();
 
     /**List untuk message yang tidak ada di operasi kelas penerima*/
@@ -25,6 +25,9 @@ class Suspect {
 
     /**List untuk lifeline yang tidak ada di kelas*/
     static ArrayList<String> lifelineLists = new ArrayList<>();
+
+    /**List untuk lifeline yang tidak memiliki relasi dengan kelas*/
+    static ArrayList<String> lifelineAssocLists = new ArrayList<>();
     
     void setName(String name) {
         this.name = name;
