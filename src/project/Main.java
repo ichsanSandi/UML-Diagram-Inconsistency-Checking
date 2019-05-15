@@ -624,6 +624,7 @@ public abstract class Main implements ActionListener {
 //        System.out.println(Suspect.classAssocWarningList.size());
 //        System.out.println(Suspect.lifelineLists.toString());
 //        System.out.println(Suspect.lifelineAssocLists.toString());
+//        System.out.println(Lifeline.lifelineList.size());
 
 //            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
     }

@@ -90,19 +90,21 @@ class XPathHandler {
                     }
                     case "ownedAttribute": {
                         Element element = (Element) nNode;
+                        Element parentElement = (Element) nNode.getParentNode();
                         if (Lifeline.checkIdOwnedAttribute(element.getAttribute("xmi:id"))) {
                             SequenceOwnedAttribute attribute = new SequenceOwnedAttribute();
                             attribute.setId(element.getAttribute("xmi:id"));
                             attribute.setName(element.getAttribute("name"));
                             attribute.setType(element.getAttribute("type"));
                             attribute.addAttributeList(attribute);
-                        } else {
+                        } else if (parentElement.getAttribute("xmi:type").equals("uml:Class")) {
                             ClassOwnedAttribute attribute = new ClassOwnedAttribute();
                             attribute.setId(element.getAttribute("xmi:id"));
                             attribute.setName(element.getAttribute("name"));
                             attribute.setType(element.getAttribute("type"));
                             attribute.addAttributeList(attribute);
                         }
+
                         break;
                     }
                     case "ownedOperation": {
