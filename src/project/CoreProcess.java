@@ -38,7 +38,7 @@ class CoreProcess {
      * mengecek signature pada message dengan id yang ada pada operasi kelas
      * untuk menyesuaikan nama dan argument message
      */
-    static void checkSignature() {
+    void checkSignature() {
         for (int i = 0; i < Message.messageList.size(); i++) {
             for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++) {
                 if (Message.messageList.get(i).getSignature().equals(ClassOwnedOperation.operationList.get(j).getId())) {
@@ -76,7 +76,7 @@ class CoreProcess {
      * sequence dan pada atribute dengan id tersebut mempunyai element Type. Jika tidak ada tipe
      * maka tidak memiliki asosiasi dengan kelas
      */
-    static void checkingLifelineRepresent() {
+    void checkingLifelineRepresent() {
         for (int i = 0; i < Lifeline.lifelineList.size(); i++) {
             for (int j = 0; j < SequenceOwnedAttribute.attributeList.size(); j++) {
                 if (Lifeline.lifelineList.get(i).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(j).getId())) {
@@ -131,7 +131,7 @@ class CoreProcess {
     /**
      * Memperbarui receiveEvent Message dan sendEvent Message
      */
-    static void makeMessageTriplet(){
+    void makeMessageTriplet(){
         for (int i = 0; i < Message.messageList.size(); i++){
             for (int j = 0; j < Fragment.fragmentList.size();j++){
                 if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
@@ -163,7 +163,7 @@ class CoreProcess {
      * role dari lifeline, biasanya jika menghapus lifeline tanpa menghapus role
      * "role" ini akan muncul
      */
-    static void checkingNoise() {
+    void checkingNoise() {
         for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
             for (int j = 0; j < Lifeline.lifelineList.size(); j++) {
                 if (ClassOwnedAttribute.attributeList.get(i).getId().equals(Lifeline.lifelineList.get(j).getRepresent())) {
@@ -182,7 +182,7 @@ class CoreProcess {
      * @param argument adalah argument message
      * @param classAssoc adalah class yang operasinya diwakili oleh message
      */
-    private static void addSuspectLifelineReceiver(String name, String argument, String classAssoc){
+    void addSuspectLifelineReceiver(String name, String argument, String classAssoc){
         Suspect suspect = new Suspect();
         suspect.setName(name);
         suspect.setArgument(argument);
@@ -225,7 +225,7 @@ class CoreProcess {
      * SequenceAttribute.type = ClassName.id -> get ClassName.name
      * Jika ClassName.name = OwnedOperation.associatedClass maka konsisten, jika sebaliknya maka inkonsisten
      */
-    static void checkMessageAssociationDirection() {
+    void checkMessageAssociationDirection() {
         for (int i = 0; i < Message.messageList.size(); i++) {
             for (int j = 0; j < Fragment.fragmentList.size(); j++) {
                 if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())) {
@@ -282,5 +282,39 @@ class CoreProcess {
                 }
             }
         }
+    }
+
+    /** method argoUMLMessage
+     * digunakan untuk membentuk struktur message yang semirip mungkin
+     * dengan struktur yang didapat dari StarUML.
+     */
+    void argoUMLMessage(){
+        for (int i = 0; i < Message.messageList.size(); i++){
+            for (int j = 0; j < SendAction.sendActionArrayList.size(); j++){
+                if (Message.messageList.get(i).getOperationName().equals(SendAction.sendActionArrayList.get(j).getId())){
+                    Message.messageList.get(i).setOperationName(SendAction.sendActionArrayList.get(j).getName());
+                }
+            }
+        }
+
+    }
+
+    /** method checkReply untuk mengecek reply yang ada
+     * apakah ada triggernya atau tidak
+     */
+    void checkReply() {
+        Message suspect, message;
+        for (int i = 0; i < Suspect.replySuspectList.size(); i++){
+            suspect = Suspect.replySuspectList.get(i);
+            System.out.println(suspect.getCounter() + "+" + suspect.getParent());
+            for (int j = 0; j < suspect.getCounter() + 1; j++){
+                message = Message.messageList.get(j);
+                if (suspect.getParent().equals(message.getParent()) && suspect.getReceiveEvent().equals(message.getSendEvent()) && suspect.getSendEvent().equals(message.getReceiveEvent())){
+                    Suspect.replySuspectList.remove(suspect);
+                    i--;
+                }
+            }
+        }
+
     }
 }

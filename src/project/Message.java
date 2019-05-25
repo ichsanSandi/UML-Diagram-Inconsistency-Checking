@@ -10,6 +10,7 @@ class Message {
     private String sendEvent;
     private String operationName;
     private String argument;
+    private String parent;
     private int Counter;
     static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Message> messageList = new ArrayList<>();
@@ -43,8 +44,12 @@ class Message {
         argumentList.clear();
     }
 
-    public void setCounter(int counter) {
+    void setCounter(int counter) {
         Counter = counter;
+    }
+
+    void setParent(String parent) {
+        this.parent = parent;
     }
 
     String getId(){
@@ -79,6 +84,10 @@ class Message {
         return Counter;
     }
 
+    String getParent() {
+        return parent;
+    }
+
     void addMessageList(Message message){
         messageList.add(message);
     }
@@ -98,6 +107,7 @@ class Message {
             System.out.println("receiveEvent" + (messageCounter + 1) + ": " + message.getReceiveEvent());
             System.out.println("sendEvent" + (messageCounter + 1) + ": " + message.getSendEvent());
             System.out.println("operationName" + (messageCounter + 1) + ": " + message.getOperationName());
+            System.out.println("Parent" + (messageCounter + 1) + ": " + message.getParent());
         }
     }
 

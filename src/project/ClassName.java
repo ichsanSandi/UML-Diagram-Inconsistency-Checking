@@ -7,7 +7,6 @@ public class ClassName {
     private String name;
     private String type;
     static ArrayList<ClassName> classNameArrayList = new ArrayList<>();
-    private static ClassName classes = new ClassName();
 
     public void setId(String id) {
         this.id = id;
@@ -38,6 +37,7 @@ public class ClassName {
     }
 
     public static void printClassName(){
+        ClassName classes = new ClassName();
         System.out.println("\nClassName");
         for (int classCounter = 0; classCounter < classNameArrayList.size(); classCounter++){
             classes = classNameArrayList.get(classCounter);

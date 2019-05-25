@@ -1,5 +1,7 @@
 package project;
 
+import com.sun.deploy.panel.AbstractRadioPropertyGroup;
+
 import java.util.ArrayList;
 /*
  *
@@ -10,6 +12,7 @@ class Suspect {
     private String classAssoc;
     private String receiveEvent;
     private String sendEvent;
+    private String parent;
     private int Counter;
     /**List untuk nambahin argumen message saja*/
     static ArrayList<String> argumentList = new ArrayList<>();
@@ -28,6 +31,9 @@ class Suspect {
 
     /**List untuk lifeline yang tidak memiliki relasi dengan kelas*/
     static ArrayList<String> lifelineAssocLists = new ArrayList<>();
+
+    /**List untuk pengecekan message reply*/
+    static ArrayList<Message> replySuspectList = new ArrayList<>();
     
     void setName(String name) {
         this.name = name;
@@ -54,6 +60,10 @@ class Suspect {
         Counter = counter;
     }
 
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
     String getName(){
         return this.name;
     }
@@ -72,6 +82,10 @@ class Suspect {
 
     String getSendEvent() {
         return sendEvent;
+    }
+
+    public String getParent() {
+        return parent;
     }
 
     int getCounter() {

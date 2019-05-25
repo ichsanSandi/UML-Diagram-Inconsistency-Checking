@@ -27,18 +27,24 @@ class XPathHandler {
                     "//message | " +
                     "//fragment | " +
                     "//ownedAttribute | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement";
+                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement |" + "//Namespace.ownedElement/Class|" + "//Interaction.message/Message|" + "//Classifier.feature/Operation| //Namespace.ownedElement/ClassifierRole | /XMI/XMI.content/Model/Namespace.ownedElement/Collaboration/Namespace.ownedElement/SendAction";
+//            String expression = "//Namespace.ownedElement/ClassifierRole";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
                     doc, XPathConstants.NODESET);
 
             int messageCounter = 0;
+            System.out.println(nodeList.getLength());
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node nNode = nodeList.item(i);
+
+//                System.out.println(nNode.getNodeName());
+//                System.out.println(nNode.getAttributes().getNamedItem("xmi.id").toString());
                 switch (nNode.getNodeName()) {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
+                        Element element1 = (Element) element.getParentNode();
 //                        if (element.getAttribute("messageSort").equals("reply")){
 //                            continue;
 //                        }
@@ -46,14 +52,16 @@ class XPathHandler {
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
                         message.setSendEvent(element.getAttribute("sendEvent"));
+                        message.setParent(element1.getAttribute("xmi:id"));
                         message.setCounter(++messageCounter);
-                        if (element.getAttribute("signature").isEmpty()){
+                        if (element.getAttribute("signature").isEmpty() && !element.getAttribute("messageSort").equals("reply")){
                             Suspect suspect = new Suspect();
                             Element element2 = (Element) nNode;
                             message.setSignature("no signature");
                             suspect.setName(message.getName());
                             suspect.setReceiveEvent(element.getAttribute("receiveEvent"));
                             suspect.setSendEvent(element.getAttribute("sendEvent"));
+                            suspect.setParent(element1.getAttribute("xmi:id"));
                             suspect.setCounter(messageCounter);
                             for (int o = 0; o < nNode.getChildNodes().getLength(); o++) {
                                 if (element2.getChildNodes().item(o).getNodeName().equals("argument")) {
@@ -66,6 +74,9 @@ class XPathHandler {
                             Suspect.unknownMessageList.add(suspect);
                         } else {
                             message.setSignature(element.getAttribute("signature"));
+                        }
+                        if (element.getAttribute("messageSort").equals("reply")){
+                            Suspect.replySuspectList.add(message);
                         }
                         message.setArgument(Message.argumentList.toString().replace("[","(").replace("]", ")"));
                         message.addMessageList(message);
@@ -104,7 +115,6 @@ class XPathHandler {
                             attribute.setType(element.getAttribute("type"));
                             attribute.addAttributeList(attribute);
                         }
-
                         break;
                     }
                     case "ownedOperation": {
@@ -140,6 +150,51 @@ class XPathHandler {
                             classNameMember.setType(element.getAttribute("xmi:type"));
                             classNameMember.addClassList(classNameMember);
                         }
+                        break;
+                    }
+                    case "UML:Message" :{
+                        Message message = new Message();
+                        Element element = (Element) nNode;
+                        Element element1 = (Element) element.getChildNodes();
+                        Element element2 = (Element) element1.getElementsByTagName("UML:SendAction").item(0);
+                        Element element3 = (Element) element1.getElementsByTagName("UML:ClassifierRole").item(0);
+                        Element element4 = (Element) element1.getElementsByTagName("UML:ClassifierRole").item(1);
+                        message.setId(element.getAttribute("xmi.id"));
+                        message.setSendEvent(element3.getAttribute("xmi.idref"));
+                        message.setReceiveEvent(element4.getAttribute("xmi.idref"));
+                        if (element.getAttribute("name").isEmpty()){
+                            message.setOperationName(element2.getAttribute("xmi.idref"));
+                        }
+                        else {
+                            message.setOperationName(element.getAttribute("name"));
+                        }
+                        message.setCounter(++messageCounter);
+                        message.addMessageList(message);
+                        break;
+                    }
+                    case "UML:SendAction" :{
+                        SendAction sendAction = new SendAction();
+                        Element element = (Element) nNode;
+                        Element element2 = (Element) element.getElementsByTagName("UML:ActionExpression").item(0);
+                        sendAction.setId(element.getAttribute("xmi.id"));
+                        sendAction.setName(element2.getAttribute("body"));
+                        sendAction.addSendAction(sendAction);
+                        break;
+                    }
+                    case "UML:ClassifierRole" :{
+                        Lifeline lifeline = new Lifeline();
+                        Element element = (Element) nNode;
+                        lifeline.setId(element.getAttribute("xmi.id"));
+                        lifeline.setName("name");
+                        lifeline.addLifelineList(lifeline);
+                        break;
+                    }
+                    case "UML:Class" :{
+                        ClassName className = new ClassName();
+                        Element element = (Element) nNode;
+                        className.setId(element.getAttribute("xmi.id"));
+                        className.setName(element.getAttribute("name"));
+                        className.addClassList(className);
                         break;
                     }
                 }
