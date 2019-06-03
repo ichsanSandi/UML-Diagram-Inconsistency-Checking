@@ -7,7 +7,6 @@ public class Lifeline {
     private String name;
     private String represent;
     static ArrayList<Lifeline> lifelineList = new ArrayList<>();
-    private static Lifeline lifeline = new Lifeline();
 
     void setId(String id){
         this.id = id;
@@ -39,6 +38,7 @@ public class Lifeline {
 
     public static void printLifelineList(){
         System.out.println("\nLIFELINE");
+        Lifeline lifeline;
         for (int lifelineCounter = 0; lifelineCounter < lifelineList.size(); lifelineCounter++){
             lifeline = lifelineList.get(lifelineCounter);
             System.out.println("id" + (lifelineCounter + 1) + ": " + lifeline.getId());
@@ -47,8 +47,8 @@ public class Lifeline {
         }
     }
 
-
     static boolean checkIdOwnedAttribute(String ownedAttribute){
+        Lifeline lifeline;
         for (int lifelineCounter = 0; lifelineCounter < lifelineList.size(); lifelineCounter++){
             lifeline = lifelineList.get(lifelineCounter);
             if (ownedAttribute.equals(lifeline.getRepresent())){

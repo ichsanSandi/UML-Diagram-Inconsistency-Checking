@@ -33,7 +33,6 @@ class XPathHandler {
                     doc, XPathConstants.NODESET);
 
             int messageCounter = 0;
-            System.out.println(nodeList.getLength());
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node nNode = nodeList.item(i);
@@ -71,7 +70,7 @@ class XPathHandler {
                                 }
                             }
                             suspect.setArgument(Suspect.argumentList.toString().replace("[","(").replace("]", ")"));
-                            Suspect.unknownMessageList.add(suspect);
+                            Suspect.addUnknownMessageList(suspect);
                         } else {
                             message.setSignature(element.getAttribute("signature"));
                         }
@@ -150,51 +149,6 @@ class XPathHandler {
                             classNameMember.setType(element.getAttribute("xmi:type"));
                             classNameMember.addClassList(classNameMember);
                         }
-                        break;
-                    }
-                    case "UML:Message" :{
-                        Message message = new Message();
-                        Element element = (Element) nNode;
-                        Element element1 = (Element) element.getChildNodes();
-                        Element element2 = (Element) element1.getElementsByTagName("UML:SendAction").item(0);
-                        Element element3 = (Element) element1.getElementsByTagName("UML:ClassifierRole").item(0);
-                        Element element4 = (Element) element1.getElementsByTagName("UML:ClassifierRole").item(1);
-                        message.setId(element.getAttribute("xmi.id"));
-                        message.setSendEvent(element3.getAttribute("xmi.idref"));
-                        message.setReceiveEvent(element4.getAttribute("xmi.idref"));
-                        if (element.getAttribute("name").isEmpty()){
-                            message.setOperationName(element2.getAttribute("xmi.idref"));
-                        }
-                        else {
-                            message.setOperationName(element.getAttribute("name"));
-                        }
-                        message.setCounter(++messageCounter);
-                        message.addMessageList(message);
-                        break;
-                    }
-                    case "UML:SendAction" :{
-                        SendAction sendAction = new SendAction();
-                        Element element = (Element) nNode;
-                        Element element2 = (Element) element.getElementsByTagName("UML:ActionExpression").item(0);
-                        sendAction.setId(element.getAttribute("xmi.id"));
-                        sendAction.setName(element2.getAttribute("body"));
-                        sendAction.addSendAction(sendAction);
-                        break;
-                    }
-                    case "UML:ClassifierRole" :{
-                        Lifeline lifeline = new Lifeline();
-                        Element element = (Element) nNode;
-                        lifeline.setId(element.getAttribute("xmi.id"));
-                        lifeline.setName("name");
-                        lifeline.addLifelineList(lifeline);
-                        break;
-                    }
-                    case "UML:Class" :{
-                        ClassName className = new ClassName();
-                        Element element = (Element) nNode;
-                        className.setId(element.getAttribute("xmi.id"));
-                        className.setName(element.getAttribute("name"));
-                        className.addClassList(className);
                         break;
                     }
                 }

@@ -7,7 +7,6 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
 
 public abstract class Main implements ActionListener {
     public static void main(String[] args) {
@@ -21,7 +20,7 @@ public abstract class Main implements ActionListener {
 
         /*Inisiasi window frame utama*/
         JFrame jFrame1 = new JFrame();
-        jFrame1.setTitle("UML Diagram Consistency Checking");
+        jFrame1.setTitle("Deteksi Inkonsistensi Diagram Kelas dan Diagram Sekuens");
         jFrame1.setSize(1000, 700);
         jFrame1.setLayout(new BorderLayout());
         jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -270,8 +269,8 @@ public abstract class Main implements ActionListener {
                         isConsistent = false;
                         CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
                         textAreaExecutionReport.append("\nPERINGATAN!1! RULE 1 TIDAK TERPENUHI\nTerdapat " + Suspect.unknownMessageList.size() + " message yang bukan merupakan operasi di kelas pada Diagram Kelas, yaitu:\n");
-                        for (int i = 0; i < Suspect.replySuspectList.size(); i++) {
-                            textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.replySuspectList.get(i).getCounter() + ": " + Suspect.replySuspectList.get(i).getSendEvent() + " -> " + Suspect.replySuspectList.get(i).getName()+ Suspect.replySuspectList.get(i).getArgument() + " -> " + Suspect.replySuspectList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
+                        for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
+                            textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getArgument() + " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
                         }
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
@@ -337,112 +336,8 @@ public abstract class Main implements ActionListener {
                     }
                     textAreaExecutionReport.setCaretPosition(1);
                 }
-                /*
-                menampilkan hasil dari daftar operasi, atribut, dan nama kelas,
-                dan daftar message pada masing-masing textarea
-                 */
-                /*for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
-                    textAreaOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getAssociatedClass() + " -> " + ClassOwnedOperation.operationList.get(i).getName() + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");*/
-//                }
-                /*for (int i = 0; i < ClassOwnedAttribute.attributeList.size(); i++) {
-                    textAreaAttribute.append(i + 1 + ". " + ClassOwnedAttribute.attributeList.get(i).getName() + "\n");
-                }*/
-                /*for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
-                    textAreaClassName.append(i + 1 + ". " + ClassName.classNameArrayList.get(i).getName() + "\n");
-                }*/
             }
         });
-
-        /*JButton buttonExecute = new JButton("Run");
-        buttonExecute.addActionListener(e -> {
-            *//*
-            kode untuk pindah ke halaman eksekusi/halaman kedua
-            dan mengisi textarea yang ada dengan daftar message, operasi kelas,
-            kelas yang tidak ada pada daftar operasi, dan log
-             *//*
-            if (inputFile[0] != null) {
-                textAreaMessage.setText("");
-                textAreaOperation.setText("");
-                textAreaExecutionReport.setText("");
-                labelProcessMessage.setText("Klik tombol reset jika ingin memulai kembali");
-                textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n\n(LifelineSender -> Message -> LifelineReceiver)\n\n");
-                textAreaOperation.append("Berikut ini daftar OPERATION yang ada pada DIAGRAM KELAS:\n");
-//                jFrame1.getContentPane().removeAll();
-//                jFrame1.getContentPane().repaint();
-//                jFrame1.getContentPane().add(containerPage2);
-//                jFrame1.revalidate();
-
-//                for (int i = 0; i < ClassName.classNameArrayList.size(); i++) {
-//                    textAreaOperation.append("\n" + ClassName.classNameArrayList.get(i).getName() + ":\n");
-//                    int counter = 1;
-//                    for (int j = 0; j < ClassOwnedOperation.operationList.size(); j++) {
-//                        if (ClassOwnedOperation.operationList.get(j).getAssociatedClass().equalsIgnoreCase(ClassName.classNameArrayList.get(i).getName())) {
-//                            textAreaOperation.append(counter + ". " + ClassOwnedOperation.operationList.get(j).getName() + ClassOwnedOperation.operationList.get(j).getParameter() + "\n");
-//                            counter++;
-//                        }
-//                    }
-//                }
-//                textAreaOperation.setCaretPosition(1);
-//                for (int i = 0; i < Message.messageList.size(); i++) {
-//                    textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getCounter() + ": " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
-//                }
-                textAreaMessage.setCaretPosition(1);
-                for (int i = 0; i < Message.messageList.size(); i++) {
-//                    textAreaExecutionMessage.append(i + 1 + ". " + Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + "\n");
-                }
-//                textAreaExecutionMessage.setCaretPosition(1);
-                for (int i = 0; i < ClassOwnedOperation.operationList.size(); i++) {
-//                    textAreaExecutionOperation.append(i + 1 + ". " + ClassOwnedOperation.operationList.get(i).getName() + " " + ClassOwnedOperation.operationList.get(i).getParameter() + "\n");
-                }
-//                textAreaExecutionOperation.setCaretPosition(1);
-//                if (!Suspect.unknownMessageList.isEmpty()) {
-//
-//                    for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
-////                        textAreaExecutionSuspect.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName() + Suspect.unknownMessageList.get(i).getArgument()+ " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + "\n");
-//                    }
-////                    textAreaExecutionSuspect.setCaretPosition(1);
-//                }
-//                if (!Suspect.unknownMessageList.isEmpty()) {
-//                    CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
-//                    textAreaExecutionReport.append("Terdapat " + Suspect.unknownMessageList.size() + " message yang tidak konsisten / tidak ada di daftar fungsi di kelas, yaitu\n");
-//                    for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
-//                        textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getArgument() + " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
-//
-//                    }
-//                    textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-//                }
-//                if (!Suspect.assocWarningList.isEmpty()) {
-//                    textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat message pada diagram sekuens yang tidak terasosiasi dengan diagram kelas, yaitu\n");
-//                    for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
-//                        textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.assocWarningList.get(i).getCounter() + ": " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + " tidak mempunyai asosiasi dengan operasi yang ada di kelas\n");
-//                    }
-//                    textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-////                        textAreaExecutionReport.setCaretPosition(1);
-//                }
-//                if (!Suspect.lifelineLists.isEmpty()) {
-//                    textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat Lifeline yang tidak konsisten, yaitu\n");
-//                    for (int i = 0; i < Suspect.lifelineLists.size(); i++) {
-//                        textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineLists.get(i) + " tidak ada di daftar kelas\n");
-//                    }
-//                    textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-////                        textAreaExecutionReport.setCaretPosition(1);
-//                }
-//                if (!Suspect.classAssocWarningList.isEmpty()) {
-//                    textAreaExecutionReport.append("WARNING!!!\n" + "Terdapat message yang tidak konsisten, yaitu\n");
-//                    for (int i = 0; i < Suspect.classAssocWarningList.size(); i++) {
-//                        textAreaExecutionReport.append(i + 1 + ". " + "Message " + Suspect.classAssocWarningList.get(i).getName() + " " + Suspect.classAssocWarningList.get(i).getArgument() + " tidak terdaftar sebagai operasi pada kelas " + Suspect.classAssocWarningList.get(i).getClassAssoc() + "\n");
-//                    }
-//                    textAreaExecutionReport.append("-----------------------------------------------------------------------------------------------------------------------------------------\n");
-//                } else if (Suspect.unknownMessageList.isEmpty()) {
-//                    textAreaExecutionReport.append("MANTAP!! Tidak ada message yang tidak konsisten\nSELAMAT!!");
-//                }
-//                textAreaExecutionReport.setCaretPosition(1);
-            } else {
-//                    System.out.println("bala bala");
-                labelProcessMessage.setText("File not found");
-                labelProcessMessage.setVisible(true);
-            }
-        });*/
 
         JButton buttonReset = new JButton("Reset");
         /*
@@ -462,13 +357,9 @@ public abstract class Main implements ActionListener {
             Suspect.lifelineLists.clear();
             Suspect.classAssocWarningList.clear();
             Suspect.replySuspectList.clear();
+            Suspect.lifelineAssocLists.clear();
             textAreaOperation.setText("");
-//            textAreaAttribute.setText("");
-//            textAreaClassName.setText("");
             textAreaMessage.setText("");
-//            textAreaExecutionMessage.setText("");
-//            textAreaExecutionOperation.setText("");
-//            textAreaExecutionSuspect.setText("");
             textFieldFilename.setText("");
             labelProcessMessage.setText("Silakan pilih file XMI dengan mengklik tombol Open");
             textAreaExecutionReport.setText("");
@@ -509,21 +400,6 @@ public abstract class Main implements ActionListener {
          */
         panelProcessMessage.add(labelProcessMessage);
 
-        /*
-        panel meletakkan tombol execute dan clear
-         */
-//            panelFunctionButton.add(buttonRun);
-//        panelFunctionButton.add(buttonExecute);
-
-            /*panelTableList.add(new JScrollPane(panelOperation), "Center");
-            panelTableList.add(new JScrollPane(panelAttribute), "Center");
-            panelTableList.add(new JScrollPane(panelClassName), "Center");
-            panelTableList.add(new JScrollPane(panelMessage), "Center");
-            panelTableList.add(new JScrollPane(panelTextArea5), "Center");*/
-
-            /*
-            menyusun susunan textarea pada halaman awal dan meletakkannya pada panelTableList
-             */
         JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelOperation, panelMessage);
 //        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelClassName, panelMessage);
 //        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
@@ -596,10 +472,7 @@ public abstract class Main implements ActionListener {
         coreProcess.checkReply();
 //        Lifeline.printLifelineList();
 //        ClassName.printClassName();
-//        SendAction.printSendActionList();
-        if (!SendAction.sendActionArrayList.isEmpty()){
-            coreProcess.argoUMLMessage();
-        }
+
 //        Message.printMessageList();
         System.out.println(Suspect.replySuspectList.size());
 

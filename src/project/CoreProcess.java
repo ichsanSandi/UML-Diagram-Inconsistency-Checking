@@ -182,7 +182,7 @@ class CoreProcess {
      * @param argument adalah argument message
      * @param classAssoc adalah class yang operasinya diwakili oleh message
      */
-    void addSuspectLifelineReceiver(String name, String argument, String classAssoc){
+    private void addSuspectLifelineReceiver(String name, String argument, String classAssoc){
         Suspect suspect = new Suspect();
         suspect.setName(name);
         suspect.setArgument(argument);
@@ -282,21 +282,6 @@ class CoreProcess {
                 }
             }
         }
-    }
-
-    /** method argoUMLMessage
-     * digunakan untuk membentuk struktur message yang semirip mungkin
-     * dengan struktur yang didapat dari StarUML.
-     */
-    void argoUMLMessage(){
-        for (int i = 0; i < Message.messageList.size(); i++){
-            for (int j = 0; j < SendAction.sendActionArrayList.size(); j++){
-                if (Message.messageList.get(i).getOperationName().equals(SendAction.sendActionArrayList.get(j).getId())){
-                    Message.messageList.get(i).setOperationName(SendAction.sendActionArrayList.get(j).getName());
-                }
-            }
-        }
-
     }
 
     /** method checkReply untuk mengecek reply yang ada

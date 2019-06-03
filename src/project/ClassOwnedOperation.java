@@ -47,8 +47,8 @@ class ClassOwnedOperation {
         return associatedClass;
     }
 
-    void addOperationList(ClassOwnedOperation attribute){
-        operationList.add(attribute);
+    void addOperationList(ClassOwnedOperation operation){
+        operationList.add(operation);
     }
 
     static void printOperationList(){
