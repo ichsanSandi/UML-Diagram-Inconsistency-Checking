@@ -85,7 +85,6 @@ class CoreProcess {
                         for (int k = 0; k < ClassName.classNameArrayList.size(); k++){
                             if (Lifeline.lifelineList.get(i).getName().equalsIgnoreCase(ClassName.classNameArrayList.get(k).getName())){
                                 Suspect.lifelineAssocLists.add(Suspect.lifelineLists.remove(Suspect.lifelineLists.size()-1));
-//                                Suspect.lifelineAssocLists.add(Lifeline.lifelineList.get(i).getName());
                                 break;
                             }
                         }
@@ -244,8 +243,6 @@ class CoreProcess {
                                                 }
                                             }
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
-                                                /*Gak bisa pake type,
-                                                nanti yang lifeline bener gak kedetect*/
                                                 addSuspectLifelineReceiver(ClassOwnedOperation.operationList.get(l).getName(), ClassOwnedOperation.operationList.get(l).getParameter(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
@@ -254,8 +251,6 @@ class CoreProcess {
                                 } else if (Message.messageList.get(i).getSignature().equals("no signature")) {
                                     if (Message.messageList.get(i).getName().equals(ClassOwnedOperation.operationList.get(l).getName()) && !Lifeline.lifelineList.get(k).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
                                         for (int m = 0; m < SequenceOwnedAttribute.attributeList.size(); m++) {
-                                            /*tambahin else if
-                                             * kalo misal lifelinenya bener*/
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && !SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
                                                 for (int o = 0; o < ClassName.classNameArrayList.size(); o++) {
                                                     if (SequenceOwnedAttribute.attributeList.get(m).getType().equals(ClassName.classNameArrayList.get(o).getId()) && !ClassName.classNameArrayList.get(o).getName().equalsIgnoreCase(ClassOwnedOperation.operationList.get(l).getAssociatedClass())) {
@@ -265,8 +260,6 @@ class CoreProcess {
                                                 }
                                             }
                                             if (Lifeline.lifelineList.get(k).getRepresent().equals(SequenceOwnedAttribute.attributeList.get(m).getId()) && SequenceOwnedAttribute.attributeList.get(m).getType().isEmpty()) {
-                                                /*Gak bisa pake type,
-                                                nanti yang lifeline bener gak kedetect*/
                                                 addSuspectLifelineReceiver(Message.messageList.get(i).getName(),Message.messageList.get(i).getArgument(), Lifeline.lifelineList.get(k).getName());
                                                 break;
                                             }
@@ -289,17 +282,18 @@ class CoreProcess {
      */
     void checkReply() {
         Message suspect, message;
+        int flag = 0;
         for (int i = 0; i < Suspect.replySuspectList.size(); i++){
             suspect = Suspect.replySuspectList.get(i);
             System.out.println(suspect.getCounter() + "+" + suspect.getParent());
-            for (int j = 0; j < suspect.getCounter() + 1; j++){
+            for (int j = 0; j < suspect.getCounter(); j++){
                 message = Message.messageList.get(j);
                 if (suspect.getParent().equals(message.getParent()) && suspect.getReceiveEvent().equals(message.getSendEvent()) && suspect.getSendEvent().equals(message.getReceiveEvent())){
                     Suspect.replySuspectList.remove(suspect);
                     i--;
+                    break;
                 }
             }
         }
-
     }
 }

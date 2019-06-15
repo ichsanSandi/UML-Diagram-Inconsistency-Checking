@@ -188,7 +188,8 @@ public abstract class Main implements ActionListener {
                         "Inkonsistensi 4\n" +
                         "Diagram dikatakan tidak konsisten jika lifeline tidak memiliki kelas yang terasosisasi.\n" +
                         "Inkonsistensi 5\n" +
-                        "Diagram dikatakan tidak konsisten jika message yang dikirimkan bukan merupakan operasi dari kelas lifeline penerima."
+                        "Diagram dikatakan tidak konsisten jika message yang dikirimkan bukan merupakan operasi dari kelas lifeline penerima.\n" + "Inkonsistensi 6\n" +
+                        "Diagram dikatakan tidak konsisten jika terdapat reply message yang muncul tanpa ada message yang memicunya"
         );
         JPanel rulesPanel = new JPanel();
         rulesPanel.setLayout(new BorderLayout());
@@ -235,12 +236,9 @@ public abstract class Main implements ActionListener {
                 }
                 if (inputFile[0] != null) {
                     labelProcessMessage.setText("Proses pembacaan file XMI selesai. Klik tombol reset jika ingin memulai kembali");
-//                    textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n\n(LifelineSender -> Message -> LifelineReceiver)\n\n");
-//                    textAreaOperation.append("Berikut ini daftar OPERATION yang ada pada DIAGRAM KELAS:\n");
+
                     executeProcess(inputFile[0]);
-//                    textAreaMessage.setText("");
-//                    textAreaOperation.setText("");
-//                    textAreaExecutionReport.setText("");
+
                     textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n\n(LifelineSender -> Message -> LifelineReceiver)\n\n");
                     textAreaOperation.append("Berikut ini daftar OPERATION yang ada pada DIAGRAM KELAS:\n");
 
@@ -259,7 +257,6 @@ public abstract class Main implements ActionListener {
                     }
                     textAreaOperation.setCaretPosition(1);
                     for (int i = 0; i < Message.messageList.size(); i++) {
-//                        textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getCounter() + ": " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
                         textAreaMessage.append((i + 1) + ". " + Message.messageList.get(i).getSendEvent() + " -> "+ Message.messageList.get(i).getOperationName() + Message.messageList.get(i).getArgument() + " -> " + Message.messageList.get(i).getReceiveEvent() + "\n");
                     }
                     textAreaMessage.setCaretPosition(1);
@@ -267,7 +264,6 @@ public abstract class Main implements ActionListener {
                     textAreaExecutionReport.append("Rule 1: Message yang ada pada Diagram Sekuens harus merupakan operasi yang ada di salah satu kelas pada Diagram Kelas\n");
                     if (!Suspect.unknownMessageList.isEmpty()) {
                         isConsistent = false;
-                        CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
                         textAreaExecutionReport.append("\nPERINGATAN!1! RULE 1 TIDAK TERPENUHI\nTerdapat " + Suspect.unknownMessageList.size() + " message yang bukan merupakan operasi di kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getArgument() + " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
@@ -327,7 +323,20 @@ public abstract class Main implements ActionListener {
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
                     else {
-                        textAreaExecutionReport.append("RULE 4 TERPENUHI\n");
+                        textAreaExecutionReport.append("RULE 5 TERPENUHI\n");
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    textAreaExecutionReport.append("\nRule 6: Reply message harus memiliki message yang memicu untuk muncul \n");
+                    if (!Suspect.replySuspectList.isEmpty()) {
+                        isConsistent = false;
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 6 TIDAK TERPENUHI\nTerdapat " + Suspect.replySuspectList.size() + " reply message yang muncul tanpa ada message pemicu yaitu:\n");
+                        for (int i = 0; i < Suspect.replySuspectList.size(); i++) {
+                            textAreaExecutionReport.append(i + 1 + ". " + "Message " + Suspect.replySuspectList.get(i).getCounter() + Suspect.replySuspectList.get(i).getName() + " " + Suspect.replySuspectList.get(i).getArgument() + "\n");
+                        }
+                        textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
+                    }
+                    else {
+                        textAreaExecutionReport.append("RULE 6 TERPENUHI\n");
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
                     if (isConsistent) {
@@ -453,8 +462,6 @@ public abstract class Main implements ActionListener {
     }
 
     static private void executeProcess(String inputFile) {
-        //Inisiasi
-
         /*XML Read and Extraction*/
         XPathHandler.main(inputFile);
 
@@ -464,6 +471,7 @@ public abstract class Main implements ActionListener {
 //        SequenceOwnedAttribute.printAttributeList();
 //        ClassOwnedAttribute.printAttributeList();
 //        ClassOwnedOperation.printOperationList();
+        CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
         coreProcess.checkingNoise();
         coreProcess.checkSignature();
         coreProcess.checkMessageAssociationDirection();
@@ -474,7 +482,7 @@ public abstract class Main implements ActionListener {
 //        ClassName.printClassName();
 
 //        Message.printMessageList();
-        System.out.println(Suspect.replySuspectList.size());
+//        System.out.println(Suspect.replySuspectList.size());
 
 //        System.out.println(ClassName.classNameArrayList.size());
 //        System.out.println(Suspect.unknownMessageList.size());

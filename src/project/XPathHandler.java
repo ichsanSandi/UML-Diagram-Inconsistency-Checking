@@ -27,26 +27,22 @@ class XPathHandler {
                     "//message | " +
                     "//fragment | " +
                     "//ownedAttribute | " +
-                    "/XMI/Model/packagedElement/packagedElement/ownedOperation |" +  "/XMI/Model/packagedElement/packagedElement/ownedOperation/ownedParameter |" + "/XMI/Model/packagedElement/packagedElement |" + "//Namespace.ownedElement/Class|" + "//Interaction.message/Message|" + "//Classifier.feature/Operation| //Namespace.ownedElement/ClassifierRole | /XMI/XMI.content/Model/Namespace.ownedElement/Collaboration/Namespace.ownedElement/SendAction";
-//            String expression = "//Namespace.ownedElement/ClassifierRole";
-            NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(
-                    doc, XPathConstants.NODESET);
+                    "//ownedOperation |" +
+                    "//ownedParameter |" +
+                    "//packagedElement";
+
+            NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 
             int messageCounter = 0;
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node nNode = nodeList.item(i);
-
-//                System.out.println(nNode.getNodeName());
-//                System.out.println(nNode.getAttributes().getNamedItem("xmi.id").toString());
                 switch (nNode.getNodeName()) {
                     case "message": {
                         Message message = new Message();
                         Element element = (Element) nNode;
                         Element element1 = (Element) element.getParentNode();
-//                        if (element.getAttribute("messageSort").equals("reply")){
-//                            continue;
-//                        }
+
                         message.setId(element.getAttribute("xmi:id"));
                         message.setName(element.getAttribute("name"));
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
@@ -76,6 +72,7 @@ class XPathHandler {
                         }
                         if (element.getAttribute("messageSort").equals("reply")){
                             Suspect.replySuspectList.add(message);
+//                            System.out.println(Suspect.replySuspectList.size());
                         }
                         message.setArgument(Message.argumentList.toString().replace("[","(").replace("]", ")"));
                         message.addMessageList(message);
@@ -123,12 +120,9 @@ class XPathHandler {
                         operation.setAssociatedClass(element3.getAttribute("name"));
                         for (int o = 0; o < nNode.getChildNodes().getLength(); o++) {
                             //cari anak yang namanya ownedparameter
-                            if (element2.getChildNodes().item(o).getNodeName().equals("ownedParameter")) {
+                            if (element2.getChildNodes().item(o).getNodeName().equals("ownedParameter") && !element2.getChildNodes().item(o).getAttributes().getNamedItem("direction").toString().equals("direction=\"return\"")) {
                                 Element element = (Element) element2.getChildNodes().item(o);
-                                /*asosiasi dengan getParentNode ?*/
                                 /*mendapatkan nama parameter*/
-//                                System.out.println(element2.getChildNodes().item(o).getAttributes().getNamedItem("name").toString());
-//                                operation.addParameter(element2.getChildNodes().item(o).getAttributes().getNamedItem("name").toString());
                                 operation.addParameter(element.getAttribute("name"));
                             }
                         }
@@ -136,7 +130,6 @@ class XPathHandler {
                         operation.setParameter(ClassOwnedOperation.parameterList.toString().replace("[","(").replace("]", ")"));
                         operation.setId(element.getAttribute("xmi:id"));
                         operation.setName(element.getAttribute("name"));
-//                        System.out.println(element.getAttribute("name"));
                         operation.addOperationList(operation);
                         break;
                     }
