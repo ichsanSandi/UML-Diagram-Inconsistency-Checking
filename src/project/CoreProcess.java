@@ -17,7 +17,7 @@ class CoreProcess {
      * @param suspectArrayList arraylist yang berisi message yang dicurigai
      * @param operationArrayList arraylist yang berisi daftar operasi
      */
-    static void inconsistencyChecking(ArrayList<Suspect> suspectArrayList, ArrayList<ClassOwnedOperation> operationArrayList) {
+    void inconsistencyChecking(ArrayList<Suspect> suspectArrayList, ArrayList<ClassOwnedOperation> operationArrayList) {
         ArrayList<ClassOwnedOperation> setOperationList = new ArrayList<>(operationArrayList);
         Suspect suspect;
         ClassOwnedOperation operation;
@@ -48,6 +48,9 @@ class CoreProcess {
                 } else {
                     Message.messageList.get(i).setOperationName(Message.messageList.get(i).getName());
                 }
+            }
+            if (ClassOwnedOperation.operationList.isEmpty()){
+                Message.messageList.get(i).setOperationName(Message.messageList.get(i).getName());
             }
         }
     }
@@ -135,8 +138,10 @@ class CoreProcess {
             for (int j = 0; j < Fragment.fragmentList.size();j++){
                 if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
                     Message.messageList.get(i).setReceiveEvent(updateEvent(Fragment.fragmentList.get(j)));
+                    System.out.println(Message.messageList.get(i).getSendEvent() + Message.messageList.get(i).getName() + Message.messageList.get(i).getReceiveEvent());
                 } else if (Message.messageList.get(i).getSendEvent().equals(Fragment.fragmentList.get(j).getId())){
                     Message.messageList.get(i).setSendEvent(updateEvent(Fragment.fragmentList.get(j)));
+                    System.out.println(Message.messageList.get(i).getSendEvent() + Message.messageList.get(i).getName() + Message.messageList.get(i).getReceiveEvent());
                 }
             }
         }
@@ -282,7 +287,6 @@ class CoreProcess {
      */
     void checkReply() {
         Message suspect, message;
-        int flag = 0;
         for (int i = 0; i < Suspect.replySuspectList.size(); i++){
             suspect = Suspect.replySuspectList.get(i);
             System.out.println(suspect.getCounter() + "+" + suspect.getParent());

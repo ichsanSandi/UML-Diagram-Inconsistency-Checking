@@ -29,7 +29,8 @@ class XPathHandler {
                     "//ownedAttribute | " +
                     "//ownedOperation |" +
                     "//ownedParameter |" +
-                    "//packagedElement";
+                    "//packagedElement |" +
+                    "//ownedMember";
 
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 
@@ -44,12 +45,19 @@ class XPathHandler {
                         Element element1 = (Element) element.getParentNode();
 
                         message.setId(element.getAttribute("xmi:id"));
-                        message.setName(element.getAttribute("name"));
+                        if (element.getAttribute("name").contains("()")){
+                            String name = element.getAttribute("name");
+                            name = name.replace("()","");
+                            message.setName(name);
+                        }
+                        else {
+                            message.setName(element.getAttribute("name"));
+                        }
                         message.setReceiveEvent(element.getAttribute("receiveEvent"));
                         message.setSendEvent(element.getAttribute("sendEvent"));
                         message.setParent(element1.getAttribute("xmi:id"));
                         message.setCounter(++messageCounter);
-                        if (element.getAttribute("signature").isEmpty() && !element.getAttribute("messageSort").equals("reply")){
+                        if (element.getAttribute("signature").isEmpty() && !element.getAttribute("messageSort").equals("reply") && !element.getAttribute("messageSort").equals("createMessage") && !element.getAttribute("messageSort").equals("deleteMessage")){
                             Suspect suspect = new Suspect();
                             Element element2 = (Element) nNode;
                             message.setSignature("no signature");
@@ -70,9 +78,8 @@ class XPathHandler {
                         } else {
                             message.setSignature(element.getAttribute("signature"));
                         }
-                        if (element.getAttribute("messageSort").equals("reply")){
+                        if (element.getAttribute("messageSort").equals("reply") && element.getAttribute("signature").isEmpty()){
                             Suspect.replySuspectList.add(message);
-//                            System.out.println(Suspect.replySuspectList.size());
                         }
                         message.setArgument(Message.argumentList.toString().replace("[","(").replace("]", ")"));
                         message.addMessageList(message);
@@ -141,6 +148,17 @@ class XPathHandler {
                             classNameMember.setName(element.getAttribute("name"));
                             classNameMember.setType(element.getAttribute("xmi:type"));
                             classNameMember.addClassList(classNameMember);
+                        }
+                        break;
+                    }
+                    case "ownedMember" :{
+                        Element element = (Element) nNode;
+                        ClassName className = new ClassName();
+                        if (element.getAttribute("xmi:type").equals("uml:Actor")){
+                            className.setId(element.getAttribute("xmi:id"));
+                            className.setName(element.getAttribute("name"));
+                            className.setType(element.getAttribute("xmi:type"));
+                            className.addClassList(className);
                         }
                         break;
                     }

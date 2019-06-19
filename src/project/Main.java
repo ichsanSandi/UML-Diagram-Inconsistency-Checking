@@ -101,7 +101,7 @@ public abstract class Main implements ActionListener {
         containerPage1.setLayout(new BoxLayout(containerPage1, BoxLayout.Y_AXIS));
 
         /*
-        panel yang digunakan untuk meletakkan filechooser dan tombol open
+        panel yang digunakan untuk meletakkan filechooser dan tombol Cari, Reset, dan Bantuan
          */
         JPanel panelFileChooser = new JPanel();
 
@@ -140,13 +140,6 @@ public abstract class Main implements ActionListener {
          */
         JPanel panelExecution = new JPanel();
         panelExecution.setLayout(new GridBagLayout());
-
-        /*
-        panel yang digunakan untuk meletakkan tombol back
-         */
-        JPanel panelExecutionButtonBack = new JPanel();
-        panelExecutionButtonBack.setLayout(new FlowLayout(FlowLayout.CENTER));
-        panelExecutionButtonBack.setBorder(BorderFactory.createEmptyBorder(0, 0, 55, 0));
 
         /*
         frame untuk popup
@@ -375,24 +368,6 @@ public abstract class Main implements ActionListener {
             inputFile[0] = null;
         });
 
-        JButton buttonBack = new JButton("Back");
-        /*
-        fungsi untuk berpindah dari halaman eksekusi/halaman kedua
-        kembali ke halaman awal/halaman pertama
-         */
-        buttonBack.addActionListener(actionEvent -> {
-//            Suspect.unknownMessageList.clear();
-//            textAreaExecutionSuspect.setText("");
-            textAreaExecutionReport.setText("");
-//            textAreaExecutionMessage.setText("");
-//            textAreaExecutionOperation.setText("");
-            labelProcessMessage.setText("");
-            jFrame1.getContentPane().removeAll();
-            jFrame1.getContentPane().repaint();
-            jFrame1.getContentPane().add(containerPage1);
-            jFrame1.revalidate();
-        });
-
         /*
         panel meletakkan tombol open
          */
@@ -410,9 +385,6 @@ public abstract class Main implements ActionListener {
         panelProcessMessage.add(labelProcessMessage);
 
         JSplitPane splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelOperation, panelMessage);
-//        JSplitPane splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelClassName, panelMessage);
-//        JSplitPane splitPane3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
-//        JSplitPane splitPane4 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, panelClassName);
         panelTableList.add(splitPane1);
 
         JSplitPane splitPanef = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelTableList ,panelReportExecution);
@@ -425,36 +397,7 @@ public abstract class Main implements ActionListener {
          */
         containerPage1.add(panelFileChooser);
         containerPage1.add(panelProcessMessage);
-//        containerPage1.add(panelFunctionButton);
         containerPage1.add(panel1);
-
-        /*
-        panel untuk menyusun textarea daftar message dan operasi di halaman kedua
-         */
-//        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelExecutionMessage, panelExecutionOperation);
-//        splitPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        /*
-        panel untuk menambahkan panel textarea daftar message, operasi, dan message yang tidak
-        ada pada daftar operasi
-         */
-//        panelExecutionTableList.add(splitPane);
-//        panelExecutionTableList.add(panelExecutionSuspect);
-
-        /*
-        panel untuk split textarea daftar dan log
-        dan menambahkan tombol back
-         */
-//        JSplitPane splitPaneLog = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelExecutionTableList, panelReportExecution);
-        panelExecutionButtonBack.add(buttonBack);
-
-//        panelExecution.add(panelReportExecution);
-
-        /*
-        container untuk menampung dan meletakkan seluruh element yang ada pada halaman kedua
-         */
-//        containerPage2.add(panelExecution);
-//        containerPage2.add(panelExecutionButtonBack);
 
         jFrame1.add(containerPage1);
 
@@ -466,31 +409,16 @@ public abstract class Main implements ActionListener {
         XPathHandler.main(inputFile);
 
         CoreProcess coreProcess = new CoreProcess();
-
-//        Fragment.printFragmentList();
-//        SequenceOwnedAttribute.printAttributeList();
-//        ClassOwnedAttribute.printAttributeList();
-//        ClassOwnedOperation.printOperationList();
-        CoreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
+        coreProcess.inconsistencyChecking(Suspect.unknownMessageList, ClassOwnedOperation.operationList);
         coreProcess.checkingNoise();
         coreProcess.checkSignature();
         coreProcess.checkMessageAssociationDirection();
         coreProcess.checkingLifelineRepresent();
         coreProcess.makeMessageTriplet();
         coreProcess.checkReply();
-//        Lifeline.printLifelineList();
-//        ClassName.printClassName();
 
-//        Message.printMessageList();
-//        System.out.println(Suspect.replySuspectList.size());
-
-//        System.out.println(ClassName.classNameArrayList.size());
-//        System.out.println(Suspect.unknownMessageList.size());
-//        System.out.println(Suspect.classAssocWarningList.size());
-//        System.out.println(Suspect.lifelineLists.toString());
-//        System.out.println(Suspect.lifelineAssocLists.toString());
-//        System.out.println(Lifeline.lifelineList.size());
-
-//            CoreProcess.inconsistencyChecking(Message.messageList, ClassOwnedOperation.operationList);
+        System.out.println(Message.messageList.size());
+        System.out.println(ClassName.classNameArrayList.size());
+        System.out.println(ClassOwnedOperation.operationList.size());
     }
 }
