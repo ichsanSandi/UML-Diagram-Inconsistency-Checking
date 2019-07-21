@@ -11,6 +11,7 @@ class Message {
     private String operationName;
     private String argument;
     private String parent;
+    private String couple;
     private int Counter;
     static ArrayList<String> argumentList = new ArrayList<>();
     static ArrayList<Message> messageList = new ArrayList<>();
@@ -52,6 +53,10 @@ class Message {
         this.parent = parent;
     }
 
+    void setCouple(String couple) {
+        this.couple = couple;
+    }
+
     String getId(){
         return this.id;
     }
@@ -86,6 +91,10 @@ class Message {
 
     String getParent() {
         return parent;
+    }
+
+    String getCouple() {
+        return couple;
     }
 
     void addMessageList(Message message){

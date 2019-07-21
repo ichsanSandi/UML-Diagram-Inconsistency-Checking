@@ -138,10 +138,8 @@ class CoreProcess {
             for (int j = 0; j < Fragment.fragmentList.size();j++){
                 if (Message.messageList.get(i).getReceiveEvent().equals(Fragment.fragmentList.get(j).getId())){
                     Message.messageList.get(i).setReceiveEvent(updateEvent(Fragment.fragmentList.get(j)));
-                    System.out.println(Message.messageList.get(i).getSendEvent() + Message.messageList.get(i).getName() + Message.messageList.get(i).getReceiveEvent());
                 } else if (Message.messageList.get(i).getSendEvent().equals(Fragment.fragmentList.get(j).getId())){
                     Message.messageList.get(i).setSendEvent(updateEvent(Fragment.fragmentList.get(j)));
-                    System.out.println(Message.messageList.get(i).getSendEvent() + Message.messageList.get(i).getName() + Message.messageList.get(i).getReceiveEvent());
                 }
             }
         }
@@ -282,6 +280,15 @@ class CoreProcess {
         }
     }
 
+    boolean checkReplyCouple (String idMessage){
+        for (int i = 0;i < Suspect.replySuspectList.size(); i++){
+            if (idMessage.equals(Suspect.replySuspectList.get(i).getCouple())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** method checkReply untuk mengecek reply yang ada
      * apakah ada triggernya atau tidak
      */
@@ -289,14 +296,25 @@ class CoreProcess {
         Message suspect, message;
         for (int i = 0; i < Suspect.replySuspectList.size(); i++){
             suspect = Suspect.replySuspectList.get(i);
-            System.out.println(suspect.getCounter() + "+" + suspect.getParent());
-            for (int j = 0; j < suspect.getCounter(); j++){
-                message = Message.messageList.get(j);
+            for (int j = suspect.getCounter(); j > 0; j--){
+                message = Message.messageList.get(j-1);
                 if (suspect.getParent().equals(message.getParent()) && suspect.getReceiveEvent().equals(message.getSendEvent()) && suspect.getSendEvent().equals(message.getReceiveEvent())){
-                    Suspect.replySuspectList.remove(suspect);
-                    i--;
-                    break;
+                    if (!checkReplyCouple(message.getId())){
+                        suspect.setCouple(message.getId());
+                        break;
+                    }
+                    else if (checkReplyCouple(message.getId())){
+                        break;
+                    }
                 }
+            }
+        }
+
+        for (int i = 0; i < Suspect.replySuspectList.size(); i++){
+            System.out.println(Suspect.replySuspectList.get(i).getCounter() + " + " + Suspect.replySuspectList.get(i).getId() + " + " + Suspect.replySuspectList.get(i).getCouple());
+            if (Suspect.replySuspectList.get(i).getCouple() != null){
+                Suspect.replySuspectList.remove(Suspect.replySuspectList.get(i));
+                i--;
             }
         }
     }

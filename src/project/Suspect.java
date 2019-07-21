@@ -32,6 +32,9 @@ class Suspect {
     /**List untuk pengecekan message reply*/
     static ArrayList<Message> replySuspectList = new ArrayList<>();
 
+    /**List untuk reply yang bermasalah**/
+    static ArrayList<Message> replyList = new ArrayList<>();
+
     static void addUnknownMessageList(Suspect suspect) {
         unknownMessageList.add(suspect);
     }

@@ -20,8 +20,8 @@ public abstract class Main implements ActionListener {
 
         /*Inisiasi window frame utama*/
         JFrame jFrame1 = new JFrame();
-        jFrame1.setTitle("Deteksi Inkonsistensi Diagram Kelas dan Diagram Sekuens");
-        jFrame1.setSize(1000, 700);
+        jFrame1.setTitle("Deteksi Ketidakkonsistenan Diagram Kelas dan Diagram Sekuens");
+        jFrame1.setSize(1020, 720);
         jFrame1.setLayout(new BorderLayout());
         jFrame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame1.setLocationRelativeTo(null);
@@ -29,7 +29,7 @@ public abstract class Main implements ActionListener {
         JLabel labelInputFile = new JLabel("Masukkan file XMI");
 
         /*Label untuk menampilkan respon pada program*/
-        JLabel labelProcessMessage = new JLabel("Silakan pilih file XMI dengan mengklik tombol Open");
+        JLabel labelProcessMessage = new JLabel("<html><center>Silakan pilih file XMI dengan mengklik tombol 'Cari'<br/><br/><center><html>");
 
         /*Textfield untuk meletakkan alamat file XML*/
         JTextField textFieldFilename = new JTextField(20);
@@ -45,7 +45,7 @@ public abstract class Main implements ActionListener {
         textAreaOperation.setLineWrap(true);
         textAreaOperation.setWrapStyleWord(true);
 
-        JLabel labelOperationTextArea = new JLabel("Class Diagram");
+        JLabel labelOperationTextArea = new JLabel("Diagram Kelas");
         labelOperationTextArea.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelOperation = new JPanel();
@@ -62,7 +62,7 @@ public abstract class Main implements ActionListener {
         textAreaMessage.setLineWrap(true);
         textAreaMessage.setWrapStyleWord(true);
 
-        JLabel labelMessage = new JLabel("Sequence Diagram");
+        JLabel labelMessage = new JLabel("Diagram Sekuens");
         labelMessage.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelMessage = new JPanel();
@@ -79,7 +79,7 @@ public abstract class Main implements ActionListener {
         textAreaExecutionReport.setLineWrap(true);
         textAreaExecutionReport.setWrapStyleWord(true);
 
-        JLabel labelExecutionLog = new JLabel("Report");
+        JLabel labelExecutionLog = new JLabel("Laporan");
         labelExecutionLog.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panelReportExecution = new JPanel();
@@ -159,30 +159,30 @@ public abstract class Main implements ActionListener {
         howToUseTextArea.setLineWrap(true);
         howToUseTextArea.setWrapStyleWord(true);
         howToUseTextArea.setText(
-                "1. Sebelum menggunakan program ini, siapkan dahulu file .xmi untuk diperiksa. File .xmi yang dieperiksa adalah file hasil export dari StarUML dengan menggunakan extension.\n2. Masukkan file .xmi yang akan diperiksa dengan menekan tombol Cari.\n3. Program akan secara otomatis memeriksa inkonsistensi dari file XMI yang dimasukkan.\n4. Kolom 'Class Diagram' berisi daftar kelas dan operasinya yang didapat dari diagram kelas.\n5. Kolom 'Sequence Diagram' berisi daftar message, termasuk lifeline pengirim dan penerimanya yang didapat dari diagram sekuens.\n6. Kolom 'Report' berisi log dari hasil pemeriksaan inkonsistensi file XMI."
+                "1. Sebelum menggunakan program ini, siapkan dahulu file .xmi untuk diperiksa. File .xmi yang dieperiksa adalah file hasil export dari StarUML dengan menggunakan extension.\n2. Masukkan file .xmi yang akan diperiksa dengan menekan tombol Cari.\n3. Program akan secara otomatis memeriksa ketidakkonsistenan dari file XMI yang dimasukkan.\n4. Kolom 'Class Diagram' berisi daftar kelas dan operasinya yang didapat dari diagram kelas.\n5. Kolom 'Sequence Diagram' berisi daftar message, termasuk lifeline pengirim dan penerimanya yang didapat dari diagram sekuens.\n6. Kolom 'Report' berisi log dari hasil pemeriksaan ketidakkonsistenan file XMI."
         );
 //        howToUsePanel.setBackground(Color.white);
         howToUsePanel.setBorder(BorderFactory.createCompoundBorder(howToUseTextArea.getBorder(),BorderFactory.createEmptyBorder(5,10,5,10)));
         howToUsePanel.add(howToUseLabel,"North");
         howToUsePanel.add(howToUseTextArea,"South");
 
-        JLabel rulesLabel = new JLabel("Penjelasan Inkonsistensi");
+        JLabel rulesLabel = new JLabel("Penjelasan Ketidakkonsistenan");
         rulesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         JTextArea rulesTextArea = new JTextArea();
         rulesTextArea.setEditable(false);
         rulesTextArea.setLineWrap(true);
         rulesTextArea.setWrapStyleWord(true);
         rulesTextArea.setText(
-                "Inkonsistensi 1\n" +
-                        "Diagram dikatakan tidak konsisten jika message yang ada di diagram sekuens tidak terdapat pada daftar operasi di diagram kelas.\n" + "Inkonsistensi 2\n" +
-                        "Diagram dikatakan tidak konsisten jika message yang ada di diagram sekuens tidak memiliki atribut signature. Atribut signature dapat dilihat pada file XMI.\n" +
-                        "Inkonsistensi 3\n" +
-                        "Diagram dikatakan tidak konsisten jika lifeline yang ada di diagram sekuens bukan merupakan kelas.\n" +
-                        "Inkonsistensi 4\n" +
-                        "Diagram dikatakan tidak konsisten jika lifeline tidak memiliki kelas yang terasosisasi.\n" +
-                        "Inkonsistensi 5\n" +
-                        "Diagram dikatakan tidak konsisten jika message yang dikirimkan bukan merupakan operasi dari kelas lifeline penerima.\n" + "Inkonsistensi 6\n" +
-                        "Diagram dikatakan tidak konsisten jika terdapat reply message yang muncul tanpa ada message yang memicunya"
+                "Aturan ke-1\n" +
+                        "Diagram dianggap tidak konsisten jika message yang ada di diagram sekuens tidak terdapat pada daftar operasi di diagram kelas.\n" + "Aturan ke-2\n" +
+                        "Diagram dianggap tidak konsisten jika message yang ada di diagram sekuens ada pada diagram kelas, namun tidak berasosiasi dengan operasi yang ada pada diagram kelas.\n" +
+                        "Aturan ke-3\n" +
+                        "Diagram dianggap tidak konsisten jika lifeline yang ada di diagram sekuens bukan merupakan kelas yang ada di diagram kelas\n" +
+                        "Aturan ke-4\n" +
+                        "Diagram dianggap tidak konsisten jika lifeline yang ada di diagram sekuens ada pada diagram kelas, namun tidak berasosiasi dengan kelas yang ada pada diagram kelas.\n" +
+                        "Aturan ke-5\n" +
+                        "Diagram dianggap tidak konsisten jika message yang dikirimkan antara dua lifeline tidak ada pada daftar operasi dari kelas yang direpresentasikan oleh lifeline penerima.\n" + "Aturan ke-6\n" +
+                        "Diagram dianggap tidak konsisten jika message reply yang dikirimkan dari lifeline A ke lifeline B tidak didahului oleh message yang dikirim dari lifeline B ke lifeline A"
         );
         JPanel rulesPanel = new JPanel();
         rulesPanel.setLayout(new BorderLayout());
@@ -195,11 +195,11 @@ public abstract class Main implements ActionListener {
 //        container.add(rulesPanel, BorderLayout.PAGE_END);
         bantuanFrame.add(container);
 
-        JDialog dialog = new JDialog(bantuanFrame, "Bantuan & Penjelasan Aturan Inkonsistensi");
+        JDialog dialog = new JDialog(bantuanFrame, "Bantuan & Penjelasan Aturan Ketidakkonsistenan");
         dialog.setLayout(new BorderLayout());
         dialog.add(howToUsePanel,BorderLayout.PAGE_START);
         dialog.add(rulesPanel, BorderLayout.CENTER);
-        dialog.setSize(500,550);
+        dialog.setSize(500,600);
         dialog.setLocationRelativeTo(null);
         dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 
@@ -214,7 +214,7 @@ public abstract class Main implements ActionListener {
         buttonOpen.addActionListener(e -> {
             boolean isConsistent = true;
             if (!Message.messageList.isEmpty()) {
-                labelProcessMessage.setText("Tekan tombol reset dahulu untuk memulai kembali");
+                labelProcessMessage.setText("Tekan tombol 'Reset' dahulu untuk memulai kembali");
                 labelProcessMessage.setVisible(true);
             } else {
                 /*
@@ -228,8 +228,6 @@ public abstract class Main implements ActionListener {
                     inputFile[0] = selectedFile.toString();
                 }
                 if (inputFile[0] != null) {
-                    labelProcessMessage.setText("Proses pembacaan file XMI selesai. Klik tombol reset jika ingin memulai kembali");
-
                     executeProcess(inputFile[0]);
 
                     textAreaMessage.append("Berikut ini daftar MESSAGE yang ada pada DIAGRAM SEKUENS:\n\n(LifelineSender -> Message -> LifelineReceiver)\n\n");
@@ -254,10 +252,10 @@ public abstract class Main implements ActionListener {
                     }
                     textAreaMessage.setCaretPosition(1);
 
-                    textAreaExecutionReport.append("Rule 1: Message yang ada pada Diagram Sekuens harus merupakan operasi yang ada di salah satu kelas pada Diagram Kelas\n");
+                    textAreaExecutionReport.append("Rule 1: Message yang ada pada Diagram Sekuens harus merupakan operasi yang ada pada Diagram Kelas\n");
                     if (!Suspect.unknownMessageList.isEmpty()) {
                         isConsistent = false;
-                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 1 TIDAK TERPENUHI\nTerdapat " + Suspect.unknownMessageList.size() + " message yang bukan merupakan operasi di kelas pada Diagram Kelas, yaitu:\n");
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 1 TIDAK TERPENUHI\nTerdapat " + Suspect.unknownMessageList.size() + " message yang bukan merupakan operasi di kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.unknownMessageList.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.unknownMessageList.get(i).getCounter() + ": " + Suspect.unknownMessageList.get(i).getSendEvent() + " -> " + Suspect.unknownMessageList.get(i).getName()+ Suspect.unknownMessageList.get(i).getArgument() + " -> " + Suspect.unknownMessageList.get(i).getReceiveEvent() + " tidak ada di daftar operasi yang ada pada kelas\n");
                         }
@@ -267,10 +265,10 @@ public abstract class Main implements ActionListener {
                         textAreaExecutionReport.append("RULE 1 TERPENUHI\n");
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
-                    textAreaExecutionReport.append("\nRule 2: Message yang ada pada Diagram Sekuens harus memiliki relasi / berasosiasi dengan operasi yang ada pada kelas di Diagram Kelas\n");
+                    textAreaExecutionReport.append("\nRule 2: Message yang ada pada Diagram Sekuens harus ada pada Diagram Kelas dan memiliki relasi / berasosiasi dengan operasi pada Diagram Kelas\n");
                     if (!Suspect.assocWarningList.isEmpty()) {
                         isConsistent = false;
-                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 2 TIDAK TERPENUHI\nTerdapat " + Suspect.assocWarningList.size() + " message pada Diagram Sekuens yang tidak mempunyai relasi / tidak berasosiasi dengan operasi yang ada di kelas pada Diagram Kelas, yaitu:\n");
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 2 TIDAK TERPENUHI\nTerdapat " + Suspect.assocWarningList.size() + " message pada Diagram Sekuens yang tidak mempunyai relasi / tidak berasosiasi dengan operasi yang ada di kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.assocWarningList.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Message " + Suspect.assocWarningList.get(i).getCounter() + ": " + Suspect.assocWarningList.get(i).getName() + " " + Suspect.assocWarningList.get(i).getArgument() + " tidak mempunyai relasi dengan operasi yang ada di kelas\n");
                         }
@@ -280,10 +278,10 @@ public abstract class Main implements ActionListener {
                         textAreaExecutionReport.append("RULE 2 TERPENUHI\n");
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
-                    textAreaExecutionReport.append("\nRule 3: Lifeline yang ada pada Diagram Sekuens harus merupakan salah satu kelas yang ada pada Diagram Kelas\n");
+                    textAreaExecutionReport.append("\nRule 3: Lifeline yang ada pada Diagram Sekuens harus ada pada Diagram Kelas\n");
                     if (!Suspect.lifelineLists.isEmpty()) {
                         isConsistent = false;
-                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 3 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineLists.size() + " Lifeline yang bukan merupakan kelas pada Diagram Kelas, yaitu:\n");
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 3 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineLists.size() + " Lifeline yang bukan merupakan kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.lifelineLists.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineLists.get(i) + " bukan merupakan kelas\n");
                         }
@@ -293,10 +291,10 @@ public abstract class Main implements ActionListener {
                         textAreaExecutionReport.append("RULE 3 TERPENUHI\n");
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
-                    textAreaExecutionReport.append("\nRule 4: Lifeline yang ada pada Diagram Sekuens harus memiliki relasi / berasosisasi dengan salah satu kelas yang ada pada Diagram Kelas\n");
+                    textAreaExecutionReport.append("\nRule 4: Lifeline yang ada pada Diagram Sekuens harus ada pada Diagram Kelas dan memiliki relasi / berasosisasi dengan kelas pada Diagram Kelas\n");
                     if (!Suspect.lifelineAssocLists.isEmpty()) {
                         isConsistent = false;
-                        textAreaExecutionReport.append("\nPERINGATAN!1! RULE 4 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineAssocLists.size() + " Lifeline yang tidak berelasi / berasosiasi dengan salah satu kelas pada Diagram Kelas, yaitu:\n");
+                        textAreaExecutionReport.append("\nPERINGATAN!!! RULE 4 TIDAK TERPENUHI\nTerdapat " + Suspect.lifelineAssocLists.size() + " Lifeline yang tidak berelasi / berasosiasi dengan salah satu kelas pada Diagram Kelas, yaitu:\n");
                         for (int i = 0; i < Suspect.lifelineAssocLists.size(); i++) {
                             textAreaExecutionReport.append(i + 1 + ". Lifeline " + Suspect.lifelineAssocLists.get(i) + " tidak memiliki relasi\n");
                         }
@@ -319,12 +317,12 @@ public abstract class Main implements ActionListener {
                         textAreaExecutionReport.append("RULE 5 TERPENUHI\n");
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
-                    textAreaExecutionReport.append("\nRule 6: Reply message harus memiliki message yang memicu untuk muncul \n");
+                    textAreaExecutionReport.append("\nRule 6: Reply message yang dikirimkan dari lifeline A ke lifeline B, harus didahului oleh pengiriman message dari lifeline B ke lifeline A \n");
                     if (!Suspect.replySuspectList.isEmpty()) {
                         isConsistent = false;
                         textAreaExecutionReport.append("\nPERINGATAN!!! RULE 6 TIDAK TERPENUHI\nTerdapat " + Suspect.replySuspectList.size() + " reply message yang muncul tanpa ada message pemicu yaitu:\n");
                         for (int i = 0; i < Suspect.replySuspectList.size(); i++) {
-                            textAreaExecutionReport.append(i + 1 + ". " + "Message " + Suspect.replySuspectList.get(i).getCounter() + Suspect.replySuspectList.get(i).getName() + " " + Suspect.replySuspectList.get(i).getArgument() + "\n");
+                            textAreaExecutionReport.append(i + 1 + ". " + "Message " + Suspect.replySuspectList.get(i).getCounter() + ": " + Suspect.replySuspectList.get(i).getName() + " " + Suspect.replySuspectList.get(i).getArgument() + "\n");
                         }
                         textAreaExecutionReport.append("__________________________________________________________________________________________________________\n");
                     }
@@ -334,7 +332,13 @@ public abstract class Main implements ActionListener {
                     }
                     if (isConsistent) {
                         textAreaExecutionReport.setCaretPosition(1);
-                        textAreaExecutionReport.append("MANTAP!! Diagram Sekuens dan Diagram Kelas konsisten\nSELAMAT!!\n");
+                        textAreaExecutionReport.setText("MANTAP!! Diagram Sekuens dan Diagram Kelas konsisten\nSELAMAT!!\n\n\n" + textAreaExecutionReport.getText());
+                        labelProcessMessage.setText("<html><center>DIAGRAM KONSISTEN!!<br/>Proses pembacaan file XMI selesai. Klik tombol reset jika ingin memulai kembali<center><html>");
+                    }
+                    if (!isConsistent){
+                        textAreaExecutionReport.setCaretPosition(1);
+                        textAreaExecutionReport.setText("Diagram tidak konsisten. Harap periksa kembali desain diagram\n\n\n" + textAreaExecutionReport.getText());
+                        labelProcessMessage.setText("<html><center>DIAGRAM TIDAK KONSISTEN!!<br/>Proses pembacaan file XMI selesai. Klik tombol reset jika ingin memulai kembali<center><html>");
                     }
                     textAreaExecutionReport.setCaretPosition(1);
                 }
@@ -363,7 +367,7 @@ public abstract class Main implements ActionListener {
             textAreaOperation.setText("");
             textAreaMessage.setText("");
             textFieldFilename.setText("");
-            labelProcessMessage.setText("Silakan pilih file XMI dengan mengklik tombol Open");
+            labelProcessMessage.setText("<html><center>Silakan pilih file XMI dengan mengklik tombol 'Cari'<br/><br/><center><html>");
             textAreaExecutionReport.setText("");
             inputFile[0] = null;
         });
@@ -392,12 +396,25 @@ public abstract class Main implements ActionListener {
         panel1.setLayout(new FlowLayout());
         panel1.add(splitPanef);
 
+        JLabel creditLabelCrafted = new JLabel("<html><center>Crafted with ♥ by Ichsan Sandi D (05111540000167)<center><html>");
+
+        JLabel creditLabelTitle = new JLabel("<html><center>Rancang Bangun Kakas Bantu Pemeriksa Ketidakkonsistenan Diagram Kelas dan Diagram Sekuens<center><html>");
+
+        JLabel creditLabelInformatika = new JLabel("<html><center>Informatika ITS  Surabaya 2019<center><html>");
+
+        JPanel creditPanel = new JPanel();
+        creditPanel.setLayout(new BorderLayout());
+        creditPanel.add(creditLabelCrafted, BorderLayout.PAGE_START);
+        creditPanel.add(creditLabelTitle, BorderLayout.CENTER);
+        creditPanel.add(creditLabelInformatika, BorderLayout.SOUTH);
+
         /*
         container untuk menampung dan meletakkan seluruh element yang ada pada halaman awal
          */
         containerPage1.add(panelFileChooser);
         containerPage1.add(panelProcessMessage);
         containerPage1.add(panel1);
+        containerPage1.add(creditPanel);
 
         jFrame1.add(containerPage1);
 
@@ -416,9 +433,5 @@ public abstract class Main implements ActionListener {
         coreProcess.checkingLifelineRepresent();
         coreProcess.makeMessageTriplet();
         coreProcess.checkReply();
-
-        System.out.println(Message.messageList.size());
-        System.out.println(ClassName.classNameArrayList.size());
-        System.out.println(ClassOwnedOperation.operationList.size());
     }
 }
